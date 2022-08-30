@@ -1,7 +1,7 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Product {
+export class Chat {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -31,7 +31,7 @@ export class Product {
         type: 'text',
         nullable: true
     })
-    wa_id: string;
+    watsapp_id: string;
 
     @Column({
         type: 'text',

@@ -4,7 +4,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from './../common/dtos/pagination.dto';
 
-@Controller('products')
+@Controller('chat')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -32,6 +32,7 @@ export class ProductsController {
         let type = data.entry[0].changes[0].value.messages[0].type;
         let name = data.entry[0].changes[0].value.contacts[0].profile.name;
         let timestamp = data.entry[0].changes[0].value.messages[0].timestamp;
+        let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
 
         createProductDto.text = msg_body; 
         createProductDto.from = from; 
@@ -39,6 +40,7 @@ export class ProductsController {
         createProductDto.name = name;
         createProductDto.type = type;
         createProductDto.timestamp = timestamp; 
+        createProductDto.watsapp_id = watsapp_id; 
 
         // axios({
         //   method: "POST", // Required, HTTP method, a string, e.g. POST, GET

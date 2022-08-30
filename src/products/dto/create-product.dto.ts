@@ -19,7 +19,7 @@ export class CreateProductDto {
 
     @IsString()
     @IsOptional()
-    wa_id?: string;
+    watsapp_id?: string;
 
     @IsString()
     @IsOptional()

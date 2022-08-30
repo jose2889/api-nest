@@ -6,7 +6,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
-import { Product } from './entities/product.entity';
+import { Chat } from './entities/product.entity';
 import { validate as isUUID } from 'uuid';
 
 @Injectable()
@@ -16,8 +16,8 @@ export class ProductsService {
 
   constructor(
 
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    @InjectRepository(Chat)
+    private readonly productRepository: Repository<Chat>,
 
   ) {}
 
@@ -68,7 +68,7 @@ export class ProductsService {
 
   async findOne( term: string ) {
 
-    let product: Product;
+    let product: Chat;
 
     if ( isUUID(term) ) {
       product = await this.productRepository.findOneBy({ id: term });
