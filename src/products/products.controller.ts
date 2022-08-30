@@ -61,7 +61,7 @@ export class ProductsController {
 
 
   @Get('webhook')
-  authWebhook(@Res() res, @Param( 'mode' ) mode: string, @Param( 'verify_token' ) token: string, @Param( 'challenge' ) challenge: string) {
+  authWebhook(@Res() res, @Param( 'hub.mode' ) mode: string, @Param( 'hub.verify_token' ) token: string, @Param( 'hub.challenge' ) challenge: string) {
      console.log("datos por parametro ", mode, token, challenge)
      /**
    * UPDATE YOUR VERIFY TOKEN
