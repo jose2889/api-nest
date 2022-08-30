@@ -6,70 +6,43 @@ export class Product {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column('text', {
-        unique: true,
-    })
-    title: string;
-
-    @Column('float',{
-        default: 0
-    })
-    price: number;
+    @Column('text')
+    text: string;
 
     @Column({
         type: 'text',
         nullable: true
     })
-    description: string;
+    name: string;
 
-    @Column('text', {
-        unique: true
+    @Column({
+        type: 'text',
+        nullable: true
     })
-    slug: string;
+    type: string;
 
-    @Column('int', {
-        default: 0
+    @Column({
+        type: 'text',
+        nullable: true
     })
-    stock: number;
+    timestamp: string;
 
-    @Column('text',{
-        array: true
+    @Column({
+        type: 'text',
+        nullable: true
     })
-    sizes: string[];
+    wa_id: string;
 
-    @Column('text')
-    gender: string;
-
-
-    @Column('text', {
-        array: true,
-        default: []
+    @Column({
+        type: 'text',
+        nullable: true
     })
-    tags: string[];
+    from: string;
 
-    // images
-
-    @BeforeInsert()
-    checkSlugInsert() {
-
-        if ( !this.slug ) {
-            this.slug = this.title;
-        }
-
-        this.slug = this.slug
-            .toLowerCase()
-            .replaceAll(' ','_')
-            .replaceAll("'",'')
-
-    }
-
-    @BeforeUpdate()
-    checkSlugUpdate() {
-        this.slug = this.slug
-            .toLowerCase()
-            .replaceAll(' ','_')
-            .replaceAll("'",'')
-    }
-
-
+    @Column({
+        type: 'text',
+        nullable: true
+    })
+    phone_number_id: string;
+    
 }

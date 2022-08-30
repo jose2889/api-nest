@@ -44,10 +44,9 @@ export class ProductsController {
         //   headers: { "Content-Type": "application/json" },
         // });
         
-        createProductDto.title = msg_body; 
-        createProductDto.sizes = ["2222","phone_number_id"]
-        createProductDto.gender = "men"; 
-        createProductDto.tags = ["from"]; 
+        createProductDto.text = msg_body; 
+        createProductDto.from = from; 
+        createProductDto.phone_number_id = phone_number_id; 
       }
     } 
      return this.productsService.create(createProductDto);

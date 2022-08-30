@@ -7,36 +7,30 @@ export class CreateProductDto {
 
     @IsString()
     @MinLength(1)
-    title: string;
-
-    @IsNumber()
-    @IsPositive()
-    @IsOptional()
-    price?: number;
+    text: string;
 
     @IsString()
     @IsOptional()
-    description?: string;
+    from?: string;
 
     @IsString()
     @IsOptional()
-    slug?: string;
+    type?: string;
 
-    @IsInt()
-    @IsPositive()
+    @IsString()
     @IsOptional()
-    stock?: number; 
+    wa_id?: string;
 
-    @IsString({ each: true })
-    @IsArray()
-    sizes: string[]
-
-    @IsIn(['men','women','kid','unisex'])
-    gender: string;
-
-    @IsString({ each: true })
-    @IsArray()
+    @IsString()
     @IsOptional()
-    tags: string[];
+    name?: string; 
+
+    @IsString()
+    @IsOptional()
+    timestamp?: string; 
+
+    @IsString()
+    @IsOptional()
+    phone_number_id?: string; 
 
 }
