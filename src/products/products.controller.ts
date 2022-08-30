@@ -16,7 +16,7 @@ export class ProductsController {
   @Post('webhook')
   createWebhook(@Body() data:any) {
 
-    console.log("la data es ", data);
+    console.log("la data es ", {data});
     let createProductDto = new CreateProductDto();
     if (data.object) {
       if (
@@ -47,7 +47,7 @@ export class ProductsController {
         createProductDto.title = msg_body; 
         createProductDto.sizes = ["2222","phone_number_id"]
         createProductDto.gender = "men"; 
-        createProductDto.tags = from; 
+        createProductDto.tags = ["from"]; 
       }
     } 
      return this.productsService.create(createProductDto);
