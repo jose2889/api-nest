@@ -45,7 +45,7 @@ export class ProductsController {
         // });
         
         createProductDto.title = msg_body; 
-        createProductDto.sizes = ["2222",phone_number_id]
+        createProductDto.sizes = ["2222","phone_number_id"]
         createProductDto.gender = "men"; 
         createProductDto.tags = from; 
       }
