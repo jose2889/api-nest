@@ -6,7 +6,10 @@ export class Chat {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column('text')
+    @Column({
+        type: 'text',
+        nullable: true
+    })
     text: string;
 
     @Column({

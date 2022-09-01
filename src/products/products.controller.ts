@@ -28,13 +28,14 @@ export class ProductsController {
       ) {
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
         let from = data.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
-        let msg_body = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
+
         let type = data.entry[0].changes[0].value.messages[0].type;
         let name = data.entry[0].changes[0].value.contacts[0].profile.name;
         let timestamp = data.entry[0].changes[0].value.messages[0].timestamp;
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
 
-        createProductDto.text = msg_body; 
+        if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
+        if (type == "button") createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text; 
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
         createProductDto.name = name;
