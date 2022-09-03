@@ -30,7 +30,11 @@ export class ProductsService {
 
 
   async sendMessage(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
-    const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
+    let headers: {
+      'Authorization': 'Bearer EAAGvZCoWRtiUBAI7UQcejfnr0qwfrowTziG7l21p0KXILpotbowNdIdSuwp1hZByvze3WOiZB2DdOWkbGBQMN07ZCyBT4M696NZBx8b7ookUT5SLtdbUVF2mK0Ar7iZAkPD5TDtwGTuCeylHmT8LSsjWPtf5iZCe9c4l2YcenCjZBYYbggPBx2K97J0LnpYmgY5v82AKokOAQ5tRzsoWoZAGa',
+      'Content-Type': 'application/json'
+    }
+    const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request, {headers}));
     console.log(data);
     return data;
   }
