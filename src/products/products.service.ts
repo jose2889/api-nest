@@ -8,20 +8,32 @@ import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 import { Chat } from './entities/product.entity';
 import { validate as isUUID } from 'uuid';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom, map, Observable } from 'rxjs';
+import { WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
+import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response.dto';
+import { BASEURL } from 'src/common/api-resource';
+import { AxiosResponse } from 'axios'
 
 @Injectable()
 export class ProductsService {
 
   private readonly logger = new Logger('ProductsService');
-
+  baseUrl = BASEURL.baseUrlWhatsappCloudApi;
   constructor(
 
     @InjectRepository(Chat)
     private readonly productRepository: Repository<Chat>,
+    private readonly httpService:HttpService
 
   ) {}
 
 
+  async sendMessage(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+    const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
+    console.log(data);
+    return data;
+  }
 
   async create(createProductDto: CreateProductDto) {
     
@@ -35,19 +47,20 @@ export class ProductsService {
     } catch (error) {
       this.handleDBExceptions(error);
     }
-
-
   }
 
   async createWebhook(createProductDto: CreateProductDto) {
     
     try {
-
-      const product = this.productRepository.create(createProductDto);
-      await this.productRepository.save( product );
-
-      return product;
       
+      let product = await this.productRepository.findOneBy({ watsapp_id: createProductDto.watsapp_id });
+
+      if ( !product ) {
+        product = this.productRepository.create(createProductDto);
+        await this.productRepository.save( product );
+  
+        return product;
+      }
     } catch (error) {
       this.handleDBExceptions(error);
     }
@@ -65,6 +78,14 @@ export class ProductsService {
       // TODO: relaciones
     })
   }
+
+  // enviarNotificacion(): Observable<any> {
+  //   return this.httpService.get('https://api-nest-ws.herokuapp.com/api/chat').pipe(
+  //     map(resp => resp.data)).subscribe(data => {
+  //       console.log(data);
+  //     });
+  // }
+
 
   async findOne( term: string ) {
 

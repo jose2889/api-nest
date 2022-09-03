@@ -4,11 +4,15 @@ import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 
 import { Chat } from './entities/product.entity';
+import { HttpModule } from '@nestjs/axios';
+import { HttpConfigService } from 'src/httpService.config';
 
 @Module({
   controllers: [ProductsController],
   providers: [ProductsService],
-  imports: [
+  imports: [HttpModule.registerAsync({
+    useClass: HttpConfigService,
+  }),
     TypeOrmModule.forFeature([ Chat ])
   ]
 })

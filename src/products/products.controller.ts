@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query, ForbiddenException, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query, ForbiddenException, Res, HttpStatus } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from './../common/dtos/pagination.dto';
+import { WhatsappCloudAPIRequest } from './dto/whatsapp-cloud-api-request.dto';
 
 @Controller('chat')
 export class ProductsController {
@@ -12,6 +13,16 @@ export class ProductsController {
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
+
+  @Post('msg')
+    sampleMovieTicketConfirmation(@Body() request: WhatsappCloudAPIRequest, @Res() response) {
+        // this.logger.warn('consume-template');
+        this.productsService.sendMessage(request).then( res => {
+            response.status(HttpStatus.CREATED).json(res);
+        }).catch((err) => {
+            response.status(HttpStatus.BAD_REQUEST).json(err.response.data);
+        })
+    }
 
   @Post('webhook')
   createWebhook(@Body() data:any) {
