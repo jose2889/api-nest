@@ -27,7 +27,7 @@ export class ProductsController {
   @Post('webhook')
   createWebhook(@Body() data:any) {
 
-    console.log("la data es ", {data});
+    console.log("la data es ", JSON.stringify(data));
     let createProductDto = new CreateProductDto();
     if (data.object) {
       if (

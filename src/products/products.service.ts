@@ -58,7 +58,7 @@ export class ProductsService {
     try {
       
       let product = await this.productRepository.findOneBy({ watsapp_id: createProductDto.watsapp_id });
-
+      console.log("lo que consigue de product ", product)
       if ( !product ) {
         product = this.productRepository.create(createProductDto);
         await this.productRepository.save( product );
