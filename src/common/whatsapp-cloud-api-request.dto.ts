@@ -57,3 +57,33 @@ export interface Document {
 export interface Language {
     code: string;
 }
+
+export let dataApiRequest: WhatsappCloudApiRequest = {
+    "messaging_product": "whatsapp",
+    "to": "",
+    "type": "template",
+    "template": {
+        "name": "confirmacion_reserva",
+        "language": {
+            "code": "es_ES"
+        },
+        "components": [{
+            "type": "body",
+            "parameters": [
+                {
+                    "type": "text",
+                    "text": "", 
+                },
+                {
+                    "type": "text",
+                    "text": ""
+                },
+                {
+                    "type": "text",
+                    "text": ""
+                }
+               
+            ]
+        }]
+    }
+}

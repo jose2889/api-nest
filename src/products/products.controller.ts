@@ -3,7 +3,8 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from './../common/dtos/pagination.dto';
-import { WhatsappCloudAPIRequest } from './dto/whatsapp-cloud-api-request.dto';
+import { WhatsappCloudAPIRequest, WhatsappConfimationRequest } from './dto/whatsapp-cloud-api-request.dto';
+import { dataApiRequest, WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
 
 @Controller('chat')
 export class ProductsController {
@@ -14,15 +15,36 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
-  @Post('msj')
-    sampleMovieTicketConfirmation(@Body() request: WhatsappCloudAPIRequest, @Res() response) {
-        // this.logger.warn('consume-template');
-        this.productsService.sendMessage(request).then( res => {
-            response.status(HttpStatus.CREATED).json(res);
-        }).catch((err) => {
-            response.status(HttpStatus.BAD_REQUEST).json(err.response.data);
-        })
-    }
+  @Post('notificationsws')
+  notificationsWhatsapp(@Body() request: WhatsappCloudAPIRequest, @Res() response) {
+      // this.logger.warn('consume-template');
+      this.productsService.sendMessage(request).then( res => {
+          response.status(HttpStatus.CREATED).json(res);
+      }).catch((err) => {
+          response.status(HttpStatus.BAD_REQUEST).json(err.response.data);
+      })
+  }
+
+  @Post('confirmationsws')
+  confirmationsWhatsapp(@Body() request: WhatsappConfimationRequest, @Res() response) {
+      // this.logger.warn('consume-template');
+     
+      const { phoneNumber, customerName, date, businessName} = request; 
+      let wsApiReques:WhatsappCloudApiRequest;
+          wsApiReques = dataApiRequest;
+          
+          wsApiReques.to = phoneNumber;
+          wsApiReques.template.components[0].parameters[0].text = customerName;
+          wsApiReques.template.components[0].parameters[1].text = date;
+          wsApiReques.template.components[0].parameters[2].text = businessName;   
+          console.log("wsApiReques ", dataApiRequest);
+           
+      this.productsService.sendMessage(wsApiReques).then( res => {
+          response.status(HttpStatus.CREATED).json(res);
+      }).catch((err) => {
+          response.status(HttpStatus.BAD_REQUEST).json(err.response.data);
+      })
+  }
 
   @Post('webhook')
   createWebhook(@Body() data:any) {

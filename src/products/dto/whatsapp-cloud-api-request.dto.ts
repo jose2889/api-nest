@@ -24,3 +24,18 @@ export interface Parameter {
 export interface Language {
     code: string;
 }
+
+export interface WhatsappNotificationRequest {
+    phoneNumber:        string;
+    customerName:       string;
+    businessName:       string;
+    date:               string;
+    businessWbsite:     string;
+}
+
+export interface WhatsappConfimationRequest {
+    phoneNumber:    string;
+    customerName:   string;
+    businessName:   string;
+    date:           string;
+}
