@@ -14,7 +14,7 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
-  @Post('msg')
+  @Post('msj')
     sampleMovieTicketConfirmation(@Body() request: WhatsappCloudAPIRequest, @Res() response) {
         // this.logger.warn('consume-template');
         this.productsService.sendMessage(request).then( res => {
@@ -68,11 +68,13 @@ export class ProductsController {
         //   },
         //   headers: { "Content-Type": "application/json" },
         // });
-        
-     
+        console.log("se guarada el objeto ", JSON.stringify(createProductDto));
+        return this.productsService.createWebhook(createProductDto);
       }
+      
     } 
-     return this.productsService.create(createProductDto);
+
+     return; 
   }
 
   @Get()
