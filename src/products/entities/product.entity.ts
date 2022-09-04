@@ -28,6 +28,12 @@ export class Chat {
         type: 'text',
         nullable: true
     })
+    payload?: string;
+
+    @Column({
+        type: 'text',
+        nullable: true
+    })
     timestamp: string;
 
     @Column({

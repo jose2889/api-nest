@@ -14,7 +14,7 @@ export interface Template {
 export interface Component {
     type:       string;
     sub_type?:       string;
-    index?:       string;
+    index?:       number;
     parameters: Parameter[];
 }
 
@@ -90,14 +90,13 @@ export let dataApiRequest: WhatsappCloudApiRequest = {
         },
         {
             "type": "button",
-            "sub_type" : "quick_reply",
-            "index": "0", 
-            "parameters": [
-                {
-                    "type": "payload",
-                    "payload":"aGlzIHRoaXMgaXMgY29vZHNhc2phZHdpcXdlMGZoIGFTIEZISUQgV1FEV0RT"
-                }
-            ]
+            "sub_type": "quick_reply",
+            "index": 0,
+            "parameters": 
+            [{
+                "type": "payload",
+                "payload": "lo estamos logrando"
+            }]
         }]
     }
 }

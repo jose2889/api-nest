@@ -52,13 +52,7 @@ export class ProductsController {
     
     let createProductDto = new CreateProductDto();
     if (data.object) {
-      if (
-        data.entry &&
-        data.entry[0].changes &&
-        data.entry[0].changes[0] &&
-        data.entry[0].changes[0].value.messages &&
-        data.entry[0].changes[0].value.messages[0]
-      ) {
+      if (data?.entry[0]?.changes[0]?.value?.messages[0]) {
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
         let from = data.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
@@ -68,7 +62,10 @@ export class ProductsController {
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
         if (type == "button") console.log("la data es ", JSON.stringify(data));
         if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
-        if (type == "button") createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text; 
+        if (type == "button") {
+          createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
+          createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
+        }  
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
         createProductDto.name = name;

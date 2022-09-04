@@ -15,6 +15,10 @@ export class CreateProductDto {
 
     @IsString()
     @IsOptional()
+    payload?: string;
+    
+    @IsString()
+    @IsOptional()
     type?: string;
 
     @IsString()
