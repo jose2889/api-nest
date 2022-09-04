@@ -38,7 +38,7 @@ export class ProductsController {
           wsApiReques.template.components[0].parameters[1].text = date;
           wsApiReques.template.components[0].parameters[2].text = businessName;   
           console.log("wsApiReques ", dataApiRequest);
-           
+
       this.productsService.sendMessage(wsApiReques).then( res => {
           response.status(HttpStatus.CREATED).json(res);
       }).catch((err) => {
@@ -49,7 +49,7 @@ export class ProductsController {
   @Post('webhook')
   createWebhook(@Body() data:any) {
 
-    console.log("la data es ", JSON.stringify(data));
+    
     let createProductDto = new CreateProductDto();
     if (data.object) {
       if (
@@ -66,7 +66,7 @@ export class ProductsController {
         let name = data.entry[0].changes[0].value.contacts[0].profile.name;
         let timestamp = data.entry[0].changes[0].value.messages[0].timestamp;
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
-
+        if (type == "button") console.log("la data es ", JSON.stringify(data));
         if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
         if (type == "button") createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text; 
         createProductDto.from = from; 

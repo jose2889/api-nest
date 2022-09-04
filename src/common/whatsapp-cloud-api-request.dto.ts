@@ -13,6 +13,8 @@ export interface Template {
 
 export interface Component {
     type:       string;
+    sub_type?:       string;
+    index?:       string;
     parameters: Parameter[];
 }
 
@@ -22,6 +24,7 @@ export interface Parameter {
     document?:  Document;
     video?:     Video;
     text?:      string;
+    payload?:   string; 
     dateTime?: DateTime;
     currency?:  Currency;
 }
@@ -65,10 +68,10 @@ export let dataApiRequest: WhatsappCloudApiRequest = {
     "template": {
         "name": "confirmacion_reserva",
         "language": {
-            "code": "es_ES"
+            "code": "es"
         },
         "components": [{
-            "type": "body",
+            "type" : "body",
             "parameters": [
                 {
                     "type": "text",
@@ -83,6 +86,17 @@ export let dataApiRequest: WhatsappCloudApiRequest = {
                     "text": ""
                 }
                
+            ]
+        },
+        {
+            "type": "button",
+            "sub_type" : "quick_reply",
+            "index": "0", 
+            "parameters": [
+                {
+                    "type": "payload",
+                    "payload":"aGlzIHRoaXMgaXMgY29vZHNhc2phZHdpcXdlMGZoIGFTIEZISUQgV1FEV0RT"
+                }
             ]
         }]
     }

@@ -19,7 +19,7 @@ import { AxiosResponse } from 'axios'
 export class ProductsService {
 
   private readonly logger = new Logger('ProductsService');
-  baseUrl = BASEURL.baseUrlWhatsappCloudApi;
+  baseUrl = BASEURL.baseUrlWhatsappCloudApiProd;
   constructor(
 
     @InjectRepository(Chat)
