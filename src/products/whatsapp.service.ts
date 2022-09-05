@@ -20,7 +20,7 @@ const date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
 @Injectable()
 export class WhatsappService {
 
-  private readonly logger = new Logger('ProductsService');
+  private readonly logger = new Logger('WhatsappService');
   baseUrl = BASEURL.baseUrlWhatsappCloudApiProd;
   constructor(
 
