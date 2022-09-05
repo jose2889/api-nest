@@ -2,11 +2,11 @@ import { BadRequestException, Injectable, InternalServerErrorException, Logger, 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateChatDto } from './dto/create-chat.dto';
+import { UpdateChatDto } from './dto/update-chat.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
-import { Chat } from './entities/product.entity';
+import { Chat } from './entities/chat.entity';
 import { validate as isUUID } from 'uuid';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, map, Observable } from 'rxjs';
@@ -18,14 +18,14 @@ import dayjs from 'dayjs';
 const date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
 
 @Injectable()
-export class ProductsService {
+export class WhatsappService {
 
   private readonly logger = new Logger('ProductsService');
   baseUrl = BASEURL.baseUrlWhatsappCloudApiProd;
   constructor(
 
     @InjectRepository(Chat)
-    private readonly productRepository: Repository<Chat>,
+    private readonly chatRepository: Repository<Chat>,
     private readonly httpService:HttpService
 
   ) {}
@@ -43,12 +43,12 @@ export class ProductsService {
     return data;
   }
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateChatDto) {
     
     try {
 
-      const product = this.productRepository.create(createProductDto);
-      await this.productRepository.save( product );
+      const product = this.chatRepository.create(createProductDto);
+      await this.chatRepository.save( product );
 
       return product;
       
@@ -57,15 +57,15 @@ export class ProductsService {
     }
   }
 
-  async createWebhook(createProductDto: CreateProductDto) {
+  async createWebhook(createProductDto: CreateChatDto) {
     
     try {
       
-      let product = await this.productRepository.findOneBy({ watsapp_id: createProductDto.watsapp_id });
+      let product = await this.chatRepository.findOneBy({ watsapp_id: createProductDto.watsapp_id });
       console.log("lo que consigue de product ", product)
       if ( !product ) {
-        product = this.productRepository.create(createProductDto);
-        await this.productRepository.save( product );
+        product = this.chatRepository.create(createProductDto);
+        await this.chatRepository.save( product );
   
         return product;
       }
@@ -80,7 +80,7 @@ export class ProductsService {
 
     const { limit = 10, offset = 0 } = paginationDto;
 
-    return this.productRepository.find({
+    return this.chatRepository.find({
       take: limit,
       skip: offset,
       // TODO: relaciones
@@ -100,9 +100,9 @@ export class ProductsService {
     let product: Chat;
 
     if ( isUUID(term) ) {
-      product = await this.productRepository.findOneBy({ id: term });
+      product = await this.chatRepository.findOneBy({ id: term });
     } else {
-      const queryBuilder = this.productRepository.createQueryBuilder(); 
+      const queryBuilder = this.chatRepository.createQueryBuilder(); 
       product = await queryBuilder
         .where('UPPER(title) =:title or slug =:slug', {
           title: term.toUpperCase(),
@@ -117,9 +117,9 @@ export class ProductsService {
     return product;
   }
 
-  async update( id: string, updateProductDto: UpdateProductDto ) {
+  async update( id: string, updateProductDto: UpdateChatDto ) {
 
-    const product = await this.productRepository.preload({
+    const product = await this.chatRepository.preload({
       id: id,
       ...updateProductDto
     });
@@ -127,7 +127,7 @@ export class ProductsService {
     if ( !product ) throw new NotFoundException(`Product with id: ${ id } not found`);
 
     try {
-      await this.productRepository.save( product );
+      await this.chatRepository.save( product );
       return product;
       
     } catch (error) {
@@ -138,7 +138,7 @@ export class ProductsService {
 
   async remove(id: string) {
     const product = await this.findOne( id );
-    await this.productRepository.remove( product );
+    await this.chatRepository.remove( product );
     
   }
 

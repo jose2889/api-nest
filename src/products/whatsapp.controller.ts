@@ -1,17 +1,17 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query, ForbiddenException, Res, HttpStatus } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
-import { PaginationDto } from './../common/dtos/pagination.dto';
+import { WhatsappService } from './whatsapp.service';
+import { CreateChatDto } from './dto/create-product.dto';
+import { UpdateChatDto } from './dto/update-product.dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 import { WhatsappCloudAPIRequest, WhatsappConfimationRequest } from './dto/whatsapp-cloud-api-request.dto';
 import { dataApiRequest, WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
 
 @Controller('chat')
-export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+export class WhatsappController {
+  constructor(private readonly productsService: WhatsappService) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
+  create(@Body() createProductDto: CreateChatDto) {
     return this.productsService.create(createProductDto);
   }
 
@@ -52,7 +52,7 @@ export class ProductsController {
   createWebhook(@Body() data:any) {
 
     
-    let createProductDto = new CreateProductDto();
+    let createProductDto = new CreateChatDto();
     if (data.object) {
       if (data?.entry[0]?.changes[0]?.value?.messages[0]) {
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
@@ -144,7 +144,7 @@ export class ProductsController {
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe ) id: string, 
-    @Body() updateProductDto: UpdateProductDto
+    @Body() updateProductDto: UpdateChatDto
   ) {
     return this.productsService.update( id, updateProductDto );
   }

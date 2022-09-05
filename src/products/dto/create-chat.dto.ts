@@ -3,7 +3,7 @@ import { IsArray, IsIn, IsInt, IsNumber, IsOptional,
 } from 'class-validator';
 
 
-export class CreateProductDto {
+export class CreateChatDto {
 
     @IsString()
     @MinLength(1)
