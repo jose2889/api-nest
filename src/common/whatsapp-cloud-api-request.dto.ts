@@ -95,7 +95,11 @@ export let dataApiRequest: WhatsappCloudApiRequest = {
             "parameters": 
             [{
                 "type": "payload",
-                "payload": "lo estamos logrando"
+                "payload": ""
+            },
+            {
+                "type": "payload",
+                "payload": ""
             }]
         }]
     }

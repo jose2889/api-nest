@@ -14,6 +14,8 @@ import { WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.d
 import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response.dto';
 import { BASEURL } from 'src/common/api-resource';
 import { AxiosResponse } from 'axios'
+import dayjs from 'dayjs';
+const date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
 
 @Injectable()
 export class ProductsService {
@@ -30,6 +32,12 @@ export class ProductsService {
 
 
   async sendMessage(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+    const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
+    console.log(data);
+    return data;
+  }
+
+  async updateReservation(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     console.log(data);
     return data;

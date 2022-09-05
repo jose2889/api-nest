@@ -37,5 +37,7 @@ export interface WhatsappConfimationRequest {
     phoneNumber:    string;
     customerName:   string;
     businessName:   string;
+    confirmToken:   string;
+    cancelToken:    string;
     date:           string;
 }
