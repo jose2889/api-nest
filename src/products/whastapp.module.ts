@@ -6,9 +6,10 @@ import { WhatsappController } from './whatsapp.controller';
 import { Chat } from './entities/chat.entity';
 import { HttpModule } from '@nestjs/axios';
 import { HttpConfigService } from 'src/httpService.config';
+import { Webhookontroller } from './webhooks.controller';
 
 @Module({
-  controllers: [WhatsappController],
+  controllers: [WhatsappController, Webhookontroller],
   providers: [WhatsappService],
   imports: [HttpModule.registerAsync({
     useClass: HttpConfigService,
