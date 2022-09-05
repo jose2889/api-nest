@@ -14,7 +14,7 @@ import { WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.d
 import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response.dto';
 import { BASEURL } from 'src/common/api-resource';
 import { AxiosResponse } from 'axios'
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs'
 
 
 @Injectable()

@@ -38,7 +38,7 @@ export class WhatsappController {
           wsApiReques.template.components[0].parameters[1].text = date;
           wsApiReques.template.components[0].parameters[2].text = businessName;   
           wsApiReques.template.components[1].parameters[0].payload = confirmToken;   
-          wsApiReques.template.components[1].parameters[1].payload = cancelToken;   
+          // wsApiReques.template.components[1].parameters[1].payload = cancelToken;   
           console.log("wsApiReques ", dataApiRequest);
 
       this.productsService.sendMessage(wsApiReques).then( res => {
