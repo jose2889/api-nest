@@ -5,7 +5,7 @@ import { UpdateChatDto } from './dto/update-chat.dto';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 import { WhatsappCloudAPIRequest, WhatsappConfimationRequest } from './dto/whatsapp-cloud-api-request.dto';
 import { dataApiRequest, WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Chats')
 @Controller('chat')
@@ -17,6 +17,9 @@ export class WhatsappController {
     return this.chatService.create(createProductDto);
   }
 
+  @ApiResponse({ status: 201, description: 'Creado con éxito.'  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
   @Post('notificationsws')
   notificationsWhatsapp(@Body() request: WhatsappCloudAPIRequest, @Res() response) {
       // this.logger.warn('consume-template');
@@ -27,6 +30,9 @@ export class WhatsappController {
       })
   }
 
+  @ApiResponse({ status: 201, description: 'Creado con éxito.'  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
   @Post('confirmationsws')
   confirmationsWhatsapp(@Body() request: WhatsappConfimationRequest, @Res() response) {
       // this.logger.warn('consume-template');
