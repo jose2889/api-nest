@@ -14,7 +14,7 @@ export interface Template {
 export interface Component {
     type:       string;
     sub_type?:       string;
-    index?:       number;
+    index?:       string;
     parameters: Parameter[];
 }
 
@@ -61,6 +61,43 @@ export interface Language {
     code: string;
 }
 
+export let notificationApiRequest: WhatsappCloudApiRequest =  {
+    "messaging_product": "whatsapp",
+    "to": "",
+    "type": "template",
+    "template": {
+        "name": "notificacion_reserva",
+        "language": {
+            "code": "es"
+        },
+        "components": [{
+            "type": "body",
+            "parameters": [
+                {
+                    "type": "text",
+                    "text": ""
+                },
+                {
+                    "type": "text",
+                    "text": ""
+                }
+               
+            ]
+        },
+        {
+                "type": "button",
+                "sub_type" : "url",
+                "index": "0",
+                "parameters": [
+                    {                    
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            }]
+    }
+}
+
 export let dataApiRequest: WhatsappCloudApiRequest = {
     "messaging_product": "whatsapp",
     "to": "",
@@ -91,7 +128,7 @@ export let dataApiRequest: WhatsappCloudApiRequest = {
         {
             "type": "button",
             "sub_type": "quick_reply",
-            "index": 0,
+            "index": "0",
             "parameters": 
             [{
                 "type": "payload",
@@ -101,7 +138,7 @@ export let dataApiRequest: WhatsappCloudApiRequest = {
         {
             "type": "button",
             "sub_type": "quick_reply",
-            "index": 1,
+            "index": "1",
             "parameters": 
             [{
                 "type": "payload",

@@ -6,6 +6,8 @@ import { PaginationDto } from '../common/dtos/pagination.dto';
 import { WhatsappCloudAPIRequest, WhatsappConfimationRequest } from './dto/whatsapp-cloud-api-request.dto';
 import { dataApiRequest, WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateConfirmationDto } from './dto/confirmation.dto';
+import { CreateNotificationDto } from './dto/notification.dto';
 
 @ApiTags('Chats')
 @Controller('chat')
@@ -21,12 +23,22 @@ export class WhatsappController {
   @ApiResponse({ status: 400, description: 'Bad request.' })
   @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
   @Post('notificationsws')
-  notificationsWhatsapp(@Body() request: WhatsappCloudAPIRequest, @Res() response) {
-      // this.logger.warn('consume-template');
-      this.chatService.sendMessage(request).then( res => {
+  notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
+     
+    const { phoneNumber, slug, date, businessName} = request; 
+
+    let templateWhatsappApiRequest:WhatsappCloudApiRequest;
+        templateWhatsappApiRequest = dataApiRequest;
+
+        templateWhatsappApiRequest.to = phoneNumber;
+        templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
+        templateWhatsappApiRequest.template.components[0].parameters[2].text = businessName;   
+        templateWhatsappApiRequest.template.components[1].parameters[0].text = slug;   
+
+      this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
       }).catch((err) => {
-          response.status(HttpStatus.BAD_REQUEST).json(err.response.data);
+          response.status(HttpStatus.BAD_REQUEST).json(err);
       })
   }
 
@@ -34,25 +46,25 @@ export class WhatsappController {
   @ApiResponse({ status: 400, description: 'Bad request.' })
   @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
   @Post('confirmationsws')
-  confirmationsWhatsapp(@Body() request: WhatsappConfimationRequest, @Res() response) {
+  confirmationsWhatsapp(@Body() request: CreateConfirmationDto, @Res() response) {
       // this.logger.warn('consume-template');
      
       const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken} = request; 
-      let wsApiReques:WhatsappCloudApiRequest;
-          wsApiReques = dataApiRequest;
+      let templateWhatsappApiRequest:WhatsappCloudApiRequest;
+      templateWhatsappApiRequest = dataApiRequest;
           
-          wsApiReques.to = phoneNumber;
-          wsApiReques.template.components[0].parameters[0].text = customerName;
-          wsApiReques.template.components[0].parameters[1].text = date;
-          wsApiReques.template.components[0].parameters[2].text = businessName;   
-          wsApiReques.template.components[1].parameters[0].payload = confirmToken;   
-          wsApiReques.template.components[2].parameters[0].payload = cancelToken;   
-          console.log("wsApiReques ", dataApiRequest);
+      templateWhatsappApiRequest.to = phoneNumber;
+      templateWhatsappApiRequest.template.components[0].parameters[0].text = customerName;
+      templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
+      templateWhatsappApiRequest.template.components[0].parameters[2].text = businessName;   
+      templateWhatsappApiRequest.template.components[1].parameters[0].payload = confirmToken;   
+      templateWhatsappApiRequest.template.components[2].parameters[0].payload = cancelToken;   
+      console.log("wsApiReques ", dataApiRequest);
 
-      this.chatService.sendMessage(wsApiReques).then( res => {
+      this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
       }).catch((err) => {
-          response.status(HttpStatus.BAD_REQUEST).json(err.response.data);
+          response.status(HttpStatus.BAD_REQUEST).json(err);
       })
   }
 
