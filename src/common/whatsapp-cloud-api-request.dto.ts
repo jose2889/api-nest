@@ -61,12 +61,12 @@ export interface Language {
     code: string;
 }
 
-export let notificationApiRequest: WhatsappCloudApiRequest =  {
+export let dataNotificationApiRequest: WhatsappCloudApiRequest =  {
     "messaging_product": "whatsapp",
     "to": "",
     "type": "template",
     "template": {
-        "name": "notificacion_reserva",
+        "name": "",
         "language": {
             "code": "es"
         },
@@ -85,16 +85,16 @@ export let notificationApiRequest: WhatsappCloudApiRequest =  {
             ]
         },
         {
-                "type": "button",
-                "sub_type" : "url",
-                "index": "0",
-                "parameters": [
-                    {                    
-                        "type": "text",
-                        "text": ""
-                    }
-                ]
-            }]
+            "type": "button",
+            "sub_type" : "url",
+            "index": "0",
+            "parameters": [
+                {                    
+                    "type": "text",
+                    "text": ""
+                }
+            ]
+        }]
     }
 }
 
@@ -103,7 +103,7 @@ export let dataApiRequest: WhatsappCloudApiRequest = {
     "to": "",
     "type": "template",
     "template": {
-        "name": "confirmacion_reserva",
+        "name": "",
         "language": {
             "code": "es"
         },

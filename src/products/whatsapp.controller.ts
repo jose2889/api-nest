@@ -4,7 +4,7 @@ import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 import { WhatsappCloudAPIRequest, WhatsappConfimationRequest } from './dto/whatsapp-cloud-api-request.dto';
-import { dataApiRequest, WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
+import { dataApiRequest, dataNotificationApiRequest, WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateConfirmationDto } from './dto/confirmation.dto';
 import { CreateNotificationDto } from './dto/notification.dto';
@@ -28,11 +28,12 @@ export class WhatsappController {
     const { phoneNumber, slug, date, businessName} = request; 
 
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
-        templateWhatsappApiRequest = dataApiRequest;
+        templateWhatsappApiRequest = dataNotificationApiRequest;
 
+        templateWhatsappApiRequest.template.name = "notificacion_reserva"; 
         templateWhatsappApiRequest.to = phoneNumber;
-        templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
-        templateWhatsappApiRequest.template.components[0].parameters[2].text = businessName;   
+        templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
+        templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
         templateWhatsappApiRequest.template.components[1].parameters[0].text = slug;   
 
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
@@ -53,6 +54,7 @@ export class WhatsappController {
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
       templateWhatsappApiRequest = dataApiRequest;
           
+      templateWhatsappApiRequest.template.name = "confirmacion_reserva"; 
       templateWhatsappApiRequest.to = phoneNumber;
       templateWhatsappApiRequest.template.components[0].parameters[0].text = customerName;
       templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
