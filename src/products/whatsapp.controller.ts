@@ -14,10 +14,10 @@ import { CreateNotificationDto } from './dto/notification.dto';
 export class WhatsappController {
   constructor(private readonly chatService: WhatsappService) {}
 
-  @Post()
-  create(@Body() createProductDto: CreateChatDto) {
-    return this.chatService.create(createProductDto);
-  }
+  // @Post()
+  // create(@Body() createProductDto: CreateChatDto) {
+  //   return this.chatService.create(createProductDto);
+  // }
 
   @ApiResponse({ status: 201, description: 'Creado con éxito.'  })
   @ApiResponse({ status: 400, description: 'Bad request.' })
@@ -71,11 +71,11 @@ export class WhatsappController {
   }
 
  
-  @Get()
-  findAll( @Query() paginationDto:PaginationDto ) {
-    // console.log(paginationDto)
-    return this.chatService.findAll( paginationDto );
-  }
+  // @Get()
+  // findAll( @Query() paginationDto:PaginationDto ) {
+  //   // console.log(paginationDto)
+  //   return this.chatService.findAll( paginationDto );
+  // }
 
 
   // @Get(':term')
@@ -83,13 +83,13 @@ export class WhatsappController {
   //   return this.chatService.findOne( term );
   // }
 
-  @Patch(':id')
-  update(
-    @Param('id', ParseUUIDPipe ) id: string, 
-    @Body() updateProductDto: UpdateChatDto
-  ) {
-    return this.chatService.update( id, updateProductDto );
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id', ParseUUIDPipe ) id: string, 
+  //   @Body() updateProductDto: UpdateChatDto
+  // ) {
+  //   return this.chatService.update( id, updateProductDto );
+  // }
 
   // @Delete(':id')
   // remove(@Param('id', ParseUUIDPipe ) id: string) {
