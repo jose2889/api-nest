@@ -22,12 +22,12 @@ export class Webhookontroller {
         let name = data.entry[0].changes[0].value.contacts[0].profile.name;
         let timestamp = data.entry[0].changes[0].value.messages[0].timestamp;
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
-        if (type == "button") console.log("la data es ", JSON.stringify(data));
         if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
         if (type == "button") {
+          console.log("la data es ", JSON.stringify(data));
           createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
           createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-          createProductDto.payload = data.entry[0].changes[0].value.messages[1].button.payload;
+         // createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
         }  
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
