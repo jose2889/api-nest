@@ -51,10 +51,10 @@ export class WhatsappService {
     return data;
   }
 
-  async updateReservation(token: string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async updateReservation(token: string, phone_number: string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
 
     console.log("token recibido ", token);
-
+    this.request.to = phone_number;
     let body = {
       date: dayjs().format("YYYY-MM-DD HH:mm")
     }

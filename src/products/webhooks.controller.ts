@@ -28,7 +28,7 @@ export class Webhookontroller {
           createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
           createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
           
-          this.chatService.updateReservation(createProductDto.payload);
+          this.chatService.updateReservation(createProductDto.payload, from);
         }  
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
@@ -95,7 +95,7 @@ export class Webhookontroller {
   testUpdate(@Res() res, @Query( 'token' ) token: string) {
      console.log("datos por parametro ", token)
      
-     let response = this.chatService.updateReservation(token);
+     let response = this.chatService.updateReservation(token, "5695785872");
 console.log(response)
    res.status(201).send(response);
   }
