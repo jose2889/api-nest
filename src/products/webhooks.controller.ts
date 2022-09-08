@@ -27,6 +27,8 @@ export class Webhookontroller {
           console.log("la data es ", JSON.stringify(data));
           createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
           createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
+          
+          this.chatService.updateReservation(createProductDto.payload);
         }  
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
@@ -88,4 +90,14 @@ export class Webhookontroller {
    }
    res.status(400).send("Los datos no son validos");
   }
+
+  @Get('test')
+  testUpdate(@Res() res, @Query( 'token' ) token: string) {
+     console.log("datos por parametro ", token)
+     
+     this.chatService.updateReservation(token);
+
+   res.status(201).send("Los datos no son validos");
+  }
+  
 }

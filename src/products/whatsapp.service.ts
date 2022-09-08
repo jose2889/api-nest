@@ -65,8 +65,9 @@ export class WhatsappService {
     // } catch (error) {
     //     throw new BadRequestException();
     // }
-
-    if (data.retCode === "0"){
+    if (data.retCode === "1"){
+      this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
+    }else if (data.retCode === "1"){
       if (data.retMessage === "1") {
         this.request.text.body = "La reservación ya se encuentra aprobada previamente.";
       } else if (data.retMessage === "3") {
