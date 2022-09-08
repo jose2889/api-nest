@@ -22,7 +22,8 @@ export class WhatsappService {
 
   private readonly logger = new Logger('WhatsappService');
   baseUrl = BASEURL.baseUrlWhatsappCloudApiProd;
-  date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
+  urlPlanner = "https://api-keoagenda.herokuapp.com/api/webservices/services.reservations.in.beneficiaries/updateStatus?token="; 
+  // date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
   constructor(
 
     @InjectRepository(Chat)
@@ -38,8 +39,12 @@ export class WhatsappService {
     return data;
   }
 
-  async updateReservation(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
-    const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
+  async updateReservation(token: string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+
+    let body = {
+      date: dayjs().format("YYYY-MM-DD HH:mm")
+    }
+    const { data } = await firstValueFrom(this.httpService.put(this.urlPlanner+token, body));
     console.log(data);
     return data;
   }

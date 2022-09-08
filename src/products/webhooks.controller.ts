@@ -27,7 +27,6 @@ export class Webhookontroller {
           console.log("la data es ", JSON.stringify(data));
           createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
           createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-         // createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
         }  
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
