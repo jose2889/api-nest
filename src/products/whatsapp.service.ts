@@ -58,33 +58,61 @@ export class WhatsappService {
     let body = {
       date: dayjs().format("YYYY-MM-DD HH:mm")
     }
+    let data; 
 
-    // try {
-      const { data } = await firstValueFrom(this.httpService.put(this.urlPlanner+token, body));
-      console.log("Response de planner", data);
-    // } catch (error) {
-    //     throw new BadRequestException();
-    // }
-    if (data.retCode === "1"){
-      this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
-    }else if (data.retCode === "1"){
-      if (data.retMessage === "1") {
-        this.request.text.body = "La reservación ya se encuentra aprobada previamente.";
-      } else if (data.retMessage === "3") {
-        this.request.text.body = "La reservación ya ha sido cancelada previamente.";
-      } else if (data.retMessage === "9") {
-        this.request.text.body = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
-      }
-    }else {
-      this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."; 
-    }
+  
+     try {
+      this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
+        console.log("respuesta exitosa de planner", data.statusText)
+        console.log("cuerpo de la respuesta", data.statusText)
 
-    try {
-      let response = await firstValueFrom(this.httpService.post(this.baseUrl, this.request));
-      console.log("Response de whatapp API ", response.data);
+        if (data.statusText === "OK"){
+             this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
+        }
+            this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+              console.log("respuesta exitosa del whatsapp", res.statusText); 
+            },
+            (error) => {
+              console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
+            }); 
+      },
+      (error) => {
+        console.log("ocurrio un error en la respuesta de planner y no se cancelo", error.response)
+        console.log(error.response.status)
+        console.log(error.response.statusText)
+        this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."
+        this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+          console.log("respuesta exitosa del whatsapp", res.statusText); 
+        },
+        (eror) => {
+          console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
+        }); 
+      });
+      // console.log("Response de planner", data);
     } catch (error) {
         throw new BadRequestException();
     }
+    
+    // if (data.retCode === "1"){
+    //   this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
+    // }else if (data.retCode === "1"){
+    //   if (data.retMessage === "1") {
+    //     this.request.text.body = "La reservación ya se encuentra aprobada previamente.";
+    //   } else if (data.retMessage === "3") {
+    //     this.request.text.body = "La reservación ya ha sido cancelada previamente.";
+    //   } else if (data.retMessage === "9") {
+    //     this.request.text.body = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
+    //   }
+    // }else {
+    //   this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."; 
+    // }
+
+    // try {
+    //   let response = await firstValueFrom(this.httpService.post(this.baseUrl, this.request));
+    //   console.log("Response de whatapp API ", response.data);
+    // } catch (error) {
+    //     throw new BadRequestException();
+    // }
     
 
     return data;

@@ -95,9 +95,9 @@ export class Webhookontroller {
   testUpdate(@Res() res, @Query( 'token' ) token: string) {
      console.log("datos por parametro ", token)
      
-     this.chatService.updateReservation(token);
-
-   res.status(201).send("Los datos no son validos");
+     let response = this.chatService.updateReservation(token);
+console.log(response)
+   res.status(201).send(response);
   }
   
 }
