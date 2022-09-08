@@ -24,6 +24,18 @@ export class WhatsappService {
   baseUrl = BASEURL.baseUrlWhatsappCloudApiProd;
   urlPlanner = "https://api-keoagenda.herokuapp.com/api/webservices/services.reservations.in.beneficiaries/updateStatus?token="; 
   // date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
+
+  request = {
+    "messaging_product": "whatsapp",
+    "preview_url": true,
+    "recipient_type": "individual",
+    "to": "56957858732",
+    "type": "text",
+    "text": {
+        "body": "para mensajes"
+    }
+  }
+
   constructor(
 
     @InjectRepository(Chat)
@@ -41,14 +53,42 @@ export class WhatsappService {
 
   async updateReservation(token: string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
 
+    console.log("token recibido ", token);
+
     let body = {
       date: dayjs().format("YYYY-MM-DD HH:mm")
     }
-    const { data } = await firstValueFrom(this.httpService.put(this.urlPlanner+token, body));
-    console.log(data);
+
+    // try {
+      const { data } = await firstValueFrom(this.httpService.put(this.urlPlanner+token, body));
+      console.log("Response de planner", data);
+    // } catch (error) {
+    //     throw new BadRequestException();
+    // }
+
+    if (data.retCode === "0"){
+      if (data.retMessage === "1") {
+        this.request.text.body = "La reservación ya se encuentra aprobada previamente.";
+      } else if (data.retMessage === "3") {
+        this.request.text.body = "La reservación ya ha sido cancelada previamente.";
+      } else if (data.retMessage === "9") {
+        this.request.text.body = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
+      }
+    }else {
+      this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."; 
+    }
+
+    try {
+      let response = await firstValueFrom(this.httpService.post(this.baseUrl, this.request));
+      console.log("Response de whatapp API ", response.data);
+    } catch (error) {
+        throw new BadRequestException();
+    }
+    
+
     return data;
   }
-
+  
   async create(createProductDto: CreateChatDto) {
     
     try {
