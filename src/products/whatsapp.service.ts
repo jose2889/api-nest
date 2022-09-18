@@ -22,9 +22,9 @@ export class WhatsappService {
 
   private readonly logger = new Logger('WhatsappService');
   baseUrl = BASEURL.baseUrlWhatsappCloudApiProd;
-  urlPlanner = "https://api-keoagenda.herokuapp.com/api/webservices/services.reservations.in.beneficiaries/updateStatus?token="; 
+  //urlPlanner = "https://api-keoagenda.herokuapp.com/api/webservices/services.reservations.in.beneficiaries/updateStatus?token="; 
 
-  //urlPlanner = "https://api-keoplanner.herokuapp.com/api/webservices/services.reservations.in.beneficiaries/updateStatus?token="; 
+  urlPlanner = "https://api-keoplanner.herokuapp.com/api/webservices/services.reservations.in.beneficiaries/updateStatus?token="; 
   // date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
 
   request = {
