@@ -83,12 +83,12 @@ export class WhatsappService {
         console.log(error.response.status)
         console.log(error.response.statusText)
         this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."
-        this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-          console.log("respuesta exitosa del whatsapp", res.statusText); 
-        },
-        (eror) => {
-          console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
-        }); 
+        // this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+        //   console.log("respuesta exitosa del whatsapp", res.statusText); 
+        // },
+        // (eror) => {
+        //   console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
+        // }); 
       });
       // console.log("Response de planner", data);
     } catch (error) {
