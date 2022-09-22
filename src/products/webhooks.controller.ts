@@ -11,7 +11,7 @@ export class Webhookontroller {
   @Post('webhook')
   createWebhook(@Body() data:any) {
 
-    
+    console.log("la data es ", JSON.stringify(data));
     let createProductDto = new CreateChatDto();
     if (data.object) {
       if (data?.entry[0]?.changes[0]?.value?.messages[0]) {
@@ -24,7 +24,7 @@ export class Webhookontroller {
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
         if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
         if (type == "button") {
-          console.log("la data es ", JSON.stringify(data));
+          console.log("entro en el button ", JSON.stringify(data));
           createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
           createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
           
