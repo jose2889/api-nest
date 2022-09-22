@@ -31,7 +31,7 @@ export class WhatsappService {
     "messaging_product": "whatsapp",
     "preview_url": true,
     "recipient_type": "individual",
-    "to": "56957858732",
+    "to": "",
     "type": "text",
     "text": {
         "body": "para mensajes"
