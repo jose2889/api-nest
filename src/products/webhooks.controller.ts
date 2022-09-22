@@ -12,11 +12,14 @@ export class Webhookontroller {
   createWebhook(@Body() data:any) {
 
     console.log("la data es ", JSON.stringify(data));
+
+    console.log("valor de estatus ", JSON.stringify(data?.entry[0]?.changes[0]?.value?.messages[0]));
+
     let createProductDto = new CreateChatDto();
     if (data.object) {
       if (data?.entry[0]?.changes[0]?.value?.messages[0]) {
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
-        let from = data.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
+        let from = data.entry[0].changes[0].value?.messages[0].from; // extract the phone number from the webhook payload
 
         let type = data.entry[0].changes[0].value.messages[0].type;
         let name = data.entry[0].changes[0].value.contacts[0].profile.name;
