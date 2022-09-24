@@ -87,7 +87,7 @@ export let dataNotificationApiRequest: WhatsappCloudApiRequest =  {
         {
             "type": "button",
             "sub_type" : "url",
-            "index": "0",
+            "index": "1",
             "parameters": [
                 {                    
                     "type": "text",
@@ -128,7 +128,7 @@ export let dataApiRequest: WhatsappCloudApiRequest = {
         {
             "type": "button",
             "sub_type": "quick_reply",
-            "index": "0",
+            "index": "1",
             "parameters": 
             [{
                 "type": "payload",
@@ -138,7 +138,7 @@ export let dataApiRequest: WhatsappCloudApiRequest = {
         {
             "type": "button",
             "sub_type": "quick_reply",
-            "index": "1",
+            "index": "2",
             "parameters": 
             [{
                 "type": "payload",
