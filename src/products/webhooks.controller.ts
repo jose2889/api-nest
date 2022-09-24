@@ -13,6 +13,8 @@ export class Webhookontroller {
   createWebhook(@Body() data:any) {
 
     console.log("este es el objeto",JSON.stringify(data))
+    console.log("contiene la propiedad messages: ",data.hasOwnProperty('messages'))
+    
     let createProductDto = new CreateChatDto();
     if (data.object) {
       if (
