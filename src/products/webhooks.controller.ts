@@ -14,7 +14,13 @@ export class Webhookontroller {
     
     let createProductDto = new CreateChatDto();
     if (data.object) {
-      if (data?.entry[0]?.changes[0]?.value?.messages[0]) {
+      if (
+        data.body.entry &&
+        data.body.entry[0].changes &&
+        data.body.entry[0].changes[0] &&
+        data.body.entry[0].changes[0].value.messages &&
+        data.body.entry[0].changes[0].value.messages[0]
+      ) {
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
         let from = data.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
