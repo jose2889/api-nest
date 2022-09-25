@@ -12,17 +12,16 @@ export class Webhookontroller {
   @Post('webhook')
   createWebhook(@Body() data:any) {
 
-    console.log("este es el objeto",JSON.stringify(data))
-    console.log("contiene la propiedad messages: ",data.hasOwnProperty('messages'))
+    console.log("este es el objeto",JSON.stringify(data));
     
     let createProductDto = new CreateChatDto();
     if (data.object) {
       if (
-        data.body.entry &&
-        data.body.entry[0].changes &&
-        data.body.entry[0].changes[0] &&
-        data.body.entry[0].changes[0].value.messages &&
-        data.body.entry[0].changes[0].value.messages[0]
+        data.entry &&
+        data.entry[0].changes &&
+        data.entry[0].changes[0] &&
+        data.entry[0].changes[0].value.messages &&
+        data.entry[0].changes[0].value.messages[0]
       ) {
         console.log("entro en el if");
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
