@@ -30,7 +30,7 @@ export class WhatsappController {
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
 
-        templateWhatsappApiRequest.template.name = "notificacion_reserva"; //_cliente
+        templateWhatsappApiRequest.template.name = "notificacion_reservacion_cliente"; 
         templateWhatsappApiRequest.to = phoneNumber;
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
@@ -54,7 +54,7 @@ export class WhatsappController {
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
       templateWhatsappApiRequest = dataApiRequest;
           
-      templateWhatsappApiRequest.template.name = "confirmacion_reserva"; 
+      templateWhatsappApiRequest.template.name = "confirmation_reservation"; 
       templateWhatsappApiRequest.to = phoneNumber;
       templateWhatsappApiRequest.template.components[0].parameters[0].text = customerName;
       templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
