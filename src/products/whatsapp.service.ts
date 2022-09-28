@@ -134,20 +134,21 @@ export class WhatsappService {
       this.handleDBExceptions(error);
     }
   }
-// ############### Guardado de los datos en la tabla de las APIs Ws##################
-// ############################### Edgardo Lugo #####################################
+  
+// // ############### Guardado de los datos en la tabla de las APIs Ws##################
+// // ############################### Edgardo Lugo #####################################
 
-  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
-    try {
-      const apiWs = this.apiWsRepository.create(createApiWsDot);
-      await this.apiWsRepository.save(apiWs);
-      return apiWs;
-    } catch (error) {
-      this.handleDBExceptions(error)
-    }
-  }
+//   async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
+//     try {
+//       const apiWs = this.apiWsRepository.create(createApiWsDot);
+//       await this.apiWsRepository.save(apiWs);
+//       return apiWs;
+//     } catch (error) {
+//       this.handleDBExceptions(error)
+//     }
+//   }
 
-  //################################################################################
+//   //################################################################################
 
   async createWebhook(createProductDto: CreateChatDto) {
     

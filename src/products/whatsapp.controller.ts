@@ -72,24 +72,24 @@ export class WhatsappController {
       })
   }
 
- // ###################Creacion del POST de register APIs Ws##########################
- // ############################### Edgardo Lugo #####################################
+//  // ###################Creacion del POST de register APIs Ws##########################
+//  // ############################### Edgardo Lugo #####################################
 
-  @Post('register-api-ws-client')
-  createRegisterApiWsDB(
-    @Body() createRegisterApiWs:CreateApiWSDto,
-    @Res() response){
+//   @Post('register-api-ws-client')
+//   createRegisterApiWsDB(
+//     @Body() createRegisterApiWs:CreateApiWSDto,
+//     @Res() response){
 
-        return  this.chatService.CreateRegisterApiWs(createRegisterApiWs);
+//         return  this.chatService.CreateRegisterApiWs(createRegisterApiWs);
 
-//   try {
+// //   try {
 
-// 	}
-// } catch (error) {
+// // 	}
+// // } catch (error) {
 	
-}
+// }
 
-// ###################################################################################
+// // ###################################################################################
 
   // @Get()
   // findAll( @Query() paginationDto:PaginationDto ) {
