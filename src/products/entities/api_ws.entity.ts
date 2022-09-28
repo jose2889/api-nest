@@ -60,8 +60,8 @@ export class Apiws{
     create_data: string;
 
     @Column({
-        type: 'text',
-        unique:true
+        type: 'text', 
+        nullable: true
     })
     update_data: string;
 
