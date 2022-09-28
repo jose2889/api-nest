@@ -8,6 +8,8 @@ import { dataApiRequest, dataNotificationApiRequest, WhatsappCloudApiRequest } f
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateConfirmationDto } from './dto/confirmation.dto';
 import { CreateNotificationDto } from './dto/notification.dto';
+import { CreateApiWSDto } from './dto/create-api-ws.dto';
+import { response } from 'express';
 
 @ApiTags('Chats')
 @Controller('chat')
@@ -70,7 +72,25 @@ export class WhatsappController {
       })
   }
 
- 
+ // ###################Creacion del POST de register APIs Ws##########################
+ // ############################### Edgardo Lugo #####################################
+
+  @Post('register-api-ws-client')
+  createRegisterApiWsDB(
+    @Body() createRegisterApiWs:CreateApiWSDto,
+    @Res() response){
+
+        return  this.chatService.CreateRegisterApiWs(createRegisterApiWs);
+
+//   try {
+
+// 	}
+// } catch (error) {
+	
+}
+
+// ###################################################################################
+
   // @Get()
   // findAll( @Query() paginationDto:PaginationDto ) {
   //   // console.log(paginationDto)
