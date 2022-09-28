@@ -7,6 +7,7 @@ import { Chat } from './entities/chat.entity';
 import { HttpModule } from '@nestjs/axios';
 import { HttpConfigService } from 'src/httpService.config';
 import { Webhookontroller } from './webhooks.controller';
+import { api_ws } from './entities/api_ws.entity';
 
 @Module({
   controllers: [WhatsappController, Webhookontroller],
@@ -14,7 +15,7 @@ import { Webhookontroller } from './webhooks.controller';
   imports: [HttpModule.registerAsync({
     useClass: HttpConfigService,
   }),
-    TypeOrmModule.forFeature([ Chat ])
+    TypeOrmModule.forFeature([ Chat, api_ws ])
   ]
 })
 export class ProductsModule {}
