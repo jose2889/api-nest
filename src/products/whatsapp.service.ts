@@ -16,7 +16,7 @@ import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response
 import { BASEURL } from 'src/common/api-resource';
 import { AxiosResponse } from 'axios'
 import * as dayjs from 'dayjs'
-import { api_ws } from './entities/api_ws.entity';
+import { Apiws } from './entities/api_ws.entity';
 
 
 @Injectable()
@@ -43,7 +43,8 @@ export class WhatsappService {
     @InjectRepository(Chat)
     private readonly chatRepository: Repository<Chat>,
     private readonly httpService:HttpService,
-    private readonly apiWsRepository: Repository<api_ws> //variable para regsitar API Ws
+    @InjectRepository(Apiws)
+    private readonly apiWsRepository: Repository<Apiws>, //variable para regsitar API Ws
 
   ) {}
 
@@ -134,21 +135,22 @@ export class WhatsappService {
       this.handleDBExceptions(error);
     }
   }
-  
-// // ############### Guardado de los datos en la tabla de las APIs Ws##################
-// // ############################### Edgardo Lugo #####################################
 
-//   async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
-//     try {
-//       const apiWs = this.apiWsRepository.create(createApiWsDot);
-//       await this.apiWsRepository.save(apiWs);
-//       return apiWs;
-//     } catch (error) {
-//       this.handleDBExceptions(error)
-//     }
-//   }
+// ############### Guardado de los datos en la tabla de las APIs Ws##################
+// ############################### Edgardo Lugo #####################################
 
-//   //################################################################################
+  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
+    try {
+      const apiWs = this.apiWsRepository.create(createApiWsDot);
+      await this.apiWsRepository.save(apiWs);
+      console.log(apiWs);
+      return {apiWs};
+    } catch (error) {
+      this.handleDBExceptions(error)
+    }
+  }
+
+  //################################################################################
 
   async createWebhook(createProductDto: CreateChatDto) {
     

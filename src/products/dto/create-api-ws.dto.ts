@@ -1,6 +1,4 @@
-import { IsArray, IsIn, IsInt, IsNumber, IsOptional, 
-         IsPositive, IsString, MinLength 
-} from 'class-validator';
+import {  IsOptional, IsString, MinLength } from 'class-validator';
 
 
 export class CreateApiWSDto {
