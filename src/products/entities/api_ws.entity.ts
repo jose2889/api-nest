@@ -20,14 +20,12 @@ export class Apiws{
     id_api_ws: string;
 
     @Column({
-        type: 'text',
-        unique:true
+        type: 'text'
     })
     type_app: string;
 
     @Column({
-        type: 'text',
-        unique:true
+        type: 'text'
     })
     ver_app: string;
 
