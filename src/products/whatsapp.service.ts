@@ -142,6 +142,7 @@ export class WhatsappService {
   async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
     try {
       const apiWs = this.apiWsRepository.create(createApiWsDot);
+      apiWs.create_data = Date.now().toString();
       await this.apiWsRepository.save(apiWs);
       console.log(apiWs);
       return {apiWs};

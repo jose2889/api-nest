@@ -15,6 +15,12 @@ export class Apiws{
 
     @Column({
         type: 'text',
+        unique:true,
+    })
+    slug_businnes: string;
+
+    @Column({
+        type: 'text',
         unique:true
     })
     id_api_ws: string;

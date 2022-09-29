@@ -2,7 +2,11 @@ import {  IsOptional, IsString, MinLength } from 'class-validator';
 
 
 export class CreateApiWSDto {
-
+    
+    @IsString()
+    @MinLength(1)
+    slug_businnes: string;
+    
     @IsString()
     @MinLength(1)
     id_api_ws: string;
