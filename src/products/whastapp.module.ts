@@ -9,6 +9,7 @@ import { HttpConfigService } from 'src/httpService.config';
 import { Webhookontroller } from './webhooks.controller';
 import { Apiws } from './entities/api_ws.entity';
 
+
 @Module({
   controllers: [WhatsappController, Webhookontroller],
   providers: [WhatsappService],
