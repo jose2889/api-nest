@@ -54,7 +54,7 @@ export class WhatsappController {
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
       templateWhatsappApiRequest = dataApiRequest;
           
-      templateWhatsappApiRequest.template.name = "confirmacion_reserva"; 
+      templateWhatsappApiRequest.template.name = "confirmation_reservation"; // "confirmacion_reserva"; 
       templateWhatsappApiRequest.to = phoneNumber;
       templateWhatsappApiRequest.template.components[0].parameters[0].text = customerName;
       templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
