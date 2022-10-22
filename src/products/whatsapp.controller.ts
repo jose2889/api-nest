@@ -34,7 +34,7 @@ export class WhatsappController {
         templateWhatsappApiRequest.to = phoneNumber;
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
-        templateWhatsappApiRequest.template.components[1].parameters[0].text = slug;   
+        templateWhatsappApiRequest.template.components[1].parameters[0].text = slug.slice(1);   
 
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
