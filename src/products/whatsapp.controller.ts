@@ -32,7 +32,7 @@ export class WhatsappController {
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
 
-        templateWhatsappApiRequest.template.name = "notificacion_reservacion_cliente"; 
+        templateWhatsappApiRequest.template.name = "notification_reservation_client";//"notificacion_reservacion_cliente"; 
         templateWhatsappApiRequest.to = phoneNumber;
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
