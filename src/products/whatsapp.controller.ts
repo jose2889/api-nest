@@ -26,8 +26,8 @@ export class WhatsappController {
   notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
     
     const { phoneNumber, slug, date, businessName} = request; 
-    console.log('#############Request############:', request);
-    console.log('#############Slug############:', request.slug);
+    console.log('############# Request complete ############:', request);
+    console.log('############# Slug antes de quitar el primer caracater ############:', request.slug);
     
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
@@ -36,7 +36,7 @@ export class WhatsappController {
         templateWhatsappApiRequest.to = phoneNumber;
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
-        templateWhatsappApiRequest.template.components[1].parameters[0].text = slug;//.slice(1);   
+        templateWhatsappApiRequest.template.components[1].parameters[0].text = slug.slice(1);   
 
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
