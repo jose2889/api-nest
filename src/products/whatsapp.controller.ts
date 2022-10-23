@@ -33,7 +33,7 @@ export class WhatsappController {
     console.log('############# Slug ############:', request.slug);
     let first_chart=request.slug.slice(0, 1);
     
-    console.log('############# Slug ############:', request.slug);
+    console.log('############# Slug ############:',( first_chart == '/') ? request.slug.slice(1) : request.slug );
 
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
