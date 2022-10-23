@@ -30,7 +30,8 @@ export class WhatsappController {
     const { phoneNumber, slug, date, businessName} = request; 
     console.log('############# Request ############:', request);
     console.log('############# Slug ############:', request.slug);
-
+    let first_chart=request.slug.slice(0, 1);
+    request.slug =( first_chart != null && first_chart=="/") ? request.slug.slice(1) : request.slug;
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
 
