@@ -13,7 +13,7 @@ import { CreateNotificationDto } from './dto/notification.dto';
 @Controller('chat')
 export class WhatsappController {
   constructor(private readonly chatService: WhatsappService) {}
-
+  
   // @Post()
   // create(@Body() createProductDto: CreateChatDto) {
   //   return this.chatService.create(createProductDto);
@@ -24,9 +24,9 @@ export class WhatsappController {
   @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
   @Post('notificationsws')
   notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
-     
+    
     const { phoneNumber, slug, date, businessName} = request; 
-
+    console.log('Request:' request);
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
 
