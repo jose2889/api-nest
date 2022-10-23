@@ -28,6 +28,8 @@ export class WhatsappController {
   notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
      
     const { phoneNumber, slug, date, businessName} = request; 
+    console.log('############# Request ############:', request);
+    console.log('############# Slug ############:', request.slug);
 
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
