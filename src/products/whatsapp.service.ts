@@ -174,15 +174,19 @@ export class WhatsappService {
 
   }
 
-  findAll( paginationDto: PaginationDto ) {
+  async findAll( paginationDto: PaginationDto ) {
 
     const { limit = 10, offset = 0 } = paginationDto;
 
-    return this.chatRepository.find({
+    const messages = await this.chatRepository.find({
       take: limit,
       skip: offset,
       // TODO: relaciones
     })
+
+     return messages.map ( chatMessges => ({
+      ...chatMessges,
+    }) )
   }
 
   // enviarNotificacion(): Observable<any> {

@@ -31,9 +31,9 @@ export class WhatsappController {
 
     console.log('############# Request ############:', request);
     console.log('############# Slug ############:', request.slug);
-    let first_chart=request.slug.slice(0, 1);
+    let first_chart=slug.slice(0, 1);
     
-    console.log('############# Slug ############:',( first_chart == '/') ? request.slug.slice(1) : request.slug );
+    console.log('############# Slug ############:',( first_chart == '/') ? slug.slice(1) : slug );
 
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
@@ -42,7 +42,7 @@ export class WhatsappController {
         templateWhatsappApiRequest.to = phoneNumber;
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
-        templateWhatsappApiRequest.template.components[1].parameters[0].text = ( first_chart == '/') ? request.slug.slice(1) : request.slug; //slug;  // con el slice quitamos el #( primer caracter ) del slug
+        templateWhatsappApiRequest.template.components[1].parameters[0].text = ( first_chart == '/') ? slug.slice(1) : slug; //slug;  // con el slice quitamos el #( primer caracter ) del slug
 
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
@@ -98,11 +98,11 @@ export class WhatsappController {
 
 // ###################################################################################
 
-  // @Get()
-  // findAll( @Query() paginationDto:PaginationDto ) {
-  //   // console.log(paginationDto)
-  //   return this.chatService.findAll( paginationDto );
-  // }
+  @Get('list-messages')
+  findAll( @Query() paginationDto:PaginationDto ) {
+    // console.log(paginationDto)
+    return this.chatService.findAll( paginationDto );
+  }
 
 
   // @Get(':term')
