@@ -104,6 +104,12 @@ export class WhatsappController {
     return this.chatService.findAll( paginationDto );
   }
 
+  @Get('length-messages')
+  count(@Query() paginationDto:PaginationDto) {
+    console.log(this.chatService.findLengthMessages())
+    return this.chatService.findLengthMessages();
+  }
+
 
   // @Get(':term')
   // findOne(@Param( 'term' ) term: string) {

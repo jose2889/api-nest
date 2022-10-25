@@ -176,6 +176,12 @@ export class WhatsappService {
 
   }
 
+  async findLengthMessages() {
+    const messagesLength = await this.chatRepository.count();
+    return await messagesLength;
+  }
+
+
   async findAll( paginationDto: PaginationDto ) {
 
     const { limit , offset } = paginationDto;
