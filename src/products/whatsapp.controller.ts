@@ -106,7 +106,7 @@ export class WhatsappController {
 
   @Get('length-messages')
   count(@Query() paginationDto:PaginationDto) {
-    console.log(this.chatService.findLengthMessages())
+    //console.log(this.chatService.findLengthMessages())
     return this.chatService.findLengthMessages();
   }
 
