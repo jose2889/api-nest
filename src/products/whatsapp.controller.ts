@@ -29,11 +29,11 @@ export class WhatsappController {
      
     const { phoneNumber, slug, date, businessName} = request; 
 
-    console.log('############# Request ############:', request);
-    console.log('############# Slug ############:', request.slug);
+    // console.log('############# Request ############:', request);
+    // console.log('############# Slug ############:', request.slug);
     let first_chart=slug.slice(0, 1);
     
-    console.log('############# Slug ############:',( first_chart == '/') ? slug.slice(1) : slug );
+    // console.log('############# Slug ############:',( first_chart == '/') ? slug.slice(1) : slug );
 
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
