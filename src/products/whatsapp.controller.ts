@@ -28,6 +28,7 @@ export class WhatsappController {
   notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
      
     const { phoneNumber, slug, date, businessName} = request; 
+    console.log('############# Templete notification ############:', process.env.TEMPLATE_RESERVATION_NOTIFICATION_QA);
 
     // console.log('############# Request ############:', request);
     // console.log('############# Slug ############:', request.slug);
@@ -38,7 +39,7 @@ export class WhatsappController {
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
 
-        templateWhatsappApiRequest.template.name = process.env.TEMLATE_RESERVATION_NOTIFICATION_QA;//"notification_reservation_keoagenda";//"notification_reservation_client";//"notificacion_reservacion_cliente"; 
+        templateWhatsappApiRequest.template.name = process.env.TEMPLATE_RESERVATION_NOTIFICATION_QA;//"notification_reservation_keoagenda";//"notification_reservation_client";//"notificacion_reservacion_cliente"; 
         templateWhatsappApiRequest.to = phoneNumber;
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
@@ -57,12 +58,13 @@ export class WhatsappController {
   @Post('confirmationsws')
   confirmationsWhatsapp(@Body() request: CreateConfirmationDto, @Res() response) {
       // this.logger.warn('consume-template');
+      console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION_QA);
      
       const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken} = request; 
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
       templateWhatsappApiRequest = dataApiRequest;
           
-      templateWhatsappApiRequest.template.name = process.env.TEMLATE_RESERVATION_CONFIRMATION;//"confirmation_reservation_keoagenda";
+      templateWhatsappApiRequest.template.name = process.env.TEMPLATE_RESERVATION_CONFIRMATION;//"confirmation_reservation_keoagenda";
       templateWhatsappApiRequest.to = phoneNumber;
       templateWhatsappApiRequest.template.components[0].parameters[0].text = customerName;
       templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
