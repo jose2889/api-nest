@@ -59,4 +59,13 @@ export class CreateConfirmationDto {
     @MinLength(1)
     phoneNumber: string; 
 
+    @ApiProperty({
+        example: 'business/roslin-spa',
+        description: 'Nombre slug del negocio con el prefijo business',
+    })
+    @ApiProperty()
+    @IsString()
+    @MinLength(1)
+    slug: string;
+
 }

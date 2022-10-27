@@ -60,7 +60,7 @@ export class WhatsappController {
       // this.logger.warn('consume-template');
       console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION);
      
-      const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken} = request; 
+      const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken, slug} = request; 
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
       templateWhatsappApiRequest = dataApiRequest;
           
