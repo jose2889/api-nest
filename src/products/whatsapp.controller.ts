@@ -39,7 +39,7 @@ export class WhatsappController {
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
 
-        templateWhatsappApiRequest.template.name = process.env.TEMPLATE_RESERVATION_NOTIFICATION_QA;//"notification_reservation_keoagenda";//"notification_reservation_client";//"notificacion_reservacion_cliente"; 
+        templateWhatsappApiRequest.template.name = process.env.TEMPLATE_RESERVATION_NOTIFICATION;//"notification_reservation_keoagenda";//"notification_reservation_client";//"notificacion_reservacion_cliente"; 
         templateWhatsappApiRequest.to = phoneNumber;
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
@@ -58,7 +58,7 @@ export class WhatsappController {
   @Post('confirmationsws')
   confirmationsWhatsapp(@Body() request: CreateConfirmationDto, @Res() response) {
       // this.logger.warn('consume-template');
-      console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION_QA);
+      console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION);
      
       const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken} = request; 
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
