@@ -28,7 +28,7 @@ export class WhatsappController {
   notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
      
     const { phoneNumber, slug, date, businessName} = request; 
-    console.log('############# Templete notification ############:', process.env.TEMPLATE_RESERVATION_NOTIFICATION_QA);
+    console.log('############# Templete notification ############:', process.env.TEMPLATE_RESERVATION_NOTIFICATION);
 
     // console.log('############# Request ############:', request);
     // console.log('############# Slug ############:', request.slug);
