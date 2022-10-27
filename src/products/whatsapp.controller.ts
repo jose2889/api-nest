@@ -60,7 +60,7 @@ export class WhatsappController {
       // this.logger.warn('consume-template');
       console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION);
      
-      const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken} = request; 
+      const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken, slug} = request; 
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
       templateWhatsappApiRequest = dataApiRequest;
           
@@ -72,7 +72,7 @@ export class WhatsappController {
       templateWhatsappApiRequest.template.components[1].parameters[0].payload = confirmToken;   
       templateWhatsappApiRequest.template.components[2].parameters[0].payload = cancelToken;   
       console.log("wsApiReques ", dataApiRequest);
-
+      console.log("link para reagendar ", slug);
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
       }).catch((err) => {
