@@ -30,12 +30,8 @@ export class WhatsappController {
     const { phoneNumber, slug, date, businessName} = request; 
     console.log('############# Templete notification ############:', process.env.TEMPLATE_RESERVATION_NOTIFICATION);
 
-    // console.log('############# Request ############:', request);
-    // console.log('############# Slug ############:', request.slug);
     let first_chart=slug.slice(0, 1);
     
-    // console.log('############# Slug ############:',( first_chart == '/') ? slug.slice(1) : slug );
-
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
 
@@ -130,4 +126,5 @@ export class WhatsappController {
   // remove(@Param('id', ParseUUIDPipe ) id: string) {
   //   return this.chatService.remove( id );
   // }
+  
 }

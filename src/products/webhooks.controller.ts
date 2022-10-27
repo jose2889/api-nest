@@ -60,6 +60,7 @@ export class Webhookontroller {
         //   },
         //   headers: { "Content-Type": "application/json" },
         // });
+
         console.log("se guarada el objeto ", JSON.stringify(createProductDto));
         return this.chatService.createWebhook(createProductDto);
       }
@@ -77,9 +78,6 @@ export class Webhookontroller {
    *This will be the Verify Token value when you set up webhook
   **/
    const verify_token = process.env.VERIFY_TOKEN;
-
-   // Parse params from the webhook verification request
-
 
   //  let mode = req.query["hub.mode"];
   //  let token = req.query["hub.verify_token"];
