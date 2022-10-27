@@ -67,5 +67,4 @@ export class CreateConfirmationDto {
     @IsString()
     @MinLength(1)
     slug: string;
-
 }
