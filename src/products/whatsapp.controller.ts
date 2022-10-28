@@ -8,6 +8,8 @@ import { dataApiRequest, dataNotificationApiRequest, WhatsappCloudApiRequest } f
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateConfirmationDto } from './dto/confirmation.dto';
 import { CreateNotificationDto } from './dto/notification.dto';
+import { CreateApiWSDto } from './dto/create-api-ws.dto';
+import { response } from 'express';
 
 @ApiTags('Chats')
 @Controller('chat')
@@ -26,15 +28,18 @@ export class WhatsappController {
   notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
     
     const { phoneNumber, slug, date, businessName} = request; 
+    console.log('############# Templete notification ############:', process.env.TEMPLATE_RESERVATION_NOTIFICATION);
+
+    let first_chart=slug.slice(0, 1);
     
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
 
-        templateWhatsappApiRequest.template.name = "notificacion_reserva_cliente"; 
+        templateWhatsappApiRequest.template.name = process.env.TEMPLATE_RESERVATION_NOTIFICATION;//"notification_reservation_keoagenda";//"notification_reservation_client";//"notificacion_reservacion_cliente"; 
         templateWhatsappApiRequest.to = phoneNumber;
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
-        templateWhatsappApiRequest.template.components[1].parameters[0].text = slug;   
+        templateWhatsappApiRequest.template.components[1].parameters[0].text = ( first_chart == '/') ? slug.slice(1) : slug; //slug;  // con el slice quitamos el #( primer caracter ) del slug
 
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
@@ -49,12 +54,13 @@ export class WhatsappController {
   @Post('confirmationsws')
   confirmationsWhatsapp(@Body() request: CreateConfirmationDto, @Res() response) {
       // this.logger.warn('consume-template');
+      console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION);
      
-      const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken} = request; 
+      const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken, slug} = request; 
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
       templateWhatsappApiRequest = dataApiRequest;
           
-      templateWhatsappApiRequest.template.name = "confirmation_reservation"; // "confirmacion_reserva"; 
+      templateWhatsappApiRequest.template.name = process.env.TEMPLATE_RESERVATION_CONFIRMATION;//"confirmation_reservation_keoagenda";
       templateWhatsappApiRequest.to = phoneNumber;
       templateWhatsappApiRequest.template.components[0].parameters[0].text = customerName;
       templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
@@ -62,7 +68,7 @@ export class WhatsappController {
       templateWhatsappApiRequest.template.components[1].parameters[0].payload = confirmToken;   
       templateWhatsappApiRequest.template.components[2].parameters[0].payload = cancelToken;   
       console.log("wsApiReques ", dataApiRequest);
-
+      console.log("link para reagendar ", slug);
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
       }).catch((err) => {
@@ -70,12 +76,37 @@ export class WhatsappController {
       })
   }
 
- 
-  // @Get()
-  // findAll( @Query() paginationDto:PaginationDto ) {
-  //   // console.log(paginationDto)
-  //   return this.chatService.findAll( paginationDto );
-  // }
+ // ###################Creacion del POST de register APIs Ws##########################
+ // ############################### Edgardo Lugo #####################################
+
+  @Post('registerapiwsclient')
+  createRegisterApiWsDB(
+    @Body() createRegisterApiWs:CreateApiWSDto)
+    {
+    
+
+        return  this.chatService.CreateRegisterApiWs(createRegisterApiWs);
+
+        // try {
+
+        //     }
+        // } catch (error) {
+	
+    }
+
+// ###################################################################################
+
+  @Get('list-messages')
+  findAll( @Query() paginationDto:PaginationDto ) {
+    // console.log(paginationDto)
+    return this.chatService.findAll( paginationDto );
+  }
+
+  @Get('length-messages')
+  count(@Query() paginationDto:PaginationDto) {
+    //console.log(this.chatService.findLengthMessages())
+    return this.chatService.findLengthMessages();
+  }
 
 
   // @Get(':term')
@@ -95,4 +126,5 @@ export class WhatsappController {
   // remove(@Param('id', ParseUUIDPipe ) id: string) {
   //   return this.chatService.remove( id );
   // }
+  
 }
