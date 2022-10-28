@@ -23,7 +23,7 @@ import { Apiws } from './entities/api_ws.entity';
 export class WhatsappService {
 
   private readonly logger = new Logger('WhatsappService');
-  baseUrl = BASEURL.baseUrlWhatsappCloudApiProd;
+  baseUrl = process.env.BASE_URL_PROD; //BASEURL.baseUrlWhatsappCloudApiProd;
   urlPlanner = process.env.URLPLANNER; 
   
   // date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
