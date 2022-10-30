@@ -72,11 +72,11 @@ export class WhatsappService {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
         console.log("respuesta exitosa de planner", data.statusText)
         console.log("cuerpo de la respuesta", data.data)
-        let retmassage = data.data.retmessage;
-        if (data.statusText === "OK" && retmassage === "1") {
+        let retMessage = data.data.retMessage;
+        if (data.statusText === "OK" && retMessage === "1") {
              this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
         }
-        if (data.statusText === "OK" && retmassage === "3") {
+        if (data.statusText === "OK" && retMessage === "3") {
              this.request.text.body = "Su reserva ha sido cancelada con éxito. Gracias por su respuesta.";
         }
             this.httpService.post(this.baseUrl, this.request).subscribe(res => {
