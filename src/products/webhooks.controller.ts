@@ -102,7 +102,7 @@ export class Webhookontroller {
   testUpdate(@Res() res, @Query( 'token' ) token: string) {
      console.log("datos por parametro ", token)
      
-     let response = this.chatService.updateReservation(token, "5695785872");
+     let response = this.chatService.updateReservation(token, process.env.TEST_PHONE_NUMBER);
 console.log(response)
    res.status(201).send(response);
   }

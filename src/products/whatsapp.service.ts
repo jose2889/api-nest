@@ -63,7 +63,9 @@ export class WhatsappService {
     let body = {
       date: dayjs().format("YYYY-MM-DD HH:mm")
     }
+    console.log("body ", body);
     let data; 
+
 
   
      try {
