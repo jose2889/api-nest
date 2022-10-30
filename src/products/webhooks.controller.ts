@@ -5,11 +5,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { json } from 'stream/consumers';
 
 @ApiTags('Webhooks')
-@Controller()
+@Controller('webhook')
 export class Webhookontroller {
   constructor(private readonly chatService: WhatsappService) {}
 
-  @Post('webhook')
+  @Post()
   createWebhook(@Body() data:any) {
 
     console.log("este es el objeto",JSON.stringify(data));
@@ -100,12 +100,12 @@ export class Webhookontroller {
 
   @Post('test')
   testUpdate(@Res() res, @Query( 'token' ) token: string, @Body() body: any) {
-     console.log("datos por parametro ", token)
-     console.log("datos por body ", body)
-     
-     let response = this.chatService.updateReservation(token, body.phone_number);
-console.log(response)
-   res.status(201).send(response);
+    console.log("datos por parametro ", token)
+    console.log("datos por body ", body)
+    
+    let response = this.chatService.updateReservation(token, body.phone_number);
+    console.log(response)
+    res.status(201).send(response);
   }
   
 }
