@@ -98,11 +98,12 @@ export class Webhookontroller {
    res.status(400).send("Los datos no son validos");
   }
 
-  @Get('test')
-  testUpdate(@Res() res, @Query( 'token' ) token: string) {
+  @Post('test')
+  testUpdate(@Res() res, @Query( 'token' ) token: string, @Body() body: any) {
      console.log("datos por parametro ", token)
+     console.log("datos por body ", body)
      
-     let response = this.chatService.updateReservation(token, process.env.TEST_PHONE_NUMBER);
+     let response = this.chatService.updateReservation(token, body.phone_number);
 console.log(response)
    res.status(201).send(response);
   }
