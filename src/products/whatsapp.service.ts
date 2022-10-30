@@ -70,9 +70,10 @@ export class WhatsappService {
   
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
-        console.log("respuesta exitosa de planner", data.statusText)
-        console.log("cuerpo de la respuesta", data.data)
+        console.log("respuesta exitosa de planner", data.statusText);
+        // console.log("cuerpo de la respuesta", data.data);
         let retMessage = data.data.retMessage;
+        console.log("retMessage", retMessage);
         if (data.statusText === "OK" && retMessage === "1") {
              this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
         }
@@ -87,9 +88,9 @@ export class WhatsappService {
             }); 
       },
       (error) => {
-        console.log("ocurrio un error en la respuesta de planner y no se cancelo", error.response)
-        console.log(error.response.status)
-        console.log(error.response.statusText)
+        console.log("ocurrio un error en la respuesta de planner y no se cancelo", error.response);
+        console.log(error.response.status);
+        console.log(error.response.statusText);
         this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("respuesta exitosa del whatsapp", res.statusText); 
