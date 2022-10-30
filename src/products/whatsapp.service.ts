@@ -71,7 +71,7 @@ export class WhatsappService {
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
         console.log("respuesta exitosa de planner", data.statusText)
-        console.log("cuerpo de la respuesta", data.statusText)
+        console.log("cuerpo de la respuesta", data)
 
         if (data.statusText === "OK"){
              this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
