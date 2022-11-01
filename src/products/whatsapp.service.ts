@@ -92,7 +92,7 @@ export class WhatsappService {
             }); 
       },
       (error) => {
-        console.log("ocurrio un error en la respuesta de planner y no se cancelo", error.response);
+        // console.log("ocurrio un error en la respuesta de planner y no se cancelo", error.response);
         console.log(error.response.status);
         console.log(error.response.statusText);
 
