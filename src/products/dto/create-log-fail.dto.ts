@@ -3,9 +3,9 @@ import {  IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateLogFailDto {
     
-    @IsString()
-    @IsOptional()
-    error_response?: string;
+    // @IsString()
+    // @IsOptional()
+    // error_response?: string;
 
     @IsString()
     @IsOptional()

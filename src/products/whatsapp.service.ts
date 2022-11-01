@@ -103,7 +103,7 @@ export class WhatsappService {
           retcode: data.data.retCode,
           token: token,
           phone_number: phone_number,
-          error_response: error.response,
+          // error_response: error.response,
         };
         this.CreateRegisterErrorResponse(logFail);
         // *************************************************
