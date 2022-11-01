@@ -105,7 +105,8 @@ export class WhatsappService {
           phone_number: phone_number.toString(),
           error_response: error.response.toString(),
         };
-        this.CreateRegisterErrorResponse(logFail);
+        console.log('Datos a guardar en la tabla: ', logFail);
+        this.CreateRegisterLogFail(logFail);
         // *************************************************
 
         this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."
@@ -181,12 +182,12 @@ export class WhatsappService {
   // ############### Guardado de los datos en la tabla de las Error Response##################
   // ############################### Edgardo Lugo #####################################
 
-  async CreateRegisterErrorResponse(createErrorResponseDto:CreateLogFailDto){
+  async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
     try {
-      const logFail = this.logFailRepository.create(createErrorResponseDto);
+      const logFail = this.logFailRepository.create(createLogFaileDto);
       logFail.create_data = Date.now().toString();
       await this.logFailRepository.save(logFail);
-      console.log(logFail);
+      console.log('Datos guardados: ',logFail);
       return true;
     } catch (error) {
       this.handleDBExceptions(error)
