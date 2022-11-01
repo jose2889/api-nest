@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { CreateLogFailDto } from './dto/create-log-fail.dto';
 
 import { Chat } from './entities/chat.entity';
 import { validate as isUUID } from 'uuid';
@@ -17,6 +18,7 @@ import { BASEURL } from 'src/common/api-resource';
 import { AxiosResponse } from 'axios'
 import * as dayjs from 'dayjs'
 import { Apiws } from './entities/api_ws.entity';
+import { LogFail } from './entities/log-fail.entity';
 
 
 @Injectable()
@@ -46,6 +48,8 @@ export class WhatsappService {
     private readonly httpService:HttpService,
     @InjectRepository(Apiws)
     private readonly apiWsRepository: Repository<Apiws>, //variable para regsitar API Ws
+    @InjectRepository(LogFail)
+    private readonly logFailRepository: Repository<LogFail>, //variable para regsitar API Ws
 
   ) {}
 
@@ -91,6 +95,19 @@ export class WhatsappService {
         console.log("ocurrio un error en la respuesta de planner y no se cancelo", error.response);
         console.log(error.response.status);
         console.log(error.response.statusText);
+
+        // *************************************************
+        let logFail = {
+          status_code: error.response.status,
+          status_text: error.response.statusText,
+          retcode: data.data.retCode,
+          token: token,
+          phone_number: phone_number,
+          error_response: error.response,
+        };
+        this.CreateRegisterErrorResponse(logFail);
+        // *************************************************
+
         this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("respuesta exitosa del whatsapp", res.statusText); 
@@ -159,6 +176,26 @@ export class WhatsappService {
   }
 
   //################################################################################
+
+
+  // ############### Guardado de los datos en la tabla de las Error Response##################
+  // ############################### Edgardo Lugo #####################################
+
+  async CreateRegisterErrorResponse(createErrorResponseDto:CreateLogFailDto){
+    try {
+      const logFail = this.logFailRepository.create(createErrorResponseDto);
+      logFail.create_data = Date.now().toString();
+      await this.logFailRepository.save(logFail);
+      console.log(logFail);
+      return true;
+    } catch (error) {
+      this.handleDBExceptions(error)
+      return false;
+    }
+  }
+
+  //################################################################################
+
 
   async createWebhook(createProductDto: CreateChatDto) {
     

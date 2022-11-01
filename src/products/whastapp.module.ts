@@ -8,6 +8,7 @@ import { HttpModule } from '@nestjs/axios';
 import { HttpConfigService } from 'src/httpService.config';
 import { Webhookontroller } from './webhooks.controller';
 import { Apiws } from './entities/api_ws.entity';
+import { LogFail } from './entities/log-fail.entity';
 
 
 @Module({
@@ -16,7 +17,7 @@ import { Apiws } from './entities/api_ws.entity';
   imports: [HttpModule.registerAsync({
     useClass: HttpConfigService,
   }),
-    TypeOrmModule.forFeature([ Chat, Apiws ])
+    TypeOrmModule.forFeature([ Chat, Apiws, LogFail ])
   ]
 })
 export class ProductsModule {}
