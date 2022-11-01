@@ -98,12 +98,12 @@ export class WhatsappService {
 
         // *************************************************
         let logFail = {
-          status_code: error.response.status,
-          status_text: error.response.statusText,
-          retcode: data.data.retCode,
-          token: token,
-          phone_number: phone_number,
-          // error_response: error.response,
+          status_code: error.response.status.toString(),
+          status_text: error.response.statusText.toString(),
+          retcode: data.data.retCode.toString(),
+          token: token.toString(),
+          phone_number: phone_number.toString(),
+          error_response: error.response.toString(),
         };
         this.CreateRegisterErrorResponse(logFail);
         // *************************************************

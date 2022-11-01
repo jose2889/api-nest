@@ -9,11 +9,11 @@ export class LogFail{
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    // @Column({
-    //     type: 'text',
-    //     unique:true,
-    // })
-    // error_response: string;
+    @Column({
+        type: 'text',
+        unique:true,
+    })
+    error_response: string;
 
     @Column({
         type: 'text',
