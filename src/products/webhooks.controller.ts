@@ -100,8 +100,8 @@ export class Webhookontroller {
 
   @Post('test')
   testUpdate(@Res() res, @Query( 'token' ) token: string, @Body() body: any) {
-    console.log("datos por parametro ", token)
-    console.log("datos por body ", body)
+    console.log("datos por parametro: ", token)
+    console.log("datos por body: ", body)
     
     let response = this.chatService.updateReservation(token, body.phone_number);
     console.log(response)
