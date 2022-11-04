@@ -159,8 +159,8 @@ export class WhatsappService {
     }
   }
 
-// ############### Guardado de los datos en la tabla de las APIs Ws##################
-// ############################### Edgardo Lugo #####################################
+// ################# Guardado de los datos en la tabla de las APIs Ws###################
+// ############################### Edgardo Lugo ########################################
 
   async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
     try {
@@ -174,10 +174,10 @@ export class WhatsappService {
     }
   }
 
-  //################################################################################
+  //###################################################################################
 
 
-  // ############### Guardado de los datos en la tabla de las Error Response##################
+  // ############# Guardado de los datos en la tabla de las Error Response#############
   // ############################### Edgardo Lugo #####################################
 
   // async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
@@ -193,7 +193,7 @@ export class WhatsappService {
   //   }
   // }
 
-  //################################################################################
+  //###################################################################################
 
 
   async createWebhook(createProductDto: CreateChatDto) {
