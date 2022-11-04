@@ -95,16 +95,16 @@ export class WhatsappService {
         console.log(error.response.statusText);
 
         // *************************************************
-        // let logFail = {
-        //   status_code: error.response.status.toString(),
-        //   status_text: error.response.statusText.toString(),
-        //   retcode: data.data.retCode.toString(),
-        //   token: token.toString(),
-        //   phone_number: phone_number.toString(),
-        //   error_response: error.response.toString(),
-        // };
-        // console.log('Datos a guardar en la tabla: ', logFail);
-        // this.CreateRegisterLogFail(logFail);
+        let logFail = {
+          status_code: error.response.status,
+          status_text: error.response.statusText,
+          retcode: data.data.retCode,
+          token: token,
+          phone_number: phone_number,
+          error_response: JSON.stringify(error.response),
+        };
+        console.log('Datos a guardar en la tabla: ', logFail);
+        this.CreateRegisterLogFail(logFail);
         // *************************************************
 
         this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."
@@ -180,18 +180,18 @@ export class WhatsappService {
   // ############### Guardado de los datos en la tabla de las Error Response##################
   // ############################### Edgardo Lugo #####################################
 
-  // async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
-  //   try {
-  //     const logFail = this.logFailRepository.create(createLogFaileDto);
-  //     logFail.create_data = Date.now().toString();
-  //     await this.logFailRepository.save(logFail);
-  //     console.log('Datos guardados: ',logFail);
-  //     return true;
-  //   } catch (error) {
-  //     this.handleDBExceptions(error)
-  //     return false;
-  //   }
-  // }
+  async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
+    try {
+      const logFail = this.logFailRepository.create(createLogFaileDto);
+      logFail.create_data = Date.now().toString();
+      await this.logFailRepository.save(logFail);
+      console.log('Datos guardados: ',logFail);
+      return true;
+    } catch (error) {
+      this.handleDBExceptions(error)
+      return false;
+    }
+  }
 
   //################################################################################
 
