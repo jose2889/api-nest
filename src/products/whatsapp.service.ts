@@ -186,7 +186,7 @@ export class WhatsappService {
       logFail.create_data = Date.now().toString();
       await this.logFailRepository.save(logFail);
       console.log('Datos guardados: ',logFail);
-      return true;
+      return {logFail};
     } catch (error) {
       this.handleDBExceptions(error)
       return false;
