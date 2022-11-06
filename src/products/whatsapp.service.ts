@@ -153,7 +153,7 @@ export class WhatsappService {
         console.log("######## Status Text: ",errorResponse.statusText);
         console.log("######## ConfigMethod: ",errorResponse.config.method);
         console.log("######## ConfigURL: ",errorResponse.config.url);
-        console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
+        console.log("######## ConfigData: (body date) ", errorResponse.config.data.date);
 
         // *************************************************
         const logFail = {
