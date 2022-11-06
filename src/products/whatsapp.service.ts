@@ -103,19 +103,21 @@ export class WhatsappService {
       (error) => {
         let errorResponse = error.response;
         // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
+        console.log("###################### Error de solicitud ###################### ");
+        
         if (error.response.statusText === "Not Acceptable"){
           this.request.text.body = "Su reserva no ha sido procesada. Por favor contacte con el personal de keoPlanner";
-          console.log("Error de solicitud! Not Acceptable: Token => ", token);
+          console.log("######## Error de solicitud! Not Acceptable: Token => ", token);
         } else {
           this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         }
-        console.log("########### Error de solicitud ###########");
-        console.log("########### Status: ", errorResponse.status);
-        console.log("########### Data: ",errorResponse.data);
-        console.log("########### Status Text: ",errorResponse.statusText);
-        console.log("########### ConfigMethod: ",errorResponse.config.method);
-        console.log("########### ConfigURL: ",errorResponse.config.url);
-        console.log("########### ConfigData: ",errorResponse.config.data);
+        
+        console.log("######## Status: ", errorResponse.status);
+        console.log("######## Data: ",errorResponse.data);
+        console.log("######## Status Text: ",errorResponse.statusText);
+        console.log("######## ConfigMethod: ",errorResponse.config.method);
+        console.log("######## ConfigURL: ",errorResponse.config.url);
+        console.log("######## ConfigData: (body date) ",errorResponse.config.data);
 
         // *************************************************
         // let logFail = {
