@@ -88,10 +88,10 @@ export class WhatsappService {
           console.log("respuesta de planner OK: Cancel => ",token);
         }
 
-        if (data.statusText === "Not Acceptable"){
-          this.request.text.body = "Su reserva no ha sido procesada.";
-          console.log("respuesta de planner Not Acceptable: Token => ", token , "Status: ", data.status);
-        }
+        // if (data.statusText === "Not Acceptable"){
+        //   this.request.text.body = "Su reserva no ha sido procesada.";
+        //   console.log("respuesta de planner Not Acceptable: Token => ", token , "Status: ", data.status);
+        // }
 
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("respuesta exitosa del whatsapp", res.statusText); 
@@ -103,10 +103,12 @@ export class WhatsappService {
       (error) => {
         let errorResponse = error.response;
         // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
-        // if (error.response.statusText === "Not Acceptable"){
-        //   this.request.text.body = "Su reserva no ha sido procesada.";
-        //   console.log("Error de solicitud! Not Acceptable: Token => ", token);
-        // }
+        if (error.response.statusText === "Not Acceptable"){
+          this.request.text.body = "Su reserva no ha sido procesada.";
+          console.log("Error de solicitud! Not Acceptable: Token => ", token);
+        } else {
+          this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
+        }
         console.log(errorResponse.status);
         console.log(errorResponse.statusText);
 
@@ -123,7 +125,7 @@ export class WhatsappService {
         // this.CreateRegisterLogFail(logFail);
         // *************************************************
 
-        this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
+        // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("respuesta exitosa del whatsapp", res.statusText); 
         },
