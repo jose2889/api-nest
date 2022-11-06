@@ -53,7 +53,43 @@ export class WhatsappService {
 
   ) {}
 
-  
+// ################# Guardado de los datos en la tabla de las APIs Ws###################
+// ############################### Edgardo Lugo ########################################
+
+  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
+    try {
+      const apiWs = this.apiWsRepository.create(createApiWsDot);
+      apiWs.create_data = Date.now().toString();
+      await this.apiWsRepository.save(apiWs);
+      console.log(apiWs);
+      return {apiWs};
+    } catch (error) {
+      this.handleDBExceptions(error)
+    }
+  }
+
+  //###################################################################################
+
+
+  // ############# Guardado de los datos en la tabla de las Error Response#############
+  // ############################### Edgardo Lugo #####################################
+
+  async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
+    try {
+      console.log('Datos a guardar: ', createLogFaileDto);
+      let logFail = this.logFailRepository.create(createLogFaileDto);
+      logFail.create_data = Date.now().toString();
+      await this.logFailRepository.save(logFail);
+      console.log('Datos guardados: ',logFail);
+      return true;
+    } catch (error) {
+      this.handleDBExceptions(error)
+      return false;
+    }
+  }
+
+  //###################################################################################
+
   async sendMessage(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     console.log(data);
@@ -120,16 +156,16 @@ export class WhatsappService {
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
 
         // *************************************************
-        let logFail = {
-          status_code: errorResponse.status.toString(),
-          status_text: errorResponse.statusText,
-          retcode: data.data.retCode.toString(),
-          token: token,
-          phone_number: phone_number.toString(),
-          config_method: errorResponse.config.method,
-          config_url: errorResponse.config.url,
-          config_data: JSON.stringify(errorResponse.config.data),
-        };
+        const logFail = {
+          status_code : errorResponse.status.toString(),
+          status_text : errorResponse.statusText,
+          retcode : data.data.retCode.toString(),
+          token : token,
+          phone_number : phone_number.toString(),
+          config_method : errorResponse.config.method,
+          config_url : errorResponse.config.url,
+          config_data : JSON.stringify(errorResponse.config.data),
+        }
         console.log('Datos a guardar en la tabla: ', logFail);
         this.CreateRegisterLogFail(logFail);
         // *************************************************
@@ -185,44 +221,6 @@ export class WhatsappService {
       this.handleDBExceptions(error);
     }
   }
-
-// ################# Guardado de los datos en la tabla de las APIs Ws###################
-// ############################### Edgardo Lugo ########################################
-
-  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
-    try {
-      const apiWs = this.apiWsRepository.create(createApiWsDot);
-      apiWs.create_data = Date.now().toString();
-      await this.apiWsRepository.save(apiWs);
-      console.log(apiWs);
-      return {apiWs};
-    } catch (error) {
-      this.handleDBExceptions(error)
-    }
-  }
-
-  //###################################################################################
-
-
-  // ############# Guardado de los datos en la tabla de las Error Response#############
-  // ############################### Edgardo Lugo #####################################
-
-  async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
-    try {
-      console.log('Datos a guardar: ', createLogFaileDto);
-      let logFail = this.logFailRepository.create(createLogFaileDto);
-      logFail.create_data = Date.now().toString();
-      await this.logFailRepository.save(logFail);
-      console.log('Datos guardados: ',logFail);
-      return true;
-    } catch (error) {
-      this.handleDBExceptions(error)
-      return false;
-    }
-  }
-
-  //###################################################################################
-
 
   async createWebhook(createProductDto: CreateChatDto) {
     

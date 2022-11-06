@@ -13,7 +13,7 @@ export class CreateLogFailDto {
 
     @IsString()
     @IsOptional()
-    token: string;
+    token?: string;
 
     @IsString()
     @IsOptional()
