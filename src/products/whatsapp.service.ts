@@ -163,7 +163,7 @@ export class WhatsappService {
           "token": token,
           "phone_number": phone_number.toString(),
           "config_method": errorResponse.config.method,
-          "config_data": JSON.stringify(errorResponse.config.data),
+          "config_data": errorResponse.config.data,
         }
         console.log('Datos a guardar en la tabla: ', logFail);
         await this.CreateRegisterLogFail(logFail);
