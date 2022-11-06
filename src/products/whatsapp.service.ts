@@ -102,11 +102,11 @@ export class WhatsappService {
       },
       (error) => {
         let errorResponse = error.response;
-        console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
-        if (error.response.statusText === "Not Acceptable"){
-          this.request.text.body = "Su reserva no ha sido procesada.";
-          console.log("Error de solicitud! Not Acceptable: Token => ", token);
-        }
+        // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
+        // if (error.response.statusText === "Not Acceptable"){
+        //   this.request.text.body = "Su reserva no ha sido procesada.";
+        //   console.log("Error de solicitud! Not Acceptable: Token => ", token);
+        // }
         console.log(errorResponse.status);
         console.log(errorResponse.statusText);
 
