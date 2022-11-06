@@ -142,7 +142,7 @@ export class WhatsappService {
         console.log("###################### Error de solicitud ###################### ");
         
         if (error.response.statusText === "Not Acceptable"){
-          this.request.text.body = "Su reserva no ha sido procesada. Por favor contacte con el personal de keoPlanner";
+          this.request.text.body = "Su reserva no ha sido procesada. Por favor contacte con el personal de soporte";
           console.log("######## Error de solicitud! Not Acceptable: Token => ", token);
         } else {
           this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
