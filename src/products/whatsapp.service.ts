@@ -112,20 +112,20 @@ export class WhatsappService {
           this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         }
         
-        console.log("######## Status: ", errorResponse.status);
-        console.log("######## Data: ",errorResponse.data);
+        console.log("######## Status: ", errorResponse.status.toString());
+        console.log("######## Data: ", JSON.stringify(errorResponse.data));
         console.log("######## Status Text: ",errorResponse.statusText);
         console.log("######## ConfigMethod: ",errorResponse.config.method);
         console.log("######## ConfigURL: ",errorResponse.config.url);
-        console.log("######## ConfigData: (body date) ",errorResponse.config.data);
+        console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
 
         // *************************************************
         let logFail = {
-          status_code: errorResponse.status,
+          status_code: errorResponse.status.toString(),
           status_text: errorResponse.statusText,
-          retcode: data.data.retCode,
+          retcode: data.data.retCode.toString(),
           token: token,
-          phone_number: phone_number,
+          phone_number: phone_number.toString(),
           config_method: errorResponse.config.method,
           config_url: errorResponse.config.url,
           config_data: JSON.stringify(errorResponse.config.data),
