@@ -76,8 +76,8 @@ export class WhatsappService {
 
   async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
     try {
-      console.log('Datos a guardar: ', createLogFaileDto);
-      let logFail = this.logFailRepository.create(createLogFaileDto);
+      console.log('Ingresa a guardar error');
+      const logFail = this.logFailRepository.create(createLogFaileDto);
       logFail.create_data = Date.now().toString();
       await this.logFailRepository.save(logFail);
       console.log('Datos guardados: ',logFail);
@@ -164,7 +164,7 @@ export class WhatsappService {
           phone_number : phone_number.toString(),
           config_method : errorResponse.config.method,
           config_url : errorResponse.config.url,
-          config_data : JSON.stringify(errorResponse.config.data),
+          config_data : errorResponse.config.data.date,
         }
         console.log('Datos a guardar en la tabla: ', logFail);
         this.CreateRegisterLogFail(logFail);
