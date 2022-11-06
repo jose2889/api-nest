@@ -76,23 +76,39 @@ export class WhatsappService {
         // console.log("cuerpo de la respuesta", data.data);
         let retMessage = data.data.retMessage;
         console.log("retMessage", retMessage);
+
         if (data.statusText === "OK" && retMessage === "1") {
-             this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
+          this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
+          console.log("respuesta de planner OK: Accept => ",token);
+
         }
+
         if (data.statusText === "OK" && retMessage === "3") {
-             this.request.text.body = "Su reserva ha sido cancelada con éxito. Gracias por su respuesta.";
+          this.request.text.body = "Su reserva ha sido cancelada con éxito. Gracias por su respuesta.";
+          console.log("respuesta de planner OK: Cancel => ",token);
         }
-            this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-              console.log("respuesta exitosa del whatsapp", res.statusText); 
-            },
-            (error) => {
-              console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
-            }); 
+
+        if (data.statusText === "Not Acceptable"){
+          this.request.text.body = "Su reserva no ha sido procesada.";
+          console.log("respuesta de planner Not Acceptable: Token => ", token , "Status: ", data.status);
+        }
+
+        this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+          console.log("respuesta exitosa del whatsapp", res.statusText); 
+        },
+        (error) => {
+          console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
+        }); 
       },
       (error) => {
-        console.log("ocurrio un error en la respuesta de planner y no se cancelo", error.response);
-        console.log(error.response.status);
-        console.log(error.response.statusText);
+        let errorResponse = error.response;
+        console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
+        if (error.response.statusText === "Not Acceptable"){
+          this.request.text.body = "Su reserva no ha sido procesada.";
+          console.log("Error de solicitud! Not Acceptable: Token => ", token);
+        }
+        console.log(errorResponse.status);
+        console.log(errorResponse.statusText);
 
         // *************************************************
         // let logFail = {
@@ -107,7 +123,7 @@ export class WhatsappService {
         // this.CreateRegisterLogFail(logFail);
         // *************************************************
 
-        this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."
+        this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("respuesta exitosa del whatsapp", res.statusText); 
         },
