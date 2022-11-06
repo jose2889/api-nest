@@ -81,10 +81,10 @@ export class WhatsappService {
       logFail.create_data = Date.now().toString();
       await this.logFailRepository.save(logFail);
       console.log('Datos guardados: ',logFail);
-      return true;
+      // return true;
     } catch (error) {
       this.handleDBExceptions(error)
-      return false;
+      // return false;
     }
   }
 
@@ -153,16 +153,17 @@ export class WhatsappService {
         console.log("######## Status Text: ",errorResponse.statusText);
         console.log("######## ConfigMethod: ",errorResponse.config.method);
         console.log("######## ConfigURL: ",errorResponse.config.url);
-        console.log("######## ConfigData: (body date) ", errorResponse.config.data.date);
+        console.log("######## ConfigData: (body date) ", errorResponse.config.data);
 
         // *************************************************
         const logFail = {
-          status_code: errorResponse.status.toString(),
-          status_text: errorResponse.statusText,
-          retcode: data.data.retCode.toString(),
-          token: token,
-          phone_number: phone_number.toString(),
-          config_method: errorResponse.config.method,
+          "status_code": errorResponse.status.toString(),
+          "status_text": errorResponse.statusText,
+          "retcode": data.data.retCode.toString(),
+          "token": token,
+          "phone_number": phone_number.toString(),
+          "config_method": errorResponse.config.method,
+          "config_data": JSON.stringify(errorResponse.config.data),
         }
         console.log('Datos a guardar en la tabla: ', logFail);
         await this.CreateRegisterLogFail(logFail);

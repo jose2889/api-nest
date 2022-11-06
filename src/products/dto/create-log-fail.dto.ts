@@ -29,5 +29,9 @@ export class CreateLogFailDto {
 
     @IsString()
     @IsOptional()
+    config_data?: string;
+
+    @IsString()
+    @IsOptional()
     create_data?: string;
 }

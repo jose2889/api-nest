@@ -41,6 +41,11 @@ export class LogFail{
     config_method: string;
 
     @Column({
+        type: 'text'
+    })
+    config_data: string;
+    
+    @Column({
         type: 'text',
         unique:true
     })
