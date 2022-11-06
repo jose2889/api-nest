@@ -80,7 +80,7 @@ export class WhatsappService {
       const logFail = this.logFailRepository.create(createLogFaileDto);
       logFail.create_data = Date.now().toString();
       await this.logFailRepository.save(logFail);
-      console.log('Datos guardados: ',logFail);
+      console.log('Datos del error guardados');
       // return true;
     } catch (error) {
       this.handleDBExceptions(error)
@@ -165,7 +165,7 @@ export class WhatsappService {
           "config_method": errorResponse.config.method,
           "config_data": errorResponse.config.data,
         }
-        console.log('Datos a guardar en la tabla: ', logFail);
+        // console.log('Datos a guardar en la tabla: ', logFail);
         await this.CreateRegisterLogFail(logFail);
         // *************************************************
 
