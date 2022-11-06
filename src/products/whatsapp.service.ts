@@ -136,7 +136,7 @@ export class WhatsappService {
           console.log("########### Ocurrio un error al enviar el mensaje por whatsapp ", error);
         }); 
       },
-      (error) => {
+      async (error) => {
         let errorResponse = error.response;
         // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
         console.log("###################### Error de solicitud ###################### ");
@@ -167,7 +167,7 @@ export class WhatsappService {
           config_data : errorResponse.config.data.date,
         }
         console.log('Datos a guardar en la tabla: ', logFail);
-        this.CreateRegisterLogFail(logFail);
+        await this.CreateRegisterLogFail(logFail);
         // *************************************************
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
