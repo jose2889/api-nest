@@ -11,7 +11,6 @@ export class LogFail{
 
     @Column({
         type: 'text',
-        unique:true
     })
     retcode: string;
 
