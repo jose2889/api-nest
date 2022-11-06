@@ -11,12 +11,6 @@ export class LogFail{
 
     @Column({
         type: 'text',
-        unique:true,
-    })
-    error_response: string;
-
-    @Column({
-        type: 'text',
         unique:true
     })
     retcode: string;
@@ -25,6 +19,11 @@ export class LogFail{
         type: 'text'
     })
     status_code: string;
+
+    @Column({
+        type: 'text'
+    })
+    status_text: string;
 
     @Column({
         type: 'text'
@@ -39,7 +38,17 @@ export class LogFail{
     @Column({
         type: 'text'
     })
-    status_text: string;
+    config_method: string;
+
+    @Column({
+        type: 'text'
+    })
+    config_url: string;
+
+    @Column({
+        type: 'text'
+    })
+    config_data: string;
 
     @Column({
         type: 'text',

@@ -5,10 +5,6 @@ export class CreateLogFailDto {
     
     @IsString()
     @IsOptional()
-    error_response?: string;
-
-    @IsString()
-    @IsOptional()
     retcode?: string;
     
     @IsString()
@@ -26,6 +22,18 @@ export class CreateLogFailDto {
     @IsString()
     @IsOptional()
     status_text?: string; 
+
+    @IsString()
+    @IsOptional()
+    config_method?: string;
+
+    @IsString()
+    @IsOptional()
+    config_data?: string;
+
+    @IsString()
+    @IsOptional()
+    config_url?: string;
 
     @IsString()
     @IsOptional()
