@@ -36,7 +36,6 @@ export class Webhookontroller {
           console.log("la data es ", JSON.stringify(data));
           createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
           createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-          
           this.chatService.updateReservation(createProductDto.payload, from);
         }  
         createProductDto.from = from; 
@@ -46,22 +45,7 @@ export class Webhookontroller {
         createProductDto.timestamp = timestamp; 
         createProductDto.watsapp_id = watsapp_id; 
 
-        // axios({
-        //   method: "POST", // Required, HTTP method, a string, e.g. POST, GET
-        //   url:
-        //     "https://graph.facebook.com/v12.0/" +
-        //     phone_number_id +
-        //     "/messages?access_token=" +
-        //     token,
-        //   data: {
-        //     messaging_product: "whatsapp",
-        //     to: from,
-        //     text: { body: "Ack: " + msg_body },
-        //   },
-        //   headers: { "Content-Type": "application/json" },
-        // });
-
-        console.log("se guarada el objeto ", JSON.stringify(createProductDto));
+        console.log(" ########### Se guarada el objeto ", JSON.stringify(createProductDto));
         return this.chatService.createWebhook(createProductDto);
       }
       

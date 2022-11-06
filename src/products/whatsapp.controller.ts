@@ -28,7 +28,7 @@ export class WhatsappController {
   notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
      
     const { phoneNumber, slug, date, businessName} = request; 
-    console.log('############# Templete notification ############:', process.env.TEMPLATE_RESERVATION_NOTIFICATION);
+    // console.log('############# Templete notification ############:', process.env.TEMPLATE_RESERVATION_NOTIFICATION);
 
     let first_chart=slug.slice(0, 1);
     
@@ -54,8 +54,8 @@ export class WhatsappController {
   @Post('confirmationsws')
   confirmationsWhatsapp(@Body() request: CreateConfirmationDto, @Res() response) {
       // this.logger.warn('consume-template');
-      console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION);
-     
+      // console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION);
+
       const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken, slug} = request; 
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
       templateWhatsappApiRequest = dataApiRequest;
