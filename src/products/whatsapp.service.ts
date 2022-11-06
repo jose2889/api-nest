@@ -157,14 +157,12 @@ export class WhatsappService {
 
         // *************************************************
         const logFail = {
-          status_code : errorResponse.status.toString(),
-          status_text : errorResponse.statusText,
-          retcode : data.data.retCode.toString(),
-          token : token,
-          phone_number : phone_number.toString(),
-          config_method : errorResponse.config.method,
-          config_url : errorResponse.config.url,
-          config_data : errorResponse.config.data.date,
+          status_code: errorResponse.status.toString(),
+          status_text: errorResponse.statusText,
+          retcode: data.data.retCode.toString(),
+          token: token,
+          phone_number: phone_number.toString(),
+          config_method: errorResponse.config.method,
         }
         console.log('Datos a guardar en la tabla: ', logFail);
         await this.CreateRegisterLogFail(logFail);
