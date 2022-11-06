@@ -115,9 +115,6 @@ export class WhatsappService {
         console.log("########### Status Text: ",errorResponse.statusText);
         console.log("########### Headers: ",errorResponse.headers);
         console.log("########### Config: ",errorResponse.config);
-        console.log("########### Request: ",errorResponse.request);
-        console.log("########### Message: ",errorResponse.message);
-        console.log("########### Error: ",errorResponse.error);
 
         // *************************************************
         // let logFail = {
