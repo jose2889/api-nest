@@ -159,7 +159,7 @@ export class WhatsappService {
         const logFail = {
           "status_code": errorResponse.status.toString(),
           "status_text": errorResponse.statusText,
-          "retcode": data.data.retCode.toString(),
+          "retcode": JSON.stringify(errorResponse.data),
           "token": token,
           "phone_number": phone_number.toString(),
           "config_method": errorResponse.config.method,
