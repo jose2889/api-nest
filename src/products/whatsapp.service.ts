@@ -229,8 +229,8 @@ export class WhatsappService {
       <p><strong>Respuesta Planner :</strong> ${ret.retCode} 
         <ul>
           <li><strong>retCode: </strong> ${ret.retCode} </li>
-          <li><strong>retMessage:< /strong> ${ret.retMessage} </li>
-          <li><strong>retObjetc: </strong> ${ret.retObjetc} </li>
+          <li><strong>retMessage: </strong> ${ret.retMessage} </li>
+          <li><strong>retObjetc: </strong> ${JSON.stringify(ret.retObjetc)} </li>
         </ul>
       </p>
       <p><strong>Token: </strong> ${data.token} </p>
