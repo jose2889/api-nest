@@ -221,11 +221,18 @@ export class WhatsappService {
   }
   
   async sendEmailError(data: any) {
+    const ret=JSON.parse(data.retcode)
     const emailMessage = `
-      <h3><strong>Datos del error. </strong></h3>
+      <h2><strong>Datos del error.</strong></h2>
       <p><strong>Status :</strong> ${data.status_code} </p>
       <p><strong>Status Message: </strong> ${data.status_text} </p>
-      <p><strong>Respuesta Planner :</strong> ${data.retcode} </p>
+      <p><strong>Respuesta Planner :</strong> ${ret.retCode} 
+        <ul>
+          <li><strong>retCode: </strong> ${ret.retCode} </li>
+          <li><strong>retMessage:< /strong> ${ret.retMessage} </li>
+          <li><strong>retObjetc: </strong> ${ret.retObjetc} </li>
+        </ul>
+      </p>
       <p><strong>Token: </strong> ${data.token} </p>
       <p><strong>Phone Number: </strong> ${data.phone_number} </p>
       <p><strong>Method: </strong> ${data.config_method} </p>
@@ -234,7 +241,7 @@ export class WhatsappService {
     const emailConfig={
           "to":process.env.EMAIL_TO,
           "subject":"Error de solicitud token: " + data.token,
-          "html":"Datos del error: "+emailMessage
+          "html":emailMessage
         }
     
     try {
