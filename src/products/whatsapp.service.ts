@@ -223,10 +223,10 @@ export class WhatsappService {
   async sendEmailError(data: any) {
     const ret=JSON.parse(data.retcode)
     const emailMessage = `
-      <h2><strong>Datos del error.</strong></h2>
+      <h1><strong>Datos del error.</strong></h1>
       <p><strong>Status :</strong> ${data.status_code} </p>
       <p><strong>Status Message: </strong> ${data.status_text} </p>
-      <h4><><strong>Respuesta Planner.</strong></h3>
+      <h3><strong>Respuesta Planner.</strong></h3>
       <p>
         <ul>
           <li><strong> retCode: </strong> ${ret.retCode} </li>
