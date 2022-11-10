@@ -229,7 +229,7 @@ export class WhatsappService {
       <p><strong>Token: </strong> ${data.token} </p>
       <p><strong>Phone Number: </strong> ${data.phone_number} </p>
       <p><strong>Method: </strong> ${data.config_method} </p>
-      <p><strong>Date: </strong> ${data.config_data} </p>
+      <p><strong>Date: </strong> ${JSON.parse(data.config_data).date} </p>
     `;
     const emailConfig={
           "to":process.env.EMAIL_TO,
