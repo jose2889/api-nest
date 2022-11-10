@@ -226,11 +226,12 @@ export class WhatsappService {
       <h2><strong>Datos del error.</strong></h2>
       <p><strong>Status :</strong> ${data.status_code} </p>
       <p><strong>Status Message: </strong> ${data.status_text} </p>
-      <p><strong>Respuesta Planner :</strong> ${ret.retCode} 
+      <h4><><strong>Respuesta Planner.</strong></h3>
+      <p>
         <ul>
-          <li><strong>retCode: </strong> ${ret.retCode} </li>
-          <li><strong>retMessage: </strong> ${ret.retMessage} </li>
-          <li><strong>retObjetc: </strong> ${JSON.stringify(ret.retObjetc)} </li>
+          <li><strong> retCode: </strong> ${ret.retCode} </li>
+          <li><strong> retMessage: </strong> ${ret.retMessage} </li>
+          <li><strong> retObjetc: </strong> ${JSON.stringify(ret.retObjetc)} </li>
         </ul>
       </p>
       <p><strong>Token: </strong> ${data.token} </p>
