@@ -156,6 +156,7 @@ export class WhatsappService {
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
 
         // *************************************************
+
         const logFail = {
           "status_code": errorResponse.status.toString(),
           "status_text": errorResponse.statusText,
@@ -166,14 +167,24 @@ export class WhatsappService {
           "config_data": errorResponse.config.data,
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
+        // ############# Guardado de los datos en la tabla para Error Response#############
         await this.CreateRegisterLogFail(logFail);
+
+        // ########## Config request para enviar email de error ##########
+        const emailConfig={
+          "to":process.env.EMAIL_TO,
+          "subject":"Error de solicitud token: "+token,
+          "html":"Datos del error: "+JSON.stringify(logFail)
+        }
+        await this.sendEmailError(emailConfig);
+
         // *************************************************
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("respuesta exitosa del whatsapp", res.statusText); 
         },
-        (eror) => {
+        (error) => {
           console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
         }); 
       });
@@ -207,6 +218,20 @@ export class WhatsappService {
     return data;
   }
   
+  async sendEmailError(data: any) {
+    try {
+      const response = await this.httpService.post(process.env.EMAIL_URL, data).subscribe(res => {
+          console.log("Response of Api email: ", res.data); 
+        },
+        (error) => {
+          console.log("Ocurrio un error con la peticion a la Api email: ", error);
+        });
+    } catch (error) {
+        throw new BadRequestException();
+    }
+  }
+
+
   async create(createProductDto: CreateChatDto) {
     
     try {
