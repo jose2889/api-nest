@@ -171,12 +171,14 @@ export class WhatsappService {
         await this.CreateRegisterLogFail(logFail);
 
         // ########## Config request para enviar email de error ##########
-        const emailConfig={
-          "to":process.env.EMAIL_TO,
-          "subject":"Error de solicitud token: "+token,
-          "html":"Datos del error: "+JSON.stringify(logFail)
-        }
-        await this.sendEmailError(emailConfig);
+
+        // const emailConfig={
+        //   "to":process.env.EMAIL_TO,
+        //   "subject":"Error de solicitud token: "+token,
+        //   "html":"Datos del error: "+JSON.stringify(logFail)
+        // }
+
+        await this.sendEmailError(logFail);
 
         // *************************************************
 
@@ -219,8 +221,24 @@ export class WhatsappService {
   }
   
   async sendEmailError(data: any) {
+    const emailMessage = `
+      <h3><strong>Datos del error. </strong></h3>
+      <p><strong>Status :</strong> ${data.status_code} </p>
+      <p><strong>Status Message: </strong> ${data.status_text} </p>
+      <p><strong>Respuesta Planner :</strong> ${data.retcode} </p>
+      <p><strong>Token: </strong> ${data.token} </p>
+      <p><strong>Phone Number: </strong> ${data.phone_number} </p>
+      <p><strong>Method: </strong> ${data.config_method} </p>
+      <p><strong>Date: </strong> ${data.config_data} </p>
+    `;
+    const emailConfig={
+          "to":process.env.EMAIL_TO,
+          "subject":"Error de solicitud token: " + data.token,
+          "html":"Datos del error: "+emailMessage
+        }
+    
     try {
-      const response = await this.httpService.post(process.env.EMAIL_URL, data).subscribe(res => {
+      const response = await this.httpService.post(process.env.EMAIL_URL, emailConfig).subscribe(res => {
           console.log("Response of Api email: ", res.data); 
         },
         (error) => {
