@@ -213,7 +213,8 @@ export class WhatsappService {
 
     return data;
   }
-  
+
+  // ###################################### Envio de email de error ###########################################
   async sendEmailError(data: any) {
     const ret=JSON.parse(data.retcode)
     const emailMessage = `
@@ -222,7 +223,7 @@ export class WhatsappService {
     
           <tr>
             <td style="padding: 0">
-              <img style="padding: 0; display: block" src="https://ithemes.com/wp-content/uploads/2022/08/There-Has-Been-a-Critical-Error-on-Your-Website-1024x537.png" width="100%">
+              <img style="padding: 0; display: block; object-fit:cover; object-position: 50% 50%" src="https://ithemes.com/wp-content/uploads/2022/08/There-Has-Been-a-Critical-Error-on-Your-Website-1024x537.png" width="100%">
             </td>
           </tr>
           
@@ -271,7 +272,7 @@ export class WhatsappService {
         throw new BadRequestException();
     }
   }
-
+  // ##################################################################################################################
 
   async create(createProductDto: CreateChatDto) {
     
