@@ -150,14 +150,14 @@ export class WhatsappService {
         // Si el token no existe en planner, error en escribir el token
         if (errorResponse.status ===401 && errorResponse.statusText === "Unauthorized"){
           console.log("########## Error de solicitud: Unauthorized => ",token);
-          this.request.text.body = "Su solicitud no puede ser procesada. Por usar un token invalido.";
+          this.request.text.body = "Su solicitud no puede ser procesada. Por usar un token invalido. ";
         }
 
         // Si el token no es válido en planner 
-        // if (errorResponse.statusText === "Not Acceptable"){
-        //   console.log("########## Error de solicitud! Not Acceptable: Token => ", token);
-        //   this.request.text.body = "Su reserva no ha sido procesada. Su token no es válido.";
-        // }
+        if (errorResponse.status ===401 && errorResponse.statusText === "Not Acceptable"){
+          console.log("########## Error de solicitud! Not Acceptable: Token => ", token);
+          this.request.text.body = "Su solicitud no ha sido procesada. Su reserva ya ha pasado.";
+        }
 
         // Si el token no es válido en planner, el token no ya no se puede usar
         if (errorResponse.statusText === "Not Found" && errorResponse.status === 404){
@@ -168,7 +168,7 @@ export class WhatsappService {
         // Si el token es válido en planner, pero ya no se puede cancelar la reverva
         if (errorResponse.statusText === "Bad Request" && errorResponse.data.retMessage === "9") {
           console.log("########## Respuesta de planner OK: Cancel => ",token);
-          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' , errorResponse.data.retObject.time , ' horas antes.';
+          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
         }
 
         console.log("######## Status: ", errorResponse.status.toString());
