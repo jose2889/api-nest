@@ -218,7 +218,7 @@ export class WhatsappService {
     const ret=JSON.parse(data.retcode)
     const emailMessage = `
       <div style="margin: 0 0 7px border-radius: 15px 50px 30px border: 1px solid transparent; ">
-        <table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
+        <table style="max-width: 800px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
     
           <tr>
             <td style="padding: 0">
