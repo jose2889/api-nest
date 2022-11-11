@@ -240,7 +240,7 @@ export class WhatsappService {
                 <ul style="font-size: 15px;  margin: 10px 0">
                   <li><strong> retCode: </strong> ${ret.retCode} </li>
                   <li><strong> retMessage: </strong> ${ret.retMessage} </li>
-                  <li><strong> retObjetc: </strong> ${JSON.stringify(ret.retObjetc)} </li>
+                  <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject)} </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>
