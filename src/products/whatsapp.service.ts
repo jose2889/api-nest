@@ -217,7 +217,7 @@ export class WhatsappService {
   async sendEmailError(data: any) {
     const ret=JSON.parse(data.retcode)
     const emailMessage = `
-      <div style="color: #e67e22; margin: 0 0 7px border-radius: 15px 50px 30px ">
+      <div style="margin: 0 0 7px border-radius: 15px 50px 30px border: 1px solid transparent; ">
         <table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
     
           <tr>
@@ -227,8 +227,8 @@ export class WhatsappService {
           </tr>
           
           <tr>
-            <td style="background-color: #ecf0f1">
-              <div style="color: #f3f3f3; margin: 4% 10% 2%; font-family: sans-serif">
+            <td style="background-color: #f3f3f3">
+              <div style="color: #1a1a1a; margin: 4% 10% 2%; font-family: sans-serif">
                 <h2 style="color: #e67e22; margin: 0 0 7px">¡Datos del error!</h2>
                 <p style="margin: 2px; font-size: 15px">
                   Ha ocurrido un error al enviar el token <strong>${data.token}</strong> a la API de planner, los siguientes datos han sido guardados en la bade de datos:</p>
