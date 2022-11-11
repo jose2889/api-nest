@@ -5,6 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines":{ 
+    "node": "17.x",
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -77,9 +80,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "engines": {
-    "node": "18.x",
-    "npm": "7.x"
   }
 }
