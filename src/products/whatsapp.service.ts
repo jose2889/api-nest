@@ -111,6 +111,8 @@ export class WhatsappService {
         console.log("########### Respuesta exitosa de planner", data.statusText);
         // console.log("cuerpo de la respuesta", data.data);
         let retMessage = data.data.retMessage;
+        let retCode = data.data.retCode;
+        let retObject = data.data.retObject;
         console.log("########### retMessage", retMessage);
 
         if (data.statusText === "OK" && retMessage === "1") {
@@ -124,11 +126,11 @@ export class WhatsappService {
           console.log("########### Respuesta de planner OK: Cancel => ",token);
         }
 
-        // if (data.statusText === "Not Acceptable"){
-        //   this.request.text.body = "Su reserva no ha sido procesada.";
-        //   console.log("respuesta de planner Not Acceptable: Token => ", token , "Status: ", data.status);
-        // }
-
+        if (data.statusText === "Bad Request" && retMessage === "9") {
+          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' , retObject.time , ' horas antes.';
+          console.log("########### Respuesta de planner OK: Cancel => ",token);
+        }
+        
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("########### Respuesta exitosa del whatsapp", res.statusText); 
         },
@@ -140,14 +142,31 @@ export class WhatsappService {
         let errorResponse = error.response;
         // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
         console.log("###################### Error de solicitud ###################### ");
-        
-        if (error.response.statusText === "Not Acceptable"){
-          this.request.text.body = "Su reserva no ha sido procesada. Por favor contacte con el personal de soporte";
+
+        // Si el token no existe en planner, error en escribir el token
+        if (errorResponse.status ===401 && errorResponse.statusText === "Unauthorized"){
+          console.log("########### Error de solicitud: Unauthorized => ",token);
+          this.request.text.body = "Su solicitud de reserva no ha sido procesada. Por usar un token no esta autorizado.";
+        }
+
+        // Si el token no es válido en planner 
+        if (errorResponse.statusText === "Not Acceptable"){
+          this.request.text.body = "Su reserva no ha sido procesada. Su token no es válido.";
           console.log("######## Error de solicitud! Not Acceptable: Token => ", token);
-        } else {
-          this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
+        }
+
+        // Si el token no es válido en planner, el token no ya no se puede usar
+        if (errorResponse.statusText === "Not Found" && errorResponse.status === 404){
+          console.log("######## Error de solicitud! Not Found Token => ", token);
+          this.request.text.body = "Lo sentimos esta accion ya no valida, a la brevedad pronto sera contactado."
         }
         
+        // Si el token es válido en planner, pero ya no se puede cancelar la reverva
+        if (errorResponse.statusText === "Bad Request" && errorResponse.data.retMessage === "9") {
+          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' , errorResponse.data.retObject.time , ' horas antes.';
+          console.log("########### Respuesta de planner OK: Cancel => ",token);
+        }
+
         console.log("######## Status: ", errorResponse.status.toString());
         console.log("######## Data: ", JSON.stringify(errorResponse.data));
         console.log("######## Status Text: ",errorResponse.statusText);
@@ -214,9 +233,37 @@ export class WhatsappService {
     return data;
   }
 
+/* ############################################################################################################
+
+if (error.status === 400) {
+  if (error.error.message === 1) {
+    this.message = "La reservacion ya se encuentra aprobada previamente.";
+  }else if (error.retMessague === 3) { 
+    this.message = "La reservacion ya ha sido cancelada previamente.";
+  }else if (error.retMessague === 9) {
+    this.message = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
+  }
+
+  this.isConfirm = true;
+  this.loading = false;
+} else { if (error.status === 409) {
+  this.message = "El reloj esta atrasado, por favor sincronice su reloj con el servidor.";
+  this.commit = "No se puede establecer una conexion porque la fecha y la hora del equipo no son correctas.";
+  this.isConfirm = true;
+  this.loading = false;
+} else {
+  this.router.navigate(['/error']);
+}
+
+
+############################################################################################################### */
+
+
   // ###################################### Envio de email de error ###########################################
   async sendEmailError(data: any) {
-    const ret=JSON.parse(data.retcode)
+
+    const ret=  (JSON.parse(data.retcode))? JSON.parse(data.retcode) : data.retcode;
+    const notFounf = "Not Found";
     const emailMessage = `
       <div style="margin: 0 0 7px border-radius: 15px 50px 30px border: 1px solid transparent; ">
         <table style="max-width: 800px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
@@ -238,9 +285,9 @@ export class WhatsappService {
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta Planner.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
-                  <li><strong> retCode: </strong> ${ret.retCode} </li>
-                  <li><strong> retMessage: </strong> ${ret.retMessage} </li>
-                  <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject)} </li>
+                  <li><strong> retCode: </strong> ${ret.retCode || notFounf } </li>
+                  <li><strong> retMessage: </strong> ${ret.retMessage || notFounf } </li>
+                  <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject || notFounf )} </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>
