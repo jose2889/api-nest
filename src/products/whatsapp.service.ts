@@ -154,15 +154,15 @@ export class WhatsappService {
         }
 
         // Si el token no es válido en planner 
-        if (errorResponse.statusText === "Not Acceptable"){
-          console.log("########## Error de solicitud! Not Acceptable: Token => ", token);
-          this.request.text.body = "Su reserva no ha sido procesada. Su token no es válido.";
-        }
+        // if (errorResponse.statusText === "Not Acceptable"){
+        //   console.log("########## Error de solicitud! Not Acceptable: Token => ", token);
+        //   this.request.text.body = "Su reserva no ha sido procesada. Su token no es válido.";
+        // }
 
         // Si el token no es válido en planner, el token no ya no se puede usar
         if (errorResponse.statusText === "Not Found" && errorResponse.status === 404){
           console.log("########## Error de solicitud! Not Found Token => ", token);
-          this.request.text.body = "Lo sentimos esta accion ya no valida, a la brevedad pronto sera contactado."
+          this.request.text.body = "Lo sentimos esta accion ya no valida."
         }
         
         // Si el token es válido en planner, pero ya no se puede cancelar la reverva
@@ -178,7 +178,7 @@ export class WhatsappService {
         console.log("######## ConfigURL: ",errorResponse.config.url);
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
 
-        // *************************************************
+        // **************************************************************************************************
 
         const logFail = {
           "status_code": errorResponse.status.toString(),
@@ -197,7 +197,7 @@ export class WhatsappService {
 
         await this.sendEmailError(logFail);
 
-        // *************************************************
+        // **************************************************************************************************
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
