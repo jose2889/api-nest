@@ -221,7 +221,7 @@ export class WhatsappService {
 	
         <tr>
           <td style="padding: 0">
-            <img style="padding: 0; display: block" src="https://keoplanner.cl/wp-content/uploads/2022/10/Keo-Planner-Logo-2.svg" width="100%">
+            <img style="padding: 0; display: block" src="https://ithemes.com/wp-content/uploads/2022/08/There-Has-Been-a-Critical-Error-on-Your-Website-1024x537.png" width="100%">
           </td>
         </tr>
         
@@ -234,13 +234,15 @@ export class WhatsappService {
               <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
               <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
               <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta Planner.</strong></h3> </p>
+              
               <ul style="font-size: 15px;  margin: 10px 0">
                 <li><strong> retCode: </strong> ${ret.retCode} </li>
                 <li><strong> retMessage: </strong> ${ret.retMessage} </li>
                 <li><strong> retObjetc: </strong> ${JSON.stringify(ret.retObjetc)} </li>
               </ul>
+
               <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>
-              <p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> ${data.phone_number} </p>
+              <p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> +${data.phone_number} </p>
               <p style="margin: 2px; font-size: 15px"><strong>Method: </strong> ${data.config_method} </p>
               <p style="margin: 2px; font-size: 15px"><strong>Date (UTC+0): </strong> ${JSON.parse(data.config_data).date} </p>
               <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws</p>
