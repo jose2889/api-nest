@@ -108,12 +108,16 @@ export class WhatsappService {
   
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
-        console.log("########### Respuesta exitosa de planner", data.statusText);
+        console.log("####################### Respuesta exitosa de planner");
         // console.log("cuerpo de la respuesta", data.data);
         let retMessage = data.data.retMessage;
         let retCode = data.data.retCode;
         let retObject = data.data.retObject;
-        console.log("########### retMessage", retMessage);
+        console.log("########### Status: ", data.status);
+        console.log("########### StatusText: ", data.statusText);
+        console.log("########### retMessage: ", retMessage);
+        console.log("########### retCode: ", retCode);
+        console.log("########### retObject: ", retObject);
 
         if (data.statusText === "OK" && retMessage === "1") {
           this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
@@ -141,30 +145,30 @@ export class WhatsappService {
       async (error) => {
         let errorResponse = error.response;
         // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
-        console.log("###################### Error de solicitud ###################### ");
+        console.log("####################### Error de solicitud ###################### ");
 
         // Si el token no existe en planner, error en escribir el token
         if (errorResponse.status ===401 && errorResponse.statusText === "Unauthorized"){
-          console.log("########### Error de solicitud: Unauthorized => ",token);
-          this.request.text.body = "Su solicitud de reserva no ha sido procesada. Por usar un token no esta autorizado.";
+          console.log("########## Error de solicitud: Unauthorized => ",token);
+          this.request.text.body = "Su solicitud no puede ser procesada. Por usar un token invalido.";
         }
 
         // Si el token no es válido en planner 
         if (errorResponse.statusText === "Not Acceptable"){
+          console.log("########## Error de solicitud! Not Acceptable: Token => ", token);
           this.request.text.body = "Su reserva no ha sido procesada. Su token no es válido.";
-          console.log("######## Error de solicitud! Not Acceptable: Token => ", token);
         }
 
         // Si el token no es válido en planner, el token no ya no se puede usar
         if (errorResponse.statusText === "Not Found" && errorResponse.status === 404){
-          console.log("######## Error de solicitud! Not Found Token => ", token);
+          console.log("########## Error de solicitud! Not Found Token => ", token);
           this.request.text.body = "Lo sentimos esta accion ya no valida, a la brevedad pronto sera contactado."
         }
         
         // Si el token es válido en planner, pero ya no se puede cancelar la reverva
         if (errorResponse.statusText === "Bad Request" && errorResponse.data.retMessage === "9") {
+          console.log("########## Respuesta de planner OK: Cancel => ",token);
           this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' , errorResponse.data.retObject.time , ' horas antes.';
-          console.log("########### Respuesta de planner OK: Cancel => ",token);
         }
 
         console.log("######## Status: ", errorResponse.status.toString());
@@ -263,7 +267,7 @@ if (error.status === 400) {
   async sendEmailError(data: any) {
 
     const ret=  (JSON.parse(data.retcode))? JSON.parse(data.retcode) : data.retcode;
-    const notFounf = "Not Found";
+    const notFounf = "Dato no recibido";
     const emailMessage = `
       <div style="margin: 0 0 7px border-radius: 15px 50px 30px border: 1px solid transparent; ">
         <table style="max-width: 800px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
@@ -285,9 +289,10 @@ if (error.status === 400) {
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta Planner.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
+                  ${ret.retCode.time ? `<li><p style="margin: 2px; font-size: 15px"><strong>RetCode: </strong><p> El tiempo minimo para cancelar una reversa es de ${ret.retCode.time} horas.</p> </p></li>` : }
                   <li><strong> retCode: </strong> ${ret.retCode || notFounf } </li>
                   <li><strong> retMessage: </strong> ${ret.retMessage || notFounf } </li>
-                  <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject || notFounf )} </li>
+                  <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject )|| notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>
