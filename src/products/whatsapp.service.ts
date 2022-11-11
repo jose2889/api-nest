@@ -217,39 +217,41 @@ export class WhatsappService {
   async sendEmailError(data: any) {
     const ret=JSON.parse(data.retcode)
     const emailMessage = `
-      <table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
-	
-        <tr>
-          <td style="padding: 0">
-            <img style="padding: 0; display: block" src="https://ithemes.com/wp-content/uploads/2022/08/There-Has-Been-a-Critical-Error-on-Your-Website-1024x537.png" width="100%">
-          </td>
-        </tr>
-        
-        <tr>
-          <td style="background-color: #ecf0f1">
-            <div style="color: #34495e; margin: 4% 10% 2%; font-family: sans-serif">
-              <h2 style="color: #e67e22; margin: 0 0 7px">¡Datos del error!</h2>
-              <p style="margin: 2px; font-size: 15px">
-                Ha ocurrido un error al enviar el token <strong>${data.token}</strong> a la API de planner, los siguientes datos han sido guardados en la bade de datos:</p>
-              <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
-              <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
-              <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta Planner.</strong></h3> </p>
-              
-              <ul style="font-size: 15px;  margin: 10px 0">
-                <li><strong> retCode: </strong> ${ret.retCode} </li>
-                <li><strong> retMessage: </strong> ${ret.retMessage} </li>
-                <li><strong> retObjetc: </strong> ${JSON.stringify(ret.retObjetc)} </li>
-              </ul>
+      <div style="color: #e67e22; margin: 0 0 7px border-radius: 15px 50px 30px ">
+        <table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
+    
+          <tr>
+            <td style="padding: 0">
+              <img style="padding: 0; display: block" src="https://ithemes.com/wp-content/uploads/2022/08/There-Has-Been-a-Critical-Error-on-Your-Website-1024x537.png" width="100%">
+            </td>
+          </tr>
+          
+          <tr>
+            <td style="background-color: #ecf0f1">
+              <div style="color: #f3f3f3; margin: 4% 10% 2%; font-family: sans-serif">
+                <h2 style="color: #e67e22; margin: 0 0 7px">¡Datos del error!</h2>
+                <p style="margin: 2px; font-size: 15px">
+                  Ha ocurrido un error al enviar el token <strong>${data.token}</strong> a la API de planner, los siguientes datos han sido guardados en la bade de datos:</p>
+                <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
+                <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta Planner.</strong></h3> </p>
+                
+                <ul style="font-size: 15px;  margin: 10px 0">
+                  <li><strong> retCode: </strong> ${ret.retCode} </li>
+                  <li><strong> retMessage: </strong> ${ret.retMessage} </li>
+                  <li><strong> retObjetc: </strong> ${JSON.stringify(ret.retObjetc)} </li>
+                </ul>
 
-              <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>
-              <p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> +${data.phone_number} </p>
-              <p style="margin: 2px; font-size: 15px"><strong>Method: </strong> ${data.config_method} </p>
-              <p style="margin: 2px; font-size: 15px"><strong>Date (UTC+0): </strong> ${JSON.parse(data.config_data).date} </p>
-              <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws</p>
-            </div>
-          </td>
-        </tr>
-      </table>
+                <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>
+                <p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> +${data.phone_number} </p>
+                <p style="margin: 2px; font-size: 15px"><strong>Method: </strong> ${data.config_method} </p>
+                <p style="margin: 2px; font-size: 15px"><strong>Date (UTC+0): </strong> ${JSON.parse(data.config_data).date} </p>
+                <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws</p>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
     `;
 
     const emailRemitente={
