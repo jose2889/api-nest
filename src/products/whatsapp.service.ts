@@ -217,7 +217,7 @@ export class WhatsappService {
   async sendEmailError(data: any) {
     const ret=JSON.parse(data.retcode)
     const emailMessage = `
-      <table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;">
+      <table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
 	
         <tr>
           <td style="padding: 0">
