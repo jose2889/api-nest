@@ -185,7 +185,7 @@ export class WhatsappService {
         const logFail = {
           "status_code": errorResponse.status.toString(),
           "status_text": errorResponse.statusText,
-          "retcode": JSON.stringify(errorResponse.data),
+          "response": JSON.stringify(errorResponse.data),
           "token": token,
           "text_message": text_message,
           "phone_number": phone_number.toString(),
@@ -269,7 +269,7 @@ if (error.status === 400) {
   // ###################################### Envio de email de error ###########################################
   async sendEmailError(data: any) {
 
-    const ret=  (JSON.parse(data.retcode))? JSON.parse(data.retcode) : data.retcode;
+    const ret=  (JSON.parse(data.response))? JSON.parse(data.response) : data.response;
     const notFounf = "Dato no recibido";
     const anho = new Date().getFullYear();
     const emailMessage = `
@@ -299,7 +299,7 @@ if (error.status === 400) {
                   <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
                 </ul>
 
-                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta Planner.</strong></h3> </p>
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta de petición a Planner.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
 

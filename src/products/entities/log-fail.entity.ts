@@ -12,7 +12,7 @@ export class LogFail{
     @Column({
         type: 'text',
     })
-    retcode: string;
+    response: string;
 
     @Column({
         type: 'text'

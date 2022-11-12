@@ -5,7 +5,7 @@ export class CreateLogFailDto {
     
     @IsString()
     @IsOptional()
-    retcode?: string;
+    response?: string;
     
     @IsString()
     @IsOptional()
