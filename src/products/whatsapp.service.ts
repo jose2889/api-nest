@@ -96,7 +96,7 @@ export class WhatsappService {
     return data;
   }
 
-  async updateReservation(token: string, phone_number: string, text_menssage:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async updateReservation(token: string, phone_number: string, text_message:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
 
     console.log("token recibido ", token);
     this.request.to = phone_number;
@@ -178,7 +178,7 @@ export class WhatsappService {
         console.log("######## ConfigMethod: ",errorResponse.config.method);
         console.log("######## ConfigURL: ",errorResponse.config.url);
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
-        console.log("######## Texto recibido: ", text_menssage);
+        console.log("######## Texto recibido: ", text_message);
 
         // **************************************************************************************************
 
@@ -187,7 +187,7 @@ export class WhatsappService {
           "status_text": errorResponse.statusText,
           "retcode": JSON.stringify(errorResponse.data),
           "token": token,
-          "text_message": text_menssage,
+          "text_message": text_message,
           "phone_number": phone_number.toString(),
           "config_method": errorResponse.config.method,
           "config_data": errorResponse.config.data,
@@ -271,6 +271,7 @@ if (error.status === 400) {
 
     const ret=  (JSON.parse(data.retcode))? JSON.parse(data.retcode) : data.retcode;
     const notFounf = "Dato no recibido";
+    const anho = DateTime.now().toFormat('yyyy');
     const emailMessage = `
       <div style="margin: 0 0 7px border-radius: 15px 50px 30px border: 1px solid transparent; ">
         <table style="max-width: 800px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
@@ -295,7 +296,7 @@ if (error.status === 400) {
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
 
                 <ul style="font-size: 15px;  margin: 10px 0">
-                  <li><strong> Texto recibido: </strong> ${data.text_menssage || notFounf } </li>
+                  <li><strong> Texto recibido: </strong> ${data.text_message || notFounf } </li>
                   <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
                 </ul>
 
@@ -312,7 +313,7 @@ if (error.status === 400) {
                 <p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> +${data.phone_number} </p>
                 <p style="margin: 2px; font-size: 15px"><strong>Method: </strong> ${data.config_method} </p>
                 <p style="margin: 2px; font-size: 15px"><strong>Date (UTC+0): </strong> ${JSON.parse(data.config_data).date} </p>
-                <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws</p>
+                <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws &copy; ${anho}</p>
               </div>
             </td>
           </tr>
