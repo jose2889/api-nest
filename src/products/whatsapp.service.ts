@@ -289,6 +289,14 @@ if (error.status === 400) {
                   Ha ocurrido un error al enviar el token <strong>${data.token}</strong> a la API de planner, los siguientes datos han sido guardados en la bade de datos:</p>
                 <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
                 <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
+
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
+
+                <ul style="font-size: 15px;  margin: 10px 0">
+                  <li><strong> retCode: </strong> ${ret.text_menssage || notFounf } </li>
+                  <li><strong> retMessage: </strong> ${ret.token || notFounf } </li>
+                </ul>
+
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta Planner.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
