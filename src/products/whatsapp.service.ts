@@ -171,6 +171,7 @@ export class WhatsappService {
           this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
         }
 
+
         console.log("######## Status: ", errorResponse.status.toString());
         console.log("######## Data: ", JSON.stringify(errorResponse.data));
         console.log("######## Status Text: ",errorResponse.statusText);
