@@ -37,6 +37,11 @@ export class LogFail{
     @Column({
         type: 'text'
     })
+    text_message: string;
+
+    @Column({
+        type: 'text'
+    })
     config_method: string;
 
     @Column({

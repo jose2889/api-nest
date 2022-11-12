@@ -306,7 +306,7 @@ if (error.status === 400) {
 
                   <li><strong> retCode: </strong> ${ret.retCode || notFounf } </li>
                   <li><strong> retMessage: </strong> ${ret.retMessage || notFounf } </li>
-                  <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject || notFounf )} </li>
+                  <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject) || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>

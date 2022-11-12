@@ -33,5 +33,9 @@ export class CreateLogFailDto {
 
     @IsString()
     @IsOptional()
+    text_message?: string;
+
+    @IsString()
+    @IsOptional()
     create_data?: string;
 }
