@@ -271,7 +271,7 @@ if (error.status === 400) {
 
     const ret=  (JSON.parse(data.retcode))? JSON.parse(data.retcode) : data.retcode;
     const notFounf = "Dato no recibido";
-    const anho = DateTime.now().toFormat('yyyy');
+    const anho = new Date().getFullYear();
     const emailMessage = `
       <div style="margin: 0 0 7px border-radius: 15px 50px 30px border: 1px solid transparent; ">
         <table style="max-width: 800px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
