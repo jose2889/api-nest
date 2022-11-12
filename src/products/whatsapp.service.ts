@@ -293,8 +293,8 @@ if (error.status === 400) {
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
 
                 <ul style="font-size: 15px;  margin: 10px 0">
-                  <li><strong> retCode: </strong> ${data.text_menssage || notFounf } </li>
-                  <li><strong> retMessage: </strong> ${data.token || notFounf } </li>
+                  <li><strong> Texto recibido: </strong> ${data.text_menssage || notFounf } </li>
+                  <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta Planner.</strong></h3> </p>
