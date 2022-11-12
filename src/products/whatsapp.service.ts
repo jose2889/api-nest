@@ -187,7 +187,7 @@ export class WhatsappService {
           "status_text": errorResponse.statusText,
           "retcode": JSON.stringify(errorResponse.data),
           "token": token,
-          "text_messaje": text_menssage,
+          "text_message": text_menssage,
           "phone_number": phone_number.toString(),
           "config_method": errorResponse.config.method,
           "config_data": errorResponse.config.data,
