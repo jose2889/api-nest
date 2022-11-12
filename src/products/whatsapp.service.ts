@@ -96,7 +96,7 @@ export class WhatsappService {
     return data;
   }
 
-  async updateReservation(token: string, phone_number: string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async updateReservation(token: string, phone_number: string, text_menssage:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
 
     console.log("token recibido ", token);
     this.request.to = phone_number;
@@ -178,6 +178,7 @@ export class WhatsappService {
         console.log("######## ConfigMethod: ",errorResponse.config.method);
         console.log("######## ConfigURL: ",errorResponse.config.url);
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
+        console.log("######## Texto recibido: ", text_menssage);
 
         // **************************************************************************************************
 
@@ -186,6 +187,7 @@ export class WhatsappService {
           "status_text": errorResponse.statusText,
           "retcode": JSON.stringify(errorResponse.data),
           "token": token,
+          "text_messaje": text_menssage,
           "phone_number": phone_number.toString(),
           "config_method": errorResponse.config.method,
           "config_data": errorResponse.config.data,
