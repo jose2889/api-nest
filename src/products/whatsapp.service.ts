@@ -286,7 +286,9 @@ if (error.status === 400) {
               <div style="color: #1a1a1a; margin: 4% 10% 2%; font-family: sans-serif">
                 <h2 style="color: #e67e22; margin: 0 0 7px">¡Datos del error!</h2>
                 <p style="margin: 2px; font-size: 15px">
-                  Ha ocurrido un error al enviar el token <strong>${data.token}</strong> a la API de planner, los siguientes datos han sido guardados en la bade de datos:</p>
+                  Ha ocurrido un error al enviar el token <strong>${data.token}</strong> a la API de planner.</p><br>
+
+                <h3>Los siguientes datos han sido guardados en la bade de datos:</h3>
                 <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
                 <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
 
