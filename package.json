@@ -80,6 +80,10 @@
     },
     "engines": {
         "node": "18.x",
+<<<<<<< HEAD
         "npm": "7.x"
+=======
+        "npm": "8.x"
+>>>>>>> edgardo-new
     }
 }

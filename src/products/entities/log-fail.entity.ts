@@ -12,7 +12,7 @@ export class LogFail{
     @Column({
         type: 'text',
     })
-    retcode: string;
+    response: string;
 
     @Column({
         type: 'text'
@@ -33,6 +33,11 @@ export class LogFail{
         type: 'text'
     })
     phone_number: string;
+
+    @Column({
+        type: 'text'
+    })
+    text_message: string;
 
     @Column({
         type: 'text'

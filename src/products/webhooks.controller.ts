@@ -36,7 +36,7 @@ export class Webhookontroller {
           console.log("la data es ", JSON.stringify(data));
           createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
           createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-          this.chatService.updateReservation(createProductDto.payload, from);
+          this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text);
         }  
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
@@ -87,7 +87,7 @@ export class Webhookontroller {
     console.log("datos por parametro: ", token)
     console.log("datos por body: ", body)
     
-    let response = this.chatService.updateReservation(token, body.phone_number);
+    let response = this.chatService.updateReservation(token, body.phone_number, body.text);
     console.log(response)
     res.status(201).send(response);
   }

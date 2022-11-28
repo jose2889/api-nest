@@ -96,7 +96,7 @@ export class WhatsappService {
     return data;
   }
 
-  async updateReservation(token: string, phone_number: string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async updateReservation(token: string, phone_number: string, text_message:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
 
     console.log("token recibido ", token);
     this.request.to = phone_number;
@@ -108,10 +108,16 @@ export class WhatsappService {
   
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
-        console.log("########### Respuesta exitosa de planner", data.statusText);
+        console.log("####################### Respuesta exitosa de planner");
         // console.log("cuerpo de la respuesta", data.data);
         let retMessage = data.data.retMessage;
-        console.log("########### retMessage", retMessage);
+        let retCode = data.data.retCode;
+        let retObject = data.data.retObject;
+        console.log("########### Status: ", data.status);
+        console.log("########### StatusText: ", data.statusText);
+        console.log("########### retMessage: ", retMessage);
+        console.log("########### retCode: ", retCode);
+        console.log("########### retObject: ", retObject);
 
         if (data.statusText === "OK" && retMessage === "1") {
           this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
@@ -124,11 +130,11 @@ export class WhatsappService {
           console.log("########### Respuesta de planner OK: Cancel => ",token);
         }
 
-        // if (data.statusText === "Not Acceptable"){
-        //   this.request.text.body = "Su reserva no ha sido procesada.";
-        //   console.log("respuesta de planner Not Acceptable: Token => ", token , "Status: ", data.status);
-        // }
-
+        if (data.statusText === "Bad Request" && retMessage === "9") {
+          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' , retObject.time , ' horas antes.';
+          console.log("########### Respuesta de planner OK: Cancel => ",token);
+        }
+        
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("########### Respuesta exitosa del whatsapp", res.statusText); 
         },
@@ -139,41 +145,68 @@ export class WhatsappService {
       async (error) => {
         let errorResponse = error.response;
         // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
-        console.log("###################### Error de solicitud ###################### ");
-        
-        if (error.response.statusText === "Not Acceptable"){
-          this.request.text.body = "Su reserva no ha sido procesada. Por favor contacte con el personal de soporte";
-          console.log("######## Error de solicitud! Not Acceptable: Token => ", token);
-        } else {
-          this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
+        console.log("####################### Error de solicitud ###################### ");
+
+        // Si el token no existe en planner, error en escribir el token
+        if (errorResponse.status ===401 && errorResponse.statusText === "Unauthorized"){
+          console.log("########## Error de solicitud: Unauthorized => ",token);
+          this.request.text.body = "Su solicitud no puede ser procesada. Por usar un token invalido. ";
+        }
+
+        // Si el token no es válido en planner 
+        if (errorResponse.status ===401 && errorResponse.statusText === "Not Acceptable"){
+          console.log("########## Error de solicitud! Not Acceptable: Token => ", token);
+          this.request.text.body = "Su solicitud no ha sido procesada. Su reserva ya ha pasado.";
+        }
+
+        // Si el token no es válido en planner, el token no ya no se puede usar
+        if (errorResponse.statusText === "Not Found" && errorResponse.status === 404){
+          console.log("########## Error de solicitud! Not Found Token => ", token);
+          this.request.text.body = "Lo sentimos esta accion ya no valida."
         }
         
+        // Si el token es válido en planner, pero ya no se puede cancelar la reverva
+        if (errorResponse.statusText === "Bad Request" && errorResponse.data.retMessage === "9") {
+          console.log("########## Respuesta de planner OK: Cancel => ",token);
+          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
+        }
+
+
         console.log("######## Status: ", errorResponse.status.toString());
         console.log("######## Data: ", JSON.stringify(errorResponse.data));
         console.log("######## Status Text: ",errorResponse.statusText);
         console.log("######## ConfigMethod: ",errorResponse.config.method);
         console.log("######## ConfigURL: ",errorResponse.config.url);
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
+        console.log("######## Texto recibido: ", text_message);
 
-        // *************************************************
+        // **************************************************************************************************
+
         const logFail = {
           "status_code": errorResponse.status.toString(),
           "status_text": errorResponse.statusText,
-          "retcode": JSON.stringify(errorResponse.data),
+          "response": JSON.stringify(errorResponse.data),
           "token": token,
+          "text_message": text_message,
           "phone_number": phone_number.toString(),
           "config_method": errorResponse.config.method,
           "config_data": errorResponse.config.data,
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
+        // ############# Guardado de los datos en la tabla para Error Response#############
         await this.CreateRegisterLogFail(logFail);
-        // *************************************************
+
+        // ########## enviar email de error ##########
+
+        await this.sendEmailError(logFail);
+
+        // **************************************************************************************************
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("respuesta exitosa del whatsapp", res.statusText); 
         },
-        (eror) => {
+        (error) => {
           console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
         }); 
       });
@@ -206,7 +239,106 @@ export class WhatsappService {
 
     return data;
   }
-  
+
+/* ############################################################################################################
+
+if (error.status === 400) {
+  if (error.error.message === 1) {
+    this.message = "La reservacion ya se encuentra aprobada previamente.";
+  }else if (error.retMessague === 3) { 
+    this.message = "La reservacion ya ha sido cancelada previamente.";
+  }else if (error.retMessague === 9) {
+    this.message = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
+  }
+
+  this.isConfirm = true;
+  this.loading = false;
+} else { if (error.status === 409) {
+  this.message = "El reloj esta atrasado, por favor sincronice su reloj con el servidor.";
+  this.commit = "No se puede establecer una conexion porque la fecha y la hora del equipo no son correctas.";
+  this.isConfirm = true;
+  this.loading = false;
+} else {
+  this.router.navigate(['/error']);
+}
+
+
+############################################################################################################### */
+
+
+  // ###################################### Envio de email de error ###########################################
+  async sendEmailError(data: any) {
+
+    const ret=  (JSON.parse(data.response))? JSON.parse(data.response) : data.response;
+    const notFounf = "Dato no recibido";
+    const anho = new Date().getFullYear();
+    const emailMessage = `
+      <div style="margin: 0 0 7px border-radius: 15px 50px 30px border: 1px solid transparent; ">
+        <table style="max-width: 800px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
+    
+          <tr>
+            <td style="padding: 0">
+              <img style="padding: 0; display: block; object-fit:cover; object-position: 50% 50%" src="https://ithemes.com/wp-content/uploads/2022/08/There-Has-Been-a-Critical-Error-on-Your-Website-1024x537.png" width="100%">
+            </td>
+          </tr>
+          
+          <tr>
+            <td style="background-color: #f3f3f3">
+              <div style="color: #1a1a1a; margin: 4% 10% 2%; font-family: sans-serif">
+                <h2 style="color: #e67e22; margin: 0 0 7px">¡Datos del error!</h2>
+                <p style="margin: 2px; font-size: 15px">Ha ocurrido un error al enviar el token a la API de planner.</p><br>
+
+                <p style="margin: 2px; font-size: 15px"><h3>Los siguientes datos han sido guardados en la bade de datos:</h3></p>
+                <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
+                <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
+
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
+
+                <ul style="font-size: 15px;  margin: 10px 0">
+                  <li><strong> Texto recibido: </strong> ${data.text_message || notFounf } </li>
+                  <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
+                </ul>
+
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta de petición a Planner.</strong></h3> </p>
+                
+                <ul style="font-size: 15px;  margin: 10px 0">
+
+                  <li><strong> retCode: </strong> ${ret.retCode || notFounf } </li>
+                  <li><strong> retMessage: </strong> ${ret.retMessage || notFounf } </li>
+                  <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject) || notFounf } </li>
+                </ul>
+
+                <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>
+                <p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> +${data.phone_number} </p>
+                <p style="margin: 2px; font-size: 15px"><strong>Method: </strong> ${data.config_method} </p>
+                <p style="margin: 2px; font-size: 15px"><strong>Date (UTC+0): </strong> ${JSON.parse(data.config_data).date} </p>
+                <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws &copy; ${anho}</p>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    `;
+
+    const emailRemitente={
+          "to":process.env.EMAIL_TO,
+          "subject":"Error de solicitud token: " + data.token,
+          "html":emailMessage
+        }
+    
+    try {
+      const response = await this.httpService.post(process.env.EMAIL_URL, emailRemitente).subscribe(res => {
+          console.log("Response of Api email: ", res.data); 
+        },
+        (error) => {
+          console.log("Ocurrio un error con la peticion a la Api email: ", error);
+        });
+    } catch (error) {
+        throw new BadRequestException();
+    }
+  }
+  // ##################################################################################################################
+
   async create(createProductDto: CreateChatDto) {
     
     try {

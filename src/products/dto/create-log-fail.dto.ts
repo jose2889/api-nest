@@ -5,7 +5,7 @@ export class CreateLogFailDto {
     
     @IsString()
     @IsOptional()
-    retcode?: string;
+    response?: string;
     
     @IsString()
     @IsOptional()
@@ -30,6 +30,10 @@ export class CreateLogFailDto {
     @IsString()
     @IsOptional()
     config_data?: string;
+
+    @IsString()
+    @IsOptional()
+    text_message?: string;
 
     @IsString()
     @IsOptional()
