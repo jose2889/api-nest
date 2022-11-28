@@ -54,7 +54,7 @@ export class Webhookontroller {
      return; 
   }
 
-  @Get('webhook')
+  @Get()
   authWebhook(@Res() res, @Query( 'hub.mode' ) mode: string, @Query( 'hub.verify_token' ) token: string, @Query( 'hub.challenge' ) challenge: string) {
      console.log("datos por parametro ", mode, token, challenge)
      /**
