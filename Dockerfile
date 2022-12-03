@@ -46,7 +46,7 @@ USER node
 WORKDIR /home/node
 
 COPY package*.json ./
-RUN npm install --force
+RUN npm ci --force
 
 COPY --chown=node:node . .
 RUN npm run build 
