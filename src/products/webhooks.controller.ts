@@ -4,8 +4,8 @@ import { CreateChatDto } from './dto/create-chat.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { json } from 'stream/consumers';
 
-@ApiTags('Webhooks')
-@Controller()
+@ApiTags('webhook')
+@Controller('webhook')
 export class Webhookontroller {
   constructor(private readonly chatService: WhatsappService) {}
 
