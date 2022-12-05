@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query
 import { WhatsappService } from './whatsapp.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { json } from 'stream/consumers';
 
 @ApiTags('Webhooks')
 @Controller()
@@ -11,13 +12,18 @@ export class Webhookontroller {
   @Post()
   createWebhook(@Body() data:any) {
 
-    console.log("la data es ", JSON.stringify(data));
-
-    console.log("valor de estatus ", JSON.stringify(data?.entry[0]?.changes[0]?.value?.messages[0]));
-
+    console.log("este es el objeto",JSON.stringify(data));
+    
     let createProductDto = new CreateChatDto();
     if (data.object) {
-      if (data?.entry[0]?.changes[0]?.value?.messages[0]) {
+      if (
+        data.entry &&
+        data.entry[0].changes &&
+        data.entry[0].changes[0] &&
+        data.entry[0].changes[0].value.messages &&
+        data.entry[0].changes[0].value.messages[0]
+      ) {
+        console.log("entro en el if");
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
         let from = data.entry[0].changes[0].value?.messages[0].from; // extract the phone number from the webhook payload
 
@@ -54,6 +60,7 @@ export class Webhookontroller {
         //   },
         //   headers: { "Content-Type": "application/json" },
         // });
+
         console.log("se guarada el objeto ", JSON.stringify(createProductDto));
         return this.chatService.createWebhook(createProductDto);
       }
@@ -71,9 +78,6 @@ export class Webhookontroller {
    *This will be the Verify Token value when you set up webhook
   **/
    const verify_token = process.env.VERIFY_TOKEN;
-
-   // Parse params from the webhook verification request
-
 
   //  let mode = req.query["hub.mode"];
   //  let token = req.query["hub.verify_token"];
