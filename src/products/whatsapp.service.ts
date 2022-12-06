@@ -194,7 +194,7 @@ export class WhatsappService {
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
         console.log("######## Texto recibido: ", text_message);
         console.log("######## URL API Planner: ", urlAPIplanner);
-        console.log("######## Body enviado", body);
+        console.log("######## Body enviado", JSON.stringify(body));
 
         // **************************************************************************************************
 
@@ -208,7 +208,7 @@ export class WhatsappService {
           "config_method": errorResponse.config.method,
           "config_data": errorResponse.config.data,
           "urlplanner": urlAPIplanner,
-          "body_send":body
+          "body_send":JSON.stringify(body)
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
         // ############# Guardado de los datos en la tabla para Error Response#############
