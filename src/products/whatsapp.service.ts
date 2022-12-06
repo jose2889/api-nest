@@ -178,7 +178,7 @@ export class WhatsappService {
         }
 
 
-        this.request.text.body = "Su reserva non pudo ser procesada, disculpe las molestias.";
+        // this.request.text.body = "Su reserva no pudo ser procesada, disculpe las molestias.";
 
 
 
@@ -213,12 +213,12 @@ export class WhatsappService {
         // **************************************************************************************************
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
-        this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-          console.log("respuesta exitosa del whatsapp", res.statusText); 
-        },
-        (error) => {
-          console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
-        }); 
+        // this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+        //   console.log("respuesta exitosa del whatsapp", res.statusText); 
+        // },
+        // (error) => {
+        //   console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
+        // }); 
       });
       // console.log("Response de planner", data);
     } catch (error) {
