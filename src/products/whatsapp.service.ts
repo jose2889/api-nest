@@ -119,6 +119,9 @@ export class WhatsappService {
         console.log("########### retCode: ", retCode);
         console.log("########### retObject: ", retObject);
 
+        this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
+
+
         if (data.statusText === "OK" && retMessage === "1") {
           this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
           console.log("########### Respuesta de planner OK: Accept => ",token);
@@ -213,12 +216,12 @@ export class WhatsappService {
         // **************************************************************************************************
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
-        // this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-        //   console.log("respuesta exitosa del whatsapp", res.statusText); 
-        // },
-        // (error) => {
-        //   console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
-        // }); 
+        this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+          console.log("respuesta exitosa del whatsapp", res.statusText); 
+        },
+        (error) => {
+          console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
+        }); 
       });
       // console.log("Response de planner", data);
     } catch (error) {
