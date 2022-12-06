@@ -208,7 +208,8 @@ export class WhatsappService {
           "config_method": errorResponse.config.method,
           "config_data": errorResponse.config.data,
           "urlplanner": urlAPIplanner,
-          "body_send":JSON.stringify(body)
+          "body_send":JSON.stringify(body),
+          "respuesta":  this.request.text.body,
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
         // ############# Guardado de los datos en la tabla para Error Response#############
@@ -310,18 +311,25 @@ if (error.status === 400) {
                 <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
                 <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
 
+                
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
+                
+                <ul style="font-size: 15px;  margin: 10px 0">
+                <li><strong> Texto recibido: </strong> ${data.text_message || notFounf } </li>
+                <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
+                </ul>
+
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Repuesta enviada al usuario.</strong></h3> </p>
+                
+                <ul style="font-size: 15px;  margin: 10px 0">
+                <li><strong> Texto enviado: </strong> ${data.respuesta || notFounf } </li>
+                </ul>
+
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Datos enviados a la API de Planner.</strong></h3> </p>
 
                 <ul style="font-size: 15px;  margin: 10px 0">
                   <li><strong> Body enviado: </strong> ${data.body_send || notFounf } </li>
                   <li><strong> URL API Planner: </strong> ${data.urlplanner || notFounf } </li>
-                </ul>
-
-                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
-
-                <ul style="font-size: 15px;  margin: 10px 0">
-                  <li><strong> Texto recibido: </strong> ${data.text_message || notFounf } </li>
-                  <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta de petición a Planner.</strong></h3> </p>
