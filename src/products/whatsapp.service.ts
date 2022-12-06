@@ -122,13 +122,13 @@ export class WhatsappService {
         this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
 
 
-        if (data.statusText === "OK" && retMessage === "1") {
+        if ((data.statusText === "OK") && (retMessage === "1")) {
           this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
           console.log("########### Respuesta de planner OK: Accept => ",token);
 
         }
 
-        if (data.statusText === "OK" && retMessage === "3") {
+        if ((data.statusText === "OK") && (retMessage === "3")) {
           this.request.text.body = "Su reserva ha sido cancelada con éxito. Gracias por su respuesta.";
           console.log("########### Respuesta de planner OK: Cancel => ",token);
         }
@@ -151,31 +151,31 @@ export class WhatsappService {
         console.log("####################### Error de solicitud ###################### ");
 
         // Si el token no existe en planner, error en escribir el token
-        if (errorResponse.status ===401 && errorResponse.statusText === "Unauthorized"){
+        if ((errorResponse.status === 401) && (errorResponse.statusText === "Unauthorized")){
           console.log("########## Error de solicitud: Unauthorized => ",token);
           this.request.text.body = "Su solicitud no puede ser procesada. Por usar un token invalido. ";
         }
 
         // Si el token no es válido en planner 
-        if (errorResponse.status ===401 && errorResponse.statusText === "Not Acceptable"){
+        if ((errorResponse.status === 401) && (errorResponse.statusText === "Not Acceptable")){
           console.log("########## Error de solicitud! Not Acceptable: Token => ", token);
           this.request.text.body = "Su solicitud no ha sido procesada. Su reserva ya ha pasado.";
         }
 
         // Si el token no es válido en planner, el token no ya no se puede usar
-        if (errorResponse.statusText === "Not Found" && errorResponse.status === 404){
+        if ((errorResponse.statusText === "Not Found") && (errorResponse.status === 404)){
           console.log("########## Error de solicitud! Not Found Token => ", token);
           this.request.text.body = "Lo sentimos esta accion ya no valida."
         }
         
         // Si el token es válido en planner, pero ya no se puede cancelar la reverva
-        if (errorResponse.statusText === "Bad Request" && errorResponse.data.retMessage === "9") {
+        if ((errorResponse.status === 400) && (errorResponse.data.retMessage === "9")) { // errorResponse.statusText === "Bad Request" && 
           console.log("########## Respuesta de planner OK: Cancel => ",token);
           this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
         }
         
         // Si el tiempo para cancelar ha pasado 
-        if (errorResponse.status ===406 && errorResponse.statusText === "Not Acceptable"){
+        if ((errorResponse.status === 406) && (errorResponse.statusText === "Not Acceptable")){
           console.log("########## Error de solicitud! Not Acceptable: Token => ", token);
           this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.";
         }
