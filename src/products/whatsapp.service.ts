@@ -133,7 +133,7 @@ export class WhatsappService {
           console.log("########### Respuesta de planner OK: Cancel => ",token);
         }
 
-        if (data.statusText === "Bad Request" && retMessage === "9") {
+        if ( retMessage === "9") {  // data.statusText === "Bad Request" &&
           this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' , retObject.time , ' horas antes.';
           console.log("########### Respuesta de planner OK: Cancel => ",token);
         }
