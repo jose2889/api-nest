@@ -105,9 +105,10 @@ export class WhatsappService {
     }
     console.log("body ", body);
     let data; 
-    const urlAPIplanner = this.urlPlanner+token;
+    const urlAPIplanner = `${this.urlPlanner}${token}`;
+    console.log("urlAPIplanner ", urlAPIplanner);
      try {
-      this.httpService.put(urlAPIplanner, body).subscribe(data =>{
+      this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
         console.log("####################### Respuesta exitosa de planner");
         // console.log("cuerpo de la respuesta", data.data);
         let retMessage = data.data.retMessage;
@@ -193,7 +194,7 @@ export class WhatsappService {
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
         console.log("######## Texto recibido: ", text_message);
         console.log("######## URL API Planner: ", urlAPIplanner);
-        console.log("######## Body envias", body);
+        console.log("######## Body enviado", body);
 
         // **************************************************************************************************
 
