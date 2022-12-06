@@ -310,7 +310,7 @@ if (error.status === 400) {
                 <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
                 <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
 
-                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado a la API de Planner.</strong></h3> </p>
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Datos enviados a la API de Planner.</strong></h3> </p>
 
                 <ul style="font-size: 15px;  margin: 10px 0">
                   <li><strong> Body enviado: </strong> ${data.body_send || notFounf } </li>
