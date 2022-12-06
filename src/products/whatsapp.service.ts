@@ -119,6 +119,7 @@ export class WhatsappService {
         console.log("########### retMessage: ", retMessage);
         console.log("########### retCode: ", retCode);
         console.log("########### retObject: ", retObject);
+        
 
         this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
 
@@ -178,8 +179,8 @@ export class WhatsappService {
         // Si el tiempo para cancelar ha pasado 
         if ((errorResponse.status === 406) && (errorResponse.statusText === "Not Acceptable")){
           console.log("########## Error de solicitud! Not Acceptable: Token => ", token);
-          // this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.";
-          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
+          this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.";
+          // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
 
         }
 
