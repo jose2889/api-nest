@@ -192,6 +192,8 @@ export class WhatsappService {
         console.log("######## ConfigURL: ",errorResponse.config.url);
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
         console.log("######## Texto recibido: ", text_message);
+        console.log("######## URL API Planner: ", urlAPIplanner);
+        console.log("######## Body envias", body);
 
         // **************************************************************************************************
 
