@@ -105,9 +105,9 @@ export class WhatsappService {
     }
     console.log("body ", body);
     let data; 
-  
+    const urlAPIplanner = this.urlPlanner+token;
      try {
-      this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
+      this.httpService.put(urlAPIplanner, body).subscribe(data =>{
         console.log("####################### Respuesta exitosa de planner");
         // console.log("cuerpo de la respuesta", data.data);
         let retMessage = data.data.retMessage;
@@ -204,6 +204,8 @@ export class WhatsappService {
           "phone_number": phone_number.toString(),
           "config_method": errorResponse.config.method,
           "config_data": errorResponse.config.data,
+          "urlplanner": urlAPIplanner,
+          "body_send":body
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
         // ############# Guardado de los datos en la tabla para Error Response#############
@@ -304,6 +306,13 @@ if (error.status === 400) {
                 <p style="margin: 2px; font-size: 15px"><h3>Los siguientes datos han sido guardados en la bade de datos:</h3></p>
                 <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
                 <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
+
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado a la API de Planner.</strong></h3> </p>
+
+                <ul style="font-size: 15px;  margin: 10px 0">
+                  <li><strong> Body enviado: </strong> ${data.body_send || notFounf } </li>
+                  <li><strong> URL API Planner: </strong> ${data.urlplanner || notFounf } </li>
+                </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
 
