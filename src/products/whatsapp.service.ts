@@ -411,6 +411,21 @@ if (error.status === 400) {
   }
 
 
+    async findAllError( paginationDto: PaginationDto ) {
+
+    const { limit , offset } = paginationDto;
+
+    const businnes = await this.logFailRepository.find({
+      take: limit,
+      skip: offset,
+      // TODO: relaciones
+    })
+
+     return businnes.map ( itemsBusinnes => ({
+      ...itemsBusinnes,
+    }) )
+  }
+
 
   // enviarNotificacion(): Observable<any> {
   //   return this.httpService.get('https://api-nest-ws.herokuapp.com/api/chat').pipe(

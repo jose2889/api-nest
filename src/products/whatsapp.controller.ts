@@ -114,6 +114,14 @@ export class WhatsappController {
     return this.chatService.findAllBusinnes( paginationDto );
   }
 
+ @Get('list-error')
+  findAllError( @Query() paginationDto:PaginationDto ) {
+    // console.log(paginationDto)
+    return this.chatService.findAllError( paginationDto );
+  }
+
+
+  
   // @Get(':term')
   // findOne(@Param( 'term' ) term: string) {
   //   return this.chatService.findOne( term );
