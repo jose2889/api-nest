@@ -399,14 +399,14 @@ if (error.status === 400) {
 
     const { limit , offset } = paginationDto;
 
-    const businnes = await this.logFailRepository.find({
+    const businnes = await this.apiWsRepository.find({
       take: limit,
       skip: offset,
       // TODO: relaciones
     })
 
-     return businnes.map ( ithemesBusinnes => ({
-      ...ithemesBusinnes,
+     return businnes.map ( itemsBusinnes => ({
+      ...itemsBusinnes,
     }) )
   }
 
