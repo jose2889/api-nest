@@ -17,8 +17,9 @@ import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response
 import { BASEURL } from 'src/common/api-resource';
 import { AxiosResponse } from 'axios'
 import * as dayjs from 'dayjs'
-import { Apiws } from './entities/api_ws.entity';
+import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
+import { UpdateApiWsDto } from './dto/update-api-ws.dto';
 
 
 @Injectable()
@@ -37,39 +38,21 @@ export class WhatsappService {
     "to": "56957858732",
     "type": "text",
     "text": {
-        "body": "para mensajes"
+        "body": "mensaje de respuesta"
     }
   }
 
   constructor(
 
+    private readonly httpService:HttpService,
     @InjectRepository(Chat)
     private readonly chatRepository: Repository<Chat>,
-    private readonly httpService:HttpService,
-    @InjectRepository(Apiws)
-    private readonly apiWsRepository: Repository<Apiws>, //variable para regsitar API Ws
+    @InjectRepository(ApiWs)
+    private readonly apiWsRepository: Repository<ApiWs>, //variable para regsitar API Ws
     @InjectRepository(LogFail)
     private readonly logFailRepository: Repository<LogFail>, //variable para regsitar API Ws
 
   ) {}
-
-// ################# Guardado de los datos en la tabla de las APIs Ws###################
-// ############################### Edgardo Lugo ########################################
-
-  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
-    try {
-      const apiWs = this.apiWsRepository.create(createApiWsDot);
-      apiWs.create_data = Date.now().toString();
-      await this.apiWsRepository.save(apiWs);
-      console.log(apiWs);
-      return {apiWs};
-    } catch (error) {
-      this.handleDBExceptions(error)
-    }
-  }
-
-  //###################################################################################
-
 
   // ############# Guardado de los datos en la tabla de las Error Response#############
   // ############################### Edgardo Lugo #####################################
@@ -378,7 +361,6 @@ if (error.status === 400) {
   }
 
 
-
   async findAll( paginationDto: PaginationDto ) {
 
     const { limit , offset } = paginationDto;
@@ -394,21 +376,12 @@ if (error.status === 400) {
     }) )
   }
 
-
-    async findAllBusinnes( paginationDto: PaginationDto ) {
-
-    const { limit , offset } = paginationDto;
-
-    const businnes = await this.apiWsRepository.find({
-      take: limit,
-      skip: offset,
-      // TODO: relaciones
-    })
-
-     return businnes.map ( itemsBusinnes => ({
-      ...itemsBusinnes,
-    }) )
-  }
+  // enviarNotificacion(): Observable<any> {
+  //   return this.httpService.get('https://api-nest-ws.herokuapp.com/api/chat').pipe(
+  //     map(resp => resp.data)).subscribe(data => {
+  //       console.log(data);
+  //     });
+  // }
 
 
     async findAllError( paginationDto: PaginationDto ) {
@@ -426,15 +399,6 @@ if (error.status === 400) {
     }) )
   }
 
-
-  // enviarNotificacion(): Observable<any> {
-  //   return this.httpService.get('https://api-nest-ws.herokuapp.com/api/chat').pipe(
-  //     map(resp => resp.data)).subscribe(data => {
-  //       console.log(data);
-  //     });
-  // }
-
-
   async findOne( term: string ) {
 
     let product: Chat;
@@ -449,7 +413,6 @@ if (error.status === 400) {
           slug: term.toLowerCase(),
         }).getOne();
     }
-
 
     if ( !product ) 
       throw new NotFoundException(`Product with ${ term } not found`);
@@ -476,12 +439,96 @@ if (error.status === 400) {
 
   }
 
-  async remove(id: string) {
-    const product = await this.findOne( id );
-    await this.chatRepository.remove( product );
-    
+  // ################### Fuciones para el manejo de los datos de Business ############################
+
+
+  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
+    try {
+      const apiWs = this.apiWsRepository.create(createApiWsDot);
+      apiWs.create_data = Date.now().toString();
+      await this.apiWsRepository.save(apiWs);
+      console.log('Se registro el negocio con los siguientes datos: ',apiWs);
+      return {apiWs};
+    } catch (error) {
+      console.log('Ocurrio un error al registrar el negocio: ',error);
+      this.handleDBExceptions(error)
+    }
   }
 
+  async findAllBusinnes( paginationDto: PaginationDto ) {
+
+    const { limit , offset } = paginationDto;
+
+    const businnes = await this.apiWsRepository.find({
+      take: limit,
+      skip: offset,
+      // TODO: relaciones
+    })
+
+    console.log('Se mostro listado de negocios');
+    return businnes.map ( itemsBusinnes => ({
+      ...itemsBusinnes,
+    }) )
+  }
+
+
+  async findOneBusinnes( term: string ) {
+
+    let businne: ApiWs;
+
+    if ( isUUID(term) ) {
+      businne = await this.apiWsRepository.findOneBy({ id: term });
+    } else {
+      const queryBuilder = this.apiWsRepository.createQueryBuilder(); 
+      businne = await queryBuilder
+        .where('UPPER(phone_api) =:phone_api or slug_businnes =:slug_businnes', {
+          phone_api: term.toUpperCase(),
+          slug_businnes: term.toLowerCase(),
+        }).getOne();
+    }
+
+
+    if ( !businne ) {
+      console.log('Se mostro detalles del negocio con el termino de busqueda: ', term);
+      throw new NotFoundException(`Businne with ${ term } not found`);
+    }
+
+    return businne;
+  }
+
+  async updateBusinnes( id: string, updateApiWsDto: UpdateApiWsDto ) {
+
+    const businne = await this.apiWsRepository.preload({
+      id: id,
+      ...updateApiWsDto
+    });
+
+    if ( !businne ) throw new NotFoundException(`Businne with id: ${ id } not found`);
+
+    try {
+      await this.chatRepository.save( businne );
+      console.log('Se actulizaron los datos del negocio con el id: ', id, ' con los datos: ', updateApiWsDto);
+
+      return businne;
+      
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+
+  }
+
+  async removeBusinnes(id: string) {
+    const businne: ApiWs = await this.findOneBusinnes( id );
+    // try {
+      await this.apiWsRepository.remove( businne );
+      console.log('Se elimino el negocio con el id: ', id);
+      return businne;
+    // } catch (error) {
+    //   this.handleDBExceptions(error);
+    // }
+  }
+
+  // ################################################################################################
 
   private handleDBExceptions( error: any ) {
 

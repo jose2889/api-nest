@@ -10,6 +10,7 @@ import { CreateConfirmationDto } from './dto/confirmation.dto';
 import { CreateNotificationDto } from './dto/notification.dto';
 import { CreateApiWSDto } from './dto/create-api-ws.dto';
 import { response } from 'express';
+import { UpdateApiWsDto } from './dto/update-api-ws.dto';
 
 @ApiTags('Chats')
 @Controller('chat')
@@ -76,30 +77,25 @@ export class WhatsappController {
       })
   }
 
- // ###################Creacion del POST de register APIs Ws##########################
- // ############################### Edgardo Lugo #####################################
+ // ################### Creacion de  los endpoint para la getion de APIs Ws ##########################
+ // ######################################## Edgardo Lugo ############################################
 
   @Post('registerapiwsclient')
-  createRegisterApiWsDB(
-    @Body() createRegisterApiWs:CreateApiWSDto)
-    {
-    
-
-        return  this.chatService.CreateRegisterApiWs(createRegisterApiWs);
-
-        // try {
-
-        //     }
-        // } catch (error) {
+  createRegisterApiWsDB(@Body() createRegisterApiWs:CreateApiWSDto) {
+      return  this.chatService.CreateRegisterApiWs(createRegisterApiWs).then( res => {
+        console.log('Se registro un nuevo negocio');
+        response.status(HttpStatus.CREATED).json(res);
+      }).catch((err) => {
+        console.log('Ocurrio un error al registrar negocio');        
+        response.status(HttpStatus.BAD_REQUEST).json(err);
+      });
 	
     }
-
-// ###################################################################################
-
+    
   @Get('list-messages')
-  findAll( @Query() paginationDto:PaginationDto ) {
-    // console.log(paginationDto)
-    return this.chatService.findAll( paginationDto );
+    findAll( @Query() paginationDto:PaginationDto ) {
+      console.log('Se mostro listado de mensajes')
+      return this.chatService.findAll( paginationDto );
   }
 
   @Get('length-messages')
@@ -108,36 +104,35 @@ export class WhatsappController {
     return this.chatService.findLengthMessages();
   }
 
-  @Get('list-businnes')
+ @Get('businne-list')
   findAllBusinnes( @Query() paginationDto:PaginationDto ) {
-    // console.log(paginationDto)
     return this.chatService.findAllBusinnes( paginationDto );
   }
 
  @Get('list-error')
   findAllError( @Query() paginationDto:PaginationDto ) {
-    // console.log(paginationDto)
+    console.log('Se mostro listado de errores registrados en la base de datos');
     return this.chatService.findAllError( paginationDto );
   }
 
+  @Get('businne/:term')
+  findOneBusinnes(@Param( 'term' ) term: string) {
+    return this.chatService.findOneBusinnes( term );
+  }
 
+  @Patch('businne/:id')
+  updateBusinnes(
+    @Param('id', ParseUUIDPipe ) id: string, 
+    @Body() updateApiWsDto: UpdateApiWsDto,
+    ) {
+    return this.chatService.updateBusinnes( id, updateApiWsDto );
+  }
   
-  // @Get(':term')
-  // findOne(@Param( 'term' ) term: string) {
-  //   return this.chatService.findOne( term );
-  // }
-
-  // @Patch(':id')
-  // update(
-  //   @Param('id', ParseUUIDPipe ) id: string, 
-  //   @Body() updateProductDto: UpdateChatDto
-  // ) {
-  //   return this.chatService.update( id, updateProductDto );
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id', ParseUUIDPipe ) id: string) {
-  //   return this.chatService.remove( id );
-  // }
+  @Delete('businne/:id')
+  removeBusinnes(@Param('id', ParseUUIDPipe ) id: string) {
+    return this.chatService.removeBusinnes( id );
+  }
   
 }
+
+  // ###################################################################################
