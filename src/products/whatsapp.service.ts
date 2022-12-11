@@ -37,7 +37,7 @@ export class WhatsappService {
     "to": "56957858732",
     "type": "text",
     "text": {
-        "body": "para mensajes"
+        "body": ""
     }
   }
 
