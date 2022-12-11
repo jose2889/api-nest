@@ -12,7 +12,7 @@ export class Webhookontroller {
   @Post()
   createWebhook(@Body() data:any) {
 
-    console.log("⏩⏩ este es el objeto",JSON.stringify(data));
+    console.log("⏩⏩ Objeto recibido de Facebook de la API de WhatsApp",JSON.stringify(data));
     
     let createProductDto = new CreateChatDto();
     if (data.object) {
@@ -23,7 +23,7 @@ export class Webhookontroller {
         data.entry[0].changes[0].value.messages &&
         data.entry[0].changes[0].value.messages[0]
       ) {
-        console.log("⏩⏩ entro en el if");
+        console.log("⏩⏩ El objeto es correcto con los datos necesarios para guardar el mensaje");
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
         let from = data.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
@@ -45,7 +45,7 @@ export class Webhookontroller {
         createProductDto.timestamp = timestamp; 
         createProductDto.watsapp_id = watsapp_id; 
 
-        console.log(" ⏩⏩⏩⏩⏩⏩ Se guarada el objeto ", JSON.stringify(createProductDto));
+        console.log(" ⏩⏩⏩⏩⏩ Se guarada el objeto ", JSON.stringify(createProductDto));
         return this.chatService.createWebhook(createProductDto);
       }
       
