@@ -74,7 +74,7 @@ export class WhatsappService {
 
   async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
     try {
-      console.log('Ingresa a guardar error');
+      console.log('####################### Ingresa a guardar error #######################');
       const logFail = this.logFailRepository.create(createLogFaileDto);
       logFail.create_data = Date.now().toString();
       await this.logFailRepository.save(logFail);
@@ -95,7 +95,7 @@ export class WhatsappService {
   }
 
   async updateReservation(token: string, phone_number: string, text_message:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
-
+    console.log("######################## Update Reservation ######################### ≟ ⋙ ⋘ 🚫 🆗 ⚠ ❌ ✅ ⭕ ");
     console.log("token recibido ", token);
     this.request.to = phone_number;
     let body = {
@@ -104,7 +104,7 @@ export class WhatsappService {
     console.log("body ", body);
     let data; 
     const urlAPIplanner = `${this.urlPlanner}${token}`;
-    console.log("urlAPIplanner ", urlAPIplanner);
+    console.log("############### urlAPIplanner ", urlAPIplanner);
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
         console.log("####################### Respuesta exitosa de planner");
@@ -117,10 +117,8 @@ export class WhatsappService {
         console.log("########### retMessage: ", retMessage);
         console.log("########### retCode: ", retCode);
         console.log("########### retObject: ", retObject);
-        
 
         this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
-
 
         if ((data.statusText === "OK") && (retMessage === "1")) {
           this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
@@ -133,13 +131,14 @@ export class WhatsappService {
           console.log("########### Respuesta de planner OK: Cancel => ",token);
         }
 
-        if ( retMessage === "9") {  // data.statusText === "Bad Request" &&
-          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' , retObject.time , ' horas antes.';
-          console.log("########### Respuesta de planner OK: Cancel => ",token);
+        if ((data.statusText === "Bad Request") && (retMessage === "9")) {  
+          // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + retObject.time + ' horas antes.';
+          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva.';
+          console.log("################################ Respuesta de planner OK: Cancel => ",token);
         }
         
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-          console.log("########### Respuesta exitosa del whatsapp", res.statusText); 
+          console.log("################################ Respuesta exitosa del whatsapp", res.statusText); 
         },
         (error) => {
           console.log("########### Ocurrio un error al enviar el mensaje por whatsapp ", error);
@@ -170,8 +169,9 @@ export class WhatsappService {
         
         // Si el token es válido en planner, pero ya no se puede cancelar la reverva
         if ((errorResponse.status === 400) && (errorResponse.data.retMessage === "9")) { // errorResponse.statusText === "Bad Request" && 
-          console.log("########## Respuesta de planner OK: Cancel => ",token);
-          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
+          console.log("########## Respuesta de planner Status 400: Cancel => ",token);
+          // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
+          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva.';
         }
         
         // Si el tiempo para cancelar ha pasado 
@@ -194,7 +194,8 @@ export class WhatsappService {
         console.log("######## ConfigURL: ",errorResponse.config.url);
         console.log("######## ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
         console.log("######## Texto recibido: ", text_message);
-        console.log("######## URL API Planner: ", urlAPIplanner);
+        console.log("######## Token recibido: ", token);
+        // console.log("######## URL API Planner: ", urlAPIplanner);
         console.log("######## Body enviado", JSON.stringify(body));
 
         // **************************************************************************************************
@@ -224,10 +225,10 @@ export class WhatsappService {
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-          console.log("respuesta exitosa del whatsapp", res.statusText); 
+          console.log("################# respuesta exitosa de la API whatsApp de Facebook", res.statusText); 
         },
         (error) => {
-          console.log("ocurrio un error al enviar el mensaje por whatsapp ", error);
+          console.log("################# ocurrio un error al enviar el mensaje por whatsapp ", error);
         }); 
       });
       // console.log("Response de planner", data);
