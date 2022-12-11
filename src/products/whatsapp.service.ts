@@ -120,7 +120,7 @@ export class WhatsappService {
 
         this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado.";
 
-        if ((data.statusText === "OK") && (retMessage === "1")) {")
+        if ((data.statusText === "OK") && (retMessage === "1")){
           this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
           console.log("👍👍👍👍 Respuesta de planner OK: Accept => ",token);
 
