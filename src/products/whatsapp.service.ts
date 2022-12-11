@@ -104,7 +104,7 @@ export class WhatsappService {
     console.log("body ", body);
     let data; 
     const urlAPIplanner = `${this.urlPlanner}${token}`;
-    console.log("############### urlAPIplanner ", urlAPIplanner);
+    console.log("🔗🔗🔗 urlAPIplanner ", urlAPIplanner);
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
         console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
