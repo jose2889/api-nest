@@ -74,7 +74,7 @@ export class WhatsappService {
 
   async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
     try {
-      console.log('####################### Ingresa a guardar error #######################');
+      console.log('⋙⋙⋙⋙⋙⋙⋙⋙⋙ Ingresa a guardar error ⋘⋘⋘⋘⋘⋘⋘⋘⋘');
       const logFail = this.logFailRepository.create(createLogFaileDto);
       logFail.create_data = Date.now().toString();
       await this.logFailRepository.save(logFail);
@@ -112,11 +112,11 @@ export class WhatsappService {
         let retMessage = data.data.retMessage;
         let retCode = data.data.retCode;
         let retObject = data.data.retObject;
-        console.log("≒≒≒≒⟹ Status: ", data.status);
-        console.log("≒≒≒≒⟹ StatusText: ", data.statusText);
-        console.log("≒≒≒≒⟹ retMessage: ", retMessage);
-        console.log("≒≒≒≒⟹ retCode: ", retCode);
-        console.log("≒≒≒≒⟹ retObject: ", retObject);
+        console.log("⏩⏩ Status: ", data.status);
+        console.log("⏩⏩ StatusText: ", data.statusText);
+        console.log("⏩⏩ retMessage: ", retMessage);
+        console.log("⏩⏩ retCode: ", retCode);
+        console.log("⏩⏩ retObject: ", retObject);
 
         this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
 
@@ -187,16 +187,16 @@ export class WhatsappService {
 
 
 
-        console.log("≒≒≒≒⟹ Status: ", errorResponse.status.toString());
-        console.log("≒≒≒≒⟹ Data: ", JSON.stringify(errorResponse.data));
-        console.log("≒≒≒≒⟹ Status Text: ",errorResponse.statusText);
-        console.log("≒≒≒≒⟹ ConfigMethod: ",errorResponse.config.method);
-        console.log("≒≒≒≒⟹ ConfigURL: ",errorResponse.config.url);
-        console.log("≒≒≒≒⟹ ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
-        console.log("≒≒≒≒⟹ Texto recibido: ", text_message);
-        console.log("≒≒≒≒⟹ Token recibido: ", token);
-        // console.log("≒≒≒≒⟹ URL API Planner: ", urlAPIplanner);
-        console.log("≒≒≒≒⟹ Body enviado", JSON.stringify(body));
+        console.log("⏩⏩ Status: ", errorResponse.status.toString());
+        console.log("⏩⏩ Data: ", JSON.stringify(errorResponse.data));
+        console.log("⏩⏩ Status Text: ",errorResponse.statusText);
+        console.log("⏩⏩ ConfigMethod: ",errorResponse.config.method);
+        console.log("⏩⏩ ConfigURL: ",errorResponse.config.url);
+        console.log("⏩⏩ ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
+        console.log("⏩⏩ Texto recibido: ", text_message);
+        console.log("⏩⏩ Token recibido: ", token);
+        // console.log("⏩⏩ URL API Planner: ", urlAPIplanner);
+        console.log("⏩⏩ Body enviado", JSON.stringify(body));
 
         // **************************************************************************************************
 

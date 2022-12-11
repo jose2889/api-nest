@@ -23,7 +23,7 @@ export class Webhookontroller {
         data.entry[0].changes[0].value.messages &&
         data.entry[0].changes[0].value.messages[0]
       ) {
-        console.log("entro en el if");
+        console.log("⏩⏩ entro en el if");
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
         let from = data.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
@@ -33,7 +33,7 @@ export class Webhookontroller {
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
         if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
         if (type == "button") {
-          console.log("la data es ", JSON.stringify(data));
+          console.log("⏩⏩ la data es ", JSON.stringify(data));
           createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
           createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
           this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text);
@@ -45,7 +45,7 @@ export class Webhookontroller {
         createProductDto.timestamp = timestamp; 
         createProductDto.watsapp_id = watsapp_id; 
 
-        console.log(" ########### Se guarada el objeto ", JSON.stringify(createProductDto));
+        console.log(" ⏩⏩⏩⏩⏩⏩ Se guarada el objeto ", JSON.stringify(createProductDto));
         return this.chatService.createWebhook(createProductDto);
       }
       
@@ -56,7 +56,7 @@ export class Webhookontroller {
 
   @Get()
   authWebhook(@Res() res, @Query( 'hub.mode' ) mode: string, @Query( 'hub.verify_token' ) token: string, @Query( 'hub.challenge' ) challenge: string) {
-     console.log("datos por parametro ", mode, token, challenge)
+     console.log("⏩⏩⏩⏩ datos por parametro ", mode, token, challenge)
      /**
    * UPDATE YOUR VERIFY TOKEN
    *This will be the Verify Token value when you set up webhook
@@ -72,7 +72,7 @@ export class Webhookontroller {
      // Check the mode and token sent are correct
      if (mode === "subscribe" && token === verify_token) {
        // Respond with 200 OK and challenge token from the request
-       console.log("WEBHOOK_VERIFIED");
+       console.log("✅✅✅ WEBHOOK_VERIFIED ✅✅✅");
        res.status(200).send(challenge);
      } else {
        // Responds with '403 Forbidden' if verify tokens do not match
@@ -84,8 +84,8 @@ export class Webhookontroller {
 
   @Post('test')
   testUpdate(@Res() res, @Query( 'token' ) token: string, @Body() body: any) {
-    console.log("datos por parametro: ", token)
-    console.log("datos por body: ", body)
+    console.log("⏩⏩⏩ datos por parametro: ", token)
+    console.log("⏩⏩⏩ datos por body: ", body)
     
     let response = this.chatService.updateReservation(token, body.phone_number, body.text);
     console.log(response)
