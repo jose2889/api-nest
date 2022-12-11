@@ -12,7 +12,7 @@ export class Webhookontroller {
   @Post()
   createWebhook(@Body() data:any) {
 
-    console.log("este es el objeto",JSON.stringify(data));
+    console.log("⏩⏩ este es el objeto",JSON.stringify(data));
     
     let createProductDto = new CreateChatDto();
     if (data.object) {

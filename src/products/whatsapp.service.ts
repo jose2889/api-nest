@@ -37,7 +37,7 @@ export class WhatsappService {
     "to": "56957858732",
     "type": "text",
     "text": {
-        "body": ""
+        "body": "mesnaje"
     }
   }
 
@@ -96,7 +96,7 @@ export class WhatsappService {
 
   async updateReservation(token: string, phone_number: string, text_message:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     console.log("🔄🔄🔄🔄🔄🔄 Update Reservation 🔄🔄🔄🔄🔄🔄 ⋙ ⋘");
-    console.log("token recibido ", token);
+    console.log("⏩⏩ token recibido ", token);
     this.request.to = phone_number;
     let body = {
       date: dayjs().format("YYYY-MM-DD HH:mm")
@@ -104,7 +104,7 @@ export class WhatsappService {
     console.log("body ", body);
     let data; 
     const urlAPIplanner = `${this.urlPlanner}${token}`;
-    console.log("🔗🔗🔗 urlAPIplanner ", urlAPIplanner);
+    console.log(" urlAPIplanner ", urlAPIplanner);
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
         console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
@@ -393,7 +393,7 @@ if (error.status === 400) {
     try {
       
       let product = await this.chatRepository.findOneBy({ watsapp_id: createProductDto.watsapp_id });
-      console.log("Se encontro una coincidencia: ", product)
+      console.log("⏩⏩ Se encontro una coincidencia: ", product)
       if ( !product ) {
         product = this.chatRepository.create(createProductDto);
         await this.chatRepository.save( product );
