@@ -37,7 +37,7 @@ export class WhatsappService {
     "to": "56957858732",
     "type": "text",
     "text": {
-        "body": "mesnaje"
+        "body": "Response Default"
     }
   }
 
@@ -118,9 +118,9 @@ export class WhatsappService {
         console.log("⏩⏩ retCode: ", retCode);
         console.log("⏩⏩ retObject: ", retObject);
 
-        this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
+        this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado.";
 
-        if ((data.statusText === "OK") && (retMessage === "1")) {
+        if ((data.statusText === "OK") && (retMessage === "1")) {")
           this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
           console.log("👍👍👍👍 Respuesta de planner OK: Accept => ",token);
 
@@ -179,7 +179,13 @@ export class WhatsappService {
           console.log("👎👎👎👎 Error de solicitud! Not Acceptable: Token => ", token);
           this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
-
+        }
+        
+        // Si el status es 400 con Bad Request y retMessage es 1 
+        if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") && (errorResponse.data.retMessage === "1")){
+          console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
+          this.request.text.body = "Su solicitud no ha sido procesada. Lamentamos los contratiempos causados, estamos trabajando en mejorar el servicio.";
+          // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
         }
 
 
