@@ -19,6 +19,7 @@ import { AxiosResponse } from 'axios'
 import * as dayjs from 'dayjs'
 import { Apiws } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
+import { response } from 'express';
 
 
 @Injectable()
@@ -74,13 +75,14 @@ export class WhatsappService {
 
   async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
     try {
-      console.log('⋙⋙⋙⋙⋙⋙⋙⋙⋙ Ingresa a guardar error ⋘⋘⋘⋘⋘⋘⋘⋘⋘');
+      console.log('⋙💾💾⋙ Ingresa a guardar error ⋘💾💾⋘');
       const logFail = this.logFailRepository.create(createLogFaileDto);
       logFail.create_data = Date.now().toString();
       await this.logFailRepository.save(logFail);
-      console.log('Datos del error guardados');
+      // console.log('Datos del error guardados');
       // return true;
     } catch (error) {
+      console.log("⋙💾💾⋙ Hubo un error al guardar el error en la base de datos ⋘💾💾⋘")
       this.handleDBExceptions(error)
       // return false;
     }
@@ -90,21 +92,22 @@ export class WhatsappService {
 
   async sendMessage(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
-    console.log(data);
+    console.log("📩📩📩 Mensaje enviado 📩 ⋙ ", request);
+    console.log("📩📩📩 Mensaje enviado 📩 ⋘ ", data);
     return data;
   }
 
   async updateReservation(token: string, phone_number: string, text_message:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     console.log("🔄🔄🔄🔄🔄🔄 Update Reservation 🔄🔄🔄🔄🔄🔄 ⋙ ⋘");
-    console.log("⏩⏩ token recibido ", token);
+    console.log("⏩⏩ token recibido: ", token);
     this.request.to = phone_number;
     let body = {
       date: dayjs().format("YYYY-MM-DD HH:mm")
     }
-    console.log("body ", body);
+    console.log("⏩⏩ body: ", body);
     let data; 
     const urlAPIplanner = `${this.urlPlanner}${token}`;
-    console.log(" urlAPIplanner ", urlAPIplanner);
+    console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
         console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
@@ -368,15 +371,18 @@ if (error.status === 400) {
         }
     
     try {
-      const response = await this.httpService.post(process.env.EMAIL_URL, emailRemitente).subscribe(res => {
+      await this.httpService.post(process.env.EMAIL_URL, emailRemitente).subscribe(res => {
           console.log(" 📧📧 Response of Api email: ", res.data); 
+          console.log(" 📧📧 Se envio el correo de error: ", emailRemitente);
         },
         (error) => {
           console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
         });
     } catch (error) {
+        console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
         throw new BadRequestException();
     }
+    
   }
   // ##################################################################################################################
 
