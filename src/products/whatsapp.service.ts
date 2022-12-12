@@ -187,8 +187,14 @@ export class WhatsappService {
         // Si el status es 400 con Bad Request y retMessage es 1 
         if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") && (errorResponse.data.retMessage === "1")){
           console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
-          this.request.text.body = "Su solicitud no ha sido procesada. Lamentamos los contratiempos causados, estamos trabajando en mejorar el servicio.";
+          this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para confirmar ha pasado.";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
+        }
+
+        // Si el status es 409 con Conflit y retCode es 1
+        if ((errorResponse.status === 409) && (errorResponse.statusText === "Conflit") && (errorResponse.data.retCode === "1")){
+          console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
+          this.request.text.body = "Su solicitud no ha sido procesada. El reservación ha pasado.";
         }
 
 
@@ -372,7 +378,7 @@ if (error.status === 400) {
     
     try {
       await this.httpService.post(process.env.EMAIL_URL, emailRemitente).subscribe(res => {
-          console.log(" 📧📧 Se envio el correo de error: ", emailRemitente);
+          // console.log(" 📧📧 Se envio el correo de error: ", emailRemitente);
           console.log(" 📧📧 Response of Api email: ", res.data); 
         },
         (error) => {
