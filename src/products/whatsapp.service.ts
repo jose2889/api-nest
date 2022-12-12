@@ -92,8 +92,8 @@ export class WhatsappService {
 
   async sendMessage(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
-    console.log("📩📩📩 Mensaje enviado 📩 ⋙ ", request);
-    console.log("📩📩📩 Mensaje enviado 📩 ⋘ ", data);
+    console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
+    console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
     return data;
   }
 
@@ -372,8 +372,8 @@ if (error.status === 400) {
     
     try {
       await this.httpService.post(process.env.EMAIL_URL, emailRemitente).subscribe(res => {
-          console.log(" 📧📧 Response of Api email: ", res.data); 
           console.log(" 📧📧 Se envio el correo de error: ", emailRemitente);
+          console.log(" 📧📧 Response of Api email: ", res.data); 
         },
         (error) => {
           console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);

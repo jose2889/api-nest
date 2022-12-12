@@ -12,7 +12,7 @@ export class Webhookontroller {
   @Post()
   createWebhook(@Body() data:any) {
 
-    console.log("⏩⏩ Objeto recibido de Facebook de la API de WhatsApp",JSON.stringify(data));
+    console.log("⏩⏩⏩⏩⏩⏩⏩⏩ Objeto recibido de Facebook de la API de WhatsApp",JSON.stringify(data));
     
     let createProductDto = new CreateChatDto();
     if (data.object) {
@@ -33,7 +33,7 @@ export class Webhookontroller {
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
         if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
         if (type == "button") {
-          console.log("⏩⏩ la data es ", JSON.stringify(data));
+          console.log("⏩⏩ Data recibida: ", JSON.stringify(data));
           createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
           createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
           this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text);
@@ -56,7 +56,7 @@ export class Webhookontroller {
 
   @Get()
   authWebhook(@Res() res, @Query( 'hub.mode' ) mode: string, @Query( 'hub.verify_token' ) token: string, @Query( 'hub.challenge' ) challenge: string) {
-     console.log("⏩⏩⏩⏩ datos por parametro ", mode, token, challenge)
+     console.log("⏩⏩⏩⏩ Datos por parametro ", mode, token, challenge)
      /**
    * UPDATE YOUR VERIFY TOKEN
    *This will be the Verify Token value when you set up webhook
@@ -84,8 +84,8 @@ export class Webhookontroller {
 
   @Post('test')
   testUpdate(@Res() res, @Query( 'token' ) token: string, @Body() body: any) {
-    console.log("⏩⏩⏩ datos por parametro: ", token)
-    console.log("⏩⏩⏩ datos por body: ", body)
+    console.log("⏩⏩⏩ Datos por parametro: ", token)
+    console.log("⏩⏩⏩ Datos por body: ", body)
     
     let response = this.chatService.updateReservation(token, body.phone_number, body.text);
     console.log(response)
