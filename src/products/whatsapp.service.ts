@@ -62,7 +62,7 @@ export class WhatsappService {
       const apiWs = this.apiWsRepository.create(createApiWsDot);
       apiWs.create_data = Date.now().toString();
       await this.apiWsRepository.save(apiWs);
-      console.log(apiWs);
+      console.log('⋙💾💾✅✅⋙ Datos del negocio guardados ⋙⋙ ',apiWs);
       return {apiWs};
     } catch (error) {
       this.handleDBExceptions(error)
@@ -75,14 +75,14 @@ export class WhatsappService {
 
   async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
     try {
-      console.log('⋙💾💾⋙ Ingresa a guardar error ⋘💾💾⋘');
+      console.log('⋙💾✅💾⋙ Ingresa a guardar error ⋘💾✅💾⋘');
       const logFail = this.logFailRepository.create(createLogFaileDto);
       logFail.create_data = Date.now().toString();
       await this.logFailRepository.save(logFail);
       // console.log('Datos del error guardados');
       // return true;
     } catch (error) {
-      console.log("⋙💾💾⋙ Hubo un error al guardar el error en la base de datos ⋘💾💾⋘")
+      console.log("⋙💾❌💾⋙ Hubo un error al guardar el error en la base de datos ⋘💾❌💾⋘")
       this.handleDBExceptions(error)
       // return false;
     }
@@ -97,9 +97,11 @@ export class WhatsappService {
     return data;
   }
 
-  async updateReservation(token: string, phone_number: string, text_message:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     console.log("🔄🔄🔄🔄🔄🔄 Update Reservation 🔄🔄🔄🔄🔄🔄 ⋙ ⋘");
     console.log("⏩⏩ token recibido: ", token);
+    console.log("⏩⏩ phone_number recibido: ", phone_number);
+    console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
     this.request.to = phone_number;
     let body = {
       date: dayjs().format("YYYY-MM-DD HH:mm")
@@ -120,6 +122,7 @@ export class WhatsappService {
         console.log("⏩⏩ retMessage: ", retMessage);
         console.log("⏩⏩ retCode: ", retCode);
         console.log("⏩⏩ retObject: ", retObject);
+        console.log("⏩⏩ timestamp_message: ", timestamp_message);
 
         this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado.";
 
@@ -139,6 +142,12 @@ export class WhatsappService {
           this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva.';
           console.log("⭕⭕⭕⭕ Respuesta de planner OK: Cancel => ",token);
         }
+
+        if ((data.statusText === "Bad Request") && (retMessage === "1")) {  
+          // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + retObject.time + ' horas antes.';
+          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva.';
+          console.log("⭕⭕⭕⭕ Respuesta de planner OK: Cancel => ",token);
+        }
         
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText); 
@@ -147,7 +156,7 @@ export class WhatsappService {
           console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
         }); 
       },
-      async (error) => {
+      (error) => {
         let errorResponse = error.response;
         // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
         console.log("❌❌❌❌❌❌ Error de solicitud ❌❌❌❌❌❌ ");
@@ -194,7 +203,7 @@ export class WhatsappService {
         // Si el status es 409 con Conflit y retCode es 1
         if ((errorResponse.status === 409) && (errorResponse.statusText === "Conflit") && (errorResponse.data.retCode === "1")){
           console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
-          this.request.text.body = "Su solicitud no ha sido procesada. El reservación ha pasado.";
+          this.request.text.body = "Su solicitud no ha sido procesada. Verifique la fecha de su sistema";
         }
 
 
@@ -212,6 +221,8 @@ export class WhatsappService {
         console.log("⏩⏩ Token recibido: ", token);
         // console.log("⏩⏩ URL API Planner: ", urlAPIplanner);
         console.log("⏩⏩ Body enviado", JSON.stringify(body));
+        console.log("⏩⏩ Timestamp del mensaje: ",timestamp_message);
+        console.log("⏩⏩ Id Message WhatsApp: ", watsapp_id);
 
         // **************************************************************************************************
 
@@ -227,14 +238,16 @@ export class WhatsappService {
           "urlplanner": urlAPIplanner,
           "body_send":JSON.stringify(body),
           "respuesta":  this.request.text.body,
+          "timestamp_message": timestamp_message,
+          "watsapp_id": watsapp_id
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
         // ############# Guardado de los datos en la tabla para Error Response#############
-        await this.CreateRegisterLogFail(logFail);
+        this.CreateRegisterLogFail(logFail);
 
         // ########## enviar email de error ##########
 
-        await this.sendEmailError(logFail);
+        this.sendEmailError(logFail);
 
         // **************************************************************************************************
 
@@ -334,6 +347,8 @@ if (error.status === 400) {
                 <ul style="font-size: 15px;  margin: 10px 0">
                 <li><strong> Texto recibido: </strong> ${data.text_message || notFounf } </li>
                 <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
+                <li><strong>Timestamp del mensaje: </strong> ${data.timestamp_message || notFounf } </li>
+                <li><strong>Id del mensaje de WhatsApp: </strong> ${data.watsapp_id || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Repuesta enviada al usuario.</strong></h3> </p>
@@ -406,6 +421,32 @@ if (error.status === 400) {
     }
   }
 
+  /* #####################################################################################################################
+  ######################### Se verifica si el id del mensaje ya existe en la base de datos. ##############################
+  ##################################################################################################################### */
+  async validateIDwatsappMessage( watsapp_id: string ) {
+    console.info("⏩⏩ Se verifica si el '", watsapp_id, "' ya existe en la base de datos.")
+    try {
+      let idMessage = await this.chatRepository.findOneBy({ watsapp_id: watsapp_id });
+      console.log("⏩⏩ Coincidencia: ", idMessage)
+
+      if ( idMessage ){
+        console.log("⏩⏩ El id del mensaje ya existe en la base de datos.")
+        return true;
+      }else{
+        console.log("⏩⏩ El id del mensaje no existe en la base de datos.")
+        return false;
+      }
+    
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+
+  }
+
+  // ############### Fin de la función de validar si el id del mensaje esta en la base de datos ##########################
+
+
   async createWebhook(createProductDto: CreateChatDto) {
     
     try {
@@ -415,6 +456,8 @@ if (error.status === 400) {
       if ( !product ) {
         product = this.chatRepository.create(createProductDto);
         await this.chatRepository.save( product );
+
+        console.log("⏩⏩ Se guardo el mensaje: ", product)
   
         return product;
       }

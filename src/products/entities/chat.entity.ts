@@ -60,4 +60,11 @@ export class Chat {
     })
     phone_number_id: string;
     
+    @Column({
+        type: 'bool',
+        default: false,
+        nullable: true
+    })
+    answered_message: boolean;
+    
 }

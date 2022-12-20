@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query, ForbiddenException, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query, ForbiddenException, Res, HttpStatus, HttpCode } from '@nestjs/common';
 import { WhatsappService } from './whatsapp.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -10,7 +10,8 @@ export class Webhookontroller {
   constructor(private readonly chatService: WhatsappService) {}
 
   @Post()
-  createWebhook(@Body() data:any) {
+  @HttpCode(HttpStatus.OK)  // PAra que si se recibe la petición de Facebook devuelva un status OK
+  async createWebhook(@Body() data:any) {
 
     console.log("⏩⏩⏩⏩⏩⏩⏩⏩ Objeto recibido de Facebook de la API de WhatsApp",JSON.stringify(data));
     
@@ -23,7 +24,8 @@ export class Webhookontroller {
         data.entry[0].changes[0].value.messages &&
         data.entry[0].changes[0].value.messages[0]
       ) {
-        console.log("⏩⏩ El objeto es correcto con los datos necesarios para guardar el mensaje");
+
+        console.log("⏩⏩ La petición POST de Facebook es de tipo message");
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
         let from = data.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
@@ -31,22 +33,34 @@ export class Webhookontroller {
         let name = data.entry[0].changes[0].value.contacts[0].profile.name;
         let timestamp = data.entry[0].changes[0].value.messages[0].timestamp;
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
-        if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
-        if (type == "button") {
-          console.log("⏩⏩ Data recibida: ", JSON.stringify(data));
-          createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
-          createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-          this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text);
-        }  
+        let coincidencia = await this.chatService.validateIDwatsappMessage(watsapp_id);
+        console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Horita: ", Date.now());
+        console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia: ", coincidencia);
+        let tiempoRetraso = Date.now() - timestamp*1000;
+        if (!coincidencia && tiempoRetraso < 600000) {
+          console.log(coincidencia)
+          if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
+          if (type == "button") {
+
+            console.log("⏩⏩ Objeto de la petición de tipo button recibida: ", JSON.stringify(data));
+
+            createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
+            createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
+            this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id); 
+          } 
+        }
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
         createProductDto.name = name;
         createProductDto.type = type;
         createProductDto.timestamp = timestamp; 
-        createProductDto.watsapp_id = watsapp_id; 
+        createProductDto.watsapp_id = watsapp_id;
+        createProductDto.answered_message = true;
 
-        console.log(" ⏩⏩⏩⏩⏩ Se guarada el objeto ", JSON.stringify(createProductDto));
-        return this.chatService.createWebhook(createProductDto);
+        // console.log(" ⏩⏩⏩⏩⏩ Se guarada el objeto ", JSON.stringify(createProductDto));
+        this.chatService.createWebhook(createProductDto);
+
+        return;
       }
       
     } 
@@ -87,7 +101,7 @@ export class Webhookontroller {
     console.log("⏩⏩⏩ Datos por parametro: ", token)
     console.log("⏩⏩⏩ Datos por body: ", body)
     
-    let response = this.chatService.updateReservation(token, body.phone_number, body.text);
+    let response = this.chatService.updateReservation(token, body.phone_number, body.text, 'tiempo_demo','ID Watsapp Message');
     console.log(response)
     res.status(201).send(response);
   }
