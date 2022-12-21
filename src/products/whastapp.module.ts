@@ -7,7 +7,7 @@ import { Chat } from './entities/chat.entity';
 import { HttpModule } from '@nestjs/axios';
 import { HttpConfigService } from 'src/httpService.config';
 import { Webhookontroller } from './webhooks.controller';
-import { Apiws } from './entities/api_ws.entity';
+import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 
 
@@ -17,7 +17,7 @@ import { LogFail } from './entities/log-fail.entity';
   imports: [HttpModule.registerAsync({
     useClass: HttpConfigService,
   }),
-    TypeOrmModule.forFeature([ Chat, Apiws, LogFail ])
+    TypeOrmModule.forFeature([ Chat, ApiWs, LogFail ])
   ]
 })
 export class ProductsModule {}
