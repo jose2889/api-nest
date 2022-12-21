@@ -8,6 +8,7 @@ import { UpdateChatDto } from './dto/update-chat.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { CreateLogFailDto } from './dto/create-log-fail.dto';
 
+
 import { Chat } from './entities/chat.entity';
 import { validate as isUUID } from 'uuid';
 import { HttpService } from '@nestjs/axios';
@@ -20,6 +21,8 @@ import * as dayjs from 'dayjs'
 import { Apiws } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { response } from 'express';
+
+
 
 
 @Injectable()
@@ -102,6 +105,9 @@ export class WhatsappService {
     console.log("⏩⏩ token recibido: ", token);
     console.log("⏩⏩ phone_number recibido: ", phone_number);
     console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
+
+    
+
     this.request.to = phone_number;
     let body = {
       date: dayjs().format("YYYY-MM-DD HH:mm")
@@ -112,8 +118,11 @@ export class WhatsappService {
     console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
+
         console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
-        // console.log("cuerpo de la respuesta", data.data);
+
+        // console.log("⏩⏩⏩⏩⏩⏩⏩⏩ Cuerpo de la respuesta: ", data.data);
+
         let retMessage = data.data.retMessage;
         let retCode = data.data.retCode;
         let retObject = data.data.retObject;
@@ -139,14 +148,14 @@ export class WhatsappService {
 
         if ((data.statusText === "Bad Request") && (retMessage === "9")) {  
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + retObject.time + ' horas antes.';
-          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva.';
-          console.log("⭕⭕⭕⭕ Respuesta de planner OK: Cancel => ",token);
+          this.request.text.body = 'Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.';
+          console.log("⭕⭕⭕⭕ Respuesta de planner Bad Request: Cancel => ",token);
         }
 
         if ((data.statusText === "Bad Request") && (retMessage === "1")) {  
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + retObject.time + ' horas antes.';
-          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva.';
-          console.log("⭕⭕⭕⭕ Respuesta de planner OK: Cancel => ",token);
+          this.request.text.body = 'Lo sentimos pero ya no puede procesar la reserva.';
+          console.log("⭕⭕⭕⭕ Respuesta de planner Bad Request: Cancel => ",token);
         }
         
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
@@ -157,9 +166,30 @@ export class WhatsappService {
         }); 
       },
       (error) => {
-        let errorResponse = error.response;
-        // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
+
         console.log("❌❌❌❌❌❌ Error de solicitud ❌❌❌❌❌❌ ");
+
+        let errorResponse = error.response;
+
+        // console.log('⏩⏩⏩⏩⏩⏩⏩⏩ Cuerpo de la respuesta de error: ', errorResponse)
+
+        console.log("⏩⏩ Status: ", errorResponse.status.toString());
+        console.log("⏩⏩ Data: ", JSON.stringify(errorResponse.data));
+        console.log("⏩⏩ Status Text: ",errorResponse.statusText);
+        console.log("⏩⏩ ConfigMethod: ",errorResponse.config.method);
+        console.log("⏩⏩ ConfigURL: ",errorResponse.config.url);
+        console.log("⏩⏩ ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
+        console.log("⏩⏩ Texto recibido: ", text_message);
+        console.log("⏩⏩ Token recibido: ", token);
+        // console.log("⏩⏩ URL API Planner: ", urlAPIplanner);
+        console.log("⏩⏩ Body enviado", JSON.stringify(body));
+        console.log("⏩⏩ Timestamp del mensaje: ",timestamp_message);
+        console.log("⏩⏩ Id Message WhatsApp: ", watsapp_id);
+
+        this.request.text.body = "Ocurrio un inconveniente al procesar su solicitud. Disculpe las molestias, estamos trabajando para solventarlo. ";
+
+
+        // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
 
         // Si el token no existe en planner, error en escribir el token
         if ((errorResponse.status === 401) && (errorResponse.statusText === "Unauthorized")){
@@ -183,11 +213,11 @@ export class WhatsappService {
         if ((errorResponse.status === 400) && (errorResponse.data.retMessage === "9")) { // errorResponse.statusText === "Bad Request" && 
           console.log("👎👎👎👎 Respuesta de planner Status 400: Cancel => ",token);
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
-          this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva.';
+          this.request.text.body = 'Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.';
         }
         
         // Si el tiempo para cancelar ha pasado 
-        if ((errorResponse.status === 406) && (errorResponse.statusText === "Not Acceptable")){
+        if ((errorResponse.status === 406) && (errorResponse.statusText === "Not Acceptable") && (errorResponse.data.retCode === "1")){
           console.log("👎👎👎👎 Error de solicitud! Not Acceptable: Token => ", token);
           this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
@@ -206,23 +236,6 @@ export class WhatsappService {
           this.request.text.body = "Su solicitud no ha sido procesada. Verifique la fecha de su sistema";
         }
 
-
-        // this.request.text.body = "Su reserva no pudo ser procesada, disculpe las molestias.";
-
-
-
-        console.log("⏩⏩ Status: ", errorResponse.status.toString());
-        console.log("⏩⏩ Data: ", JSON.stringify(errorResponse.data));
-        console.log("⏩⏩ Status Text: ",errorResponse.statusText);
-        console.log("⏩⏩ ConfigMethod: ",errorResponse.config.method);
-        console.log("⏩⏩ ConfigURL: ",errorResponse.config.url);
-        console.log("⏩⏩ ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
-        console.log("⏩⏩ Texto recibido: ", text_message);
-        console.log("⏩⏩ Token recibido: ", token);
-        // console.log("⏩⏩ URL API Planner: ", urlAPIplanner);
-        console.log("⏩⏩ Body enviado", JSON.stringify(body));
-        console.log("⏩⏩ Timestamp del mensaje: ",timestamp_message);
-        console.log("⏩⏩ Id Message WhatsApp: ", watsapp_id);
 
         // **************************************************************************************************
 
