@@ -110,7 +110,7 @@ export class WhatsappService {
 
     this.request.to = phone_number;
     let body = {
-      date: dayjs(timestamp_message + '000').format("YYYY-MM-DD HH:mm")
+      date: dayjs(parseInt(timestamp_message) *100).format("YYYY-MM-DD HH:mm")
     }
     console.log("⏩⏩ body: ", body);
     let data; 
@@ -231,7 +231,7 @@ export class WhatsappService {
         }
 
         // Si el status es 409 con Conflit y retCode es 1
-        if ((errorResponse.status === 409) && (errorResponse.statusText === "Conflit") && (errorResponse.data.retCode === "1")){
+        if ((errorResponse.status === 409) && (errorResponse.statusText === "Conflict")){ // && (errorResponse.data.retCode === "1")
           console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
           this.request.text.body = "Su solicitud no ha sido procesada. Verifique la fecha de su sistema";
         }
