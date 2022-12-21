@@ -18,9 +18,10 @@ import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response
 import { BASEURL } from 'src/common/api-resource';
 import { AxiosResponse } from 'axios'
 import * as dayjs from 'dayjs'
-import { Apiws } from './entities/api_ws.entity';
+import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { response } from 'express';
+import { UpdateApiWsDto } from './dto/update-api-ws.dto';
 
 
 
@@ -47,51 +48,19 @@ export class WhatsappService {
 
   constructor(
 
+    private readonly httpService:HttpService,
+
     @InjectRepository(Chat)
     private readonly chatRepository: Repository<Chat>,
-    private readonly httpService:HttpService,
-    @InjectRepository(Apiws)
-    private readonly apiWsRepository: Repository<Apiws>, //variable para regsitar API Ws
+
+    @InjectRepository(ApiWs)
+    private readonly apiWsRepository: Repository<ApiWs>, //variable para regsitar API Ws
+
     @InjectRepository(LogFail)
     private readonly logFailRepository: Repository<LogFail>, //variable para regsitar API Ws
 
   ) {}
 
-// ################# Guardado de los datos en la tabla de las APIs Ws###################
-// ############################### Edgardo Lugo ########################################
-
-  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
-    try {
-      const apiWs = this.apiWsRepository.create(createApiWsDot);
-      apiWs.create_data = Date.now().toString();
-      await this.apiWsRepository.save(apiWs);
-      console.log('⋙💾💾✅✅⋙ Datos del negocio guardados ⋙⋙ ',apiWs);
-      return {apiWs};
-    } catch (error) {
-      this.handleDBExceptions(error)
-    }
-  }
-
-
-  // ############# Guardado de los datos en la tabla de las Error Response#############
-  // ############################### Edgardo Lugo #####################################
-
-  async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
-    try {
-      console.log('⋙💾✅💾⋙ Ingresa a guardar error ⋘💾✅💾⋘');
-      const logFail = this.logFailRepository.create(createLogFaileDto);
-      logFail.create_data = Date.now().toString();
-      await this.logFailRepository.save(logFail);
-      // console.log('Datos del error guardados');
-      // return true;
-    } catch (error) {
-      console.log("⋙💾❌💾⋙ Hubo un error al guardar el error en la base de datos ⋘💾❌💾⋘")
-      this.handleDBExceptions(error)
-      // return false;
-    }
-  }
-
-  //###################################################################################
 
   async sendMessage(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
@@ -487,6 +456,7 @@ if (error.status === 400) {
     return await messagesLength;
   }
 
+ 
 
   async findAll( paginationDto: PaginationDto ) {
 
@@ -510,6 +480,131 @@ if (error.status === 400) {
   //     });
   // }
 
+  // ############# Gestión de los datos en la tabla de las ApiWs para negocios #############
+  // #################################### Edgardo Lugo #####################################
+
+  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
+    try {
+      const apiWs = this.apiWsRepository.create(createApiWsDot);
+      apiWs.create_data = Date.now().toString();
+      await this.apiWsRepository.save(apiWs);
+      console.log('Se registro el negocio con los siguientes datos: ',apiWs);
+      return {apiWs};
+    } catch (error) {
+      console.log('Ocurrio un error al registrar el negocio: ',error);
+      this.handleDBExceptions(error)
+    }
+  }
+
+  async findAllBusinnes( paginationDto: PaginationDto ) {
+
+    const { limit , offset } = paginationDto;
+
+    const businnes = await this.apiWsRepository.find({
+      take: limit,
+      skip: offset,
+      // TODO: relaciones
+    })
+
+    console.log('Se mostro listado de negocios');
+    return businnes.map ( itemsBusinnes => ({
+      ...itemsBusinnes,
+    }) )
+  }
+
+
+  async findOneBusinnes( term: string ) {
+
+    let businne: ApiWs;
+
+    if ( isUUID(term) ) {
+      businne = await this.apiWsRepository.findOneBy({ id: term });
+    } else {
+      const queryBuilder = this.apiWsRepository.createQueryBuilder(); 
+      businne = await queryBuilder
+        .where('UPPER(phone_api) =:phone_api or slug_businnes =:slug_businnes', {
+          phone_api: term.toUpperCase(),
+          slug_businnes: term.toLowerCase(),
+        }).getOne();
+    }
+
+
+    if ( !businne ) {
+      console.log('Se mostro detalles del negocio con el termino de busqueda: ', term);
+      throw new NotFoundException(`Businne with ${ term } not found`);
+    }
+
+    return businne;
+  }
+
+  async updateBusinnes( id: string, updateApiWsDto: UpdateApiWsDto ) {
+
+    const businne = await this.apiWsRepository.preload({
+      id: id,
+      ...updateApiWsDto
+    });
+
+    if ( !businne ) throw new NotFoundException(`Businne with id: ${ id } not found`);
+
+    try {
+      await this.chatRepository.save( businne );
+      console.log('Se actulizaron los datos del negocio con el id: ', id, ' con los datos: ', updateApiWsDto);
+
+      return businne;
+      
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+
+  }
+
+  async removeBusinnes(id: string) {
+    const businne: ApiWs = await this.findOneBusinnes( id );
+    // try {
+      await this.apiWsRepository.remove( businne );
+      console.log('Se elimino el negocio con el id: ', id);
+      return businne;
+    // } catch (error) {
+    //   this.handleDBExceptions(error);
+    // }
+  }
+
+  // ################################################################################################
+
+  // ############## Gestión de los datos en la tabla de las Error Response#############
+  // ############################### Edgardo Lugo #####################################
+
+  async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
+    try {
+      console.log('⋙💾✅💾⋙ Ingresa a guardar error ⋘💾✅💾⋘');
+      const logFail = this.logFailRepository.create(createLogFaileDto);
+      logFail.create_data = Date.now().toString();
+      await this.logFailRepository.save(logFail);
+      // console.log('Datos del error guardados');
+      // return true;
+    } catch (error) {
+      console.log("⋙💾❌💾⋙ Hubo un error al guardar el error en la base de datos ⋘💾❌💾⋘")
+      this.handleDBExceptions(error)
+      // return false;
+    }
+  }
+
+   async findAllError( paginationDto: PaginationDto ) {
+
+    const { limit , offset } = paginationDto;
+
+    const errorList = await this.logFailRepository.find({
+      take: limit,
+      skip: offset,
+      // TODO: relaciones
+    })
+
+     return errorList.map ( errorMessges => ({
+      ...errorMessges,
+    }) )
+  }
+
+  //###################################################################################
 
   async findOne( term: string ) {
 

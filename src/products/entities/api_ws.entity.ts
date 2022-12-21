@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity({name: 'apis_ws'})
-export class Apiws{
+export class ApiWs{
 
     @ApiProperty({
         example: 'cd533345-f1f3-48c9-a62e-7dc2da50c8f8',
