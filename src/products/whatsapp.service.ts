@@ -110,7 +110,7 @@ export class WhatsappService {
 
     this.request.to = phone_number;
     let body = {
-      date: dayjs().format("YYYY-MM-DD HH:mm")
+      date: dayjs(timestamp_message).format("YYYY-MM-DD HH:mm")
     }
     console.log("⏩⏩ body: ", body);
     let data; 
