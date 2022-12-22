@@ -100,14 +100,15 @@ export class WhatsappController {
   }
 
   @Post('businne')
-  createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto) {
-    return this.chatService.CreateRegisterApiWs(createRegisterApiWs).then(res => {
+  async createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto) {
+    try {
+      const res = await this.chatService.CreateRegisterApiWs(createRegisterApiWs);
       console.log('Se registro un nuevo negocio');
       response.status(HttpStatus.CREATED).json(res);
-    }).catch((err) => {
+    } catch (err) {
       console.log('Ocurrio un error al registrar negocio');
       response.status(HttpStatus.BAD_REQUEST).json(err);
-    });
+    }
 
   }
 
