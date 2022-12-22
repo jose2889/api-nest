@@ -4,11 +4,11 @@ import {  IsOptional, IsString, MinLength } from 'class-validator';
 export class CreateApiWSDto {
     
     @IsString()
-    @MinLength(1)
+    @MinLength(5)
     slug_businnes: string;
     
     @IsString()
-    @MinLength(1)
+    @IsOptional()
     id_api_ws: string;
 
     @IsString()

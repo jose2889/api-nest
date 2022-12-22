@@ -21,7 +21,7 @@ export class ApiWs{
 
     @Column({
         type: 'text',
-        unique:true
+        unique:false
     })
     id_api_ws: string;
 
@@ -43,7 +43,7 @@ export class ApiWs{
 
     @Column({
         type: 'text',
-        unique:true
+        unique:false
     })
     phone_api: string;
 
