@@ -33,7 +33,15 @@ export class CreateApiWSDto {
 
     @IsString()
     @IsOptional()
-    id_cuenta_business?: string; 
+    id_cuenta_businnes?: string; 
+
+    @IsString()
+    @IsOptional()
+    time_zone?: string; 
+
+    @IsString()
+    @IsOptional()
+    utc_gmt?: string; 
 
     @IsString()
     @IsOptional()
