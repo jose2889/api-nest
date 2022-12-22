@@ -100,7 +100,7 @@ export class WhatsappController {
   }
 
   @Post('businne')
-  async createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto) {
+  async createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto): Promise<void> {
     try {
       const res = await this.chatService.CreateRegisterApiWs(createRegisterApiWs);
       console.log('Se registro un nuevo negocio');

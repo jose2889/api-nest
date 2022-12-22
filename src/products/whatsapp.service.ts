@@ -488,10 +488,10 @@ if (error.status === 400) {
       const apiWs = this.apiWsRepository.create(createApiWsDot);
       apiWs.create_data = Date.now().toString();
       await this.apiWsRepository.save(apiWs);
-      console.log('Se registro el negocio con los siguientes datos: ',apiWs);
+      console.log('📁📁💼💼 Se registro el negocio con los siguientes datos: 📁📁 ',apiWs);
       return {apiWs};
     } catch (error) {
-      console.log('Ocurrio un error al registrar el negocio: ',error);
+      console.log('💩💩 Ocurrio un error al registrar el negocio: 💩💩 ',error);
       this.handleDBExceptions(error)
     }
   }
@@ -548,7 +548,7 @@ if (error.status === 400) {
 
     try {
       await this.chatRepository.save( businne );
-      console.log('Se actulizaron los datos del negocio con el id: ', id, ' con los datos: ', updateApiWsDto);
+      console.log('♻︎♻︎💼💼 Se actulizaron los datos del negocio con el id: ', id, ' con los datos: ', updateApiWsDto);
 
       return businne;
       

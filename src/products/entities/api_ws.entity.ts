@@ -79,7 +79,7 @@ export class ApiWs{
 
     @Column({
         type: 'text', 
-        nullable: false
+        nullable: true
     })
     update_data: string;
 
