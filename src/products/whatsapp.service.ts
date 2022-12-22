@@ -489,7 +489,7 @@ if (error.status === 400) {
       apiWs.create_data = Date.now().toString();
       await this.apiWsRepository.save(apiWs);
       console.log('📁📁💼💼 Se registro el negocio con los siguientes datos: 📁📁 ',apiWs);
-      return {apiWs};
+      return apiWs;
     } catch (error) {
       console.log('💩💩 Ocurrio un error al registrar el negocio: 💩💩 ',error);
       this.handleDBExceptions(error)
