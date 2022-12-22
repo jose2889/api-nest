@@ -34,7 +34,7 @@ export class Webhookontroller {
         let timestamp = data.entry[0].changes[0].value.messages[0].timestamp;
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
         let coincidencia = await this.chatService.validateIDwatsappMessage(watsapp_id);
-        console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Horita: ", Date.now());
+        // console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Horita: ", Date.now());
         console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia: ", coincidencia);
         let tiempoRetraso = Date.now() - timestamp*1000;
         if (!coincidencia && tiempoRetraso < 600000) {
