@@ -78,12 +78,13 @@ export class WhatsappController {
       })
   }
 
- // ################### Creacion de  los endpoint para la getion de APIs Ws ##########################
+  // ################### Creacion de  los endpoint para la getion de APIs Ws ##########################
   // ######################################## Edgardo Lugo ############################################
 
+  
   @Get('list-messages')
   findAll(@Query() paginationDto: PaginationDto) {
-    console.log('Se mostro listado de mensajes')
+    console.log('🗒🗒 Se mostro listado de mensajes')
     return this.chatService.findAll(paginationDto);
   }
 
@@ -95,18 +96,18 @@ export class WhatsappController {
 
   @Get('list-error')
   findAllError(@Query() paginationDto: PaginationDto) {
-    console.log('Se mostro listado de errores registrados en la base de datos');
+    console.log('🗒🗒 Se mostro listado de errores registrados en la base de datos');
     return this.chatService.findAllError(paginationDto);
   }
 
   @Post('businne')
-  async createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto): Promise<void> {
+  createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto) {
     try {
-      const res = await this.chatService.CreateRegisterApiWs(createRegisterApiWs);
-      console.log('Se registro un nuevo negocio');
+      const res = this.chatService.CreateRegisterApiWs(createRegisterApiWs);
+      console.log('📁📁💼💼 Se registro un nuevo negocio');
       response.status(HttpStatus.CREATED).json(res);
     } catch (err) {
-      console.log('Ocurrio un error al registrar negocio');
+      console.log('💩💩 Ocurrio un error al registrar negocio');
       response.status(HttpStatus.BAD_REQUEST).json(err);
     }
 
