@@ -611,6 +611,7 @@ if (error.status === 400) {
 
   // ### Regitros de la tabla de los errores en menos de 24 horas
   async findError24(tiempo: number) {
+    console.log('⌚⌚⌚ ',Date.now(), ' ⌚⌚⌚');
     console.log('⌚⌚⌚ ',Date.now() - (60000 * tiempo), ' ⌚⌚⌚');
     const queryBuilder = this.logFailRepository.createQueryBuilder();
     const errorLength = await queryBuilder
