@@ -100,6 +100,12 @@ export class WhatsappController {
     return this.chatService.findAllError(paginationDto);
   }
 
+  @Get('list-error/:time')
+  findOneError(@Param('time') time: number) {
+    console.log('🗒🗒 Se mostrara los errores en las ultimas "', time, '" horas');
+    return this.chatService.findError24(time);
+  }
+
   @Get('length-error')
   countError(@Query() paginationDto: PaginationDto) {
     //console.log(this.chatService.findLengthMessages())

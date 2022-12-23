@@ -609,6 +609,18 @@ if (error.status === 400) {
     return await errorLength;
   }
 
+  // ### Regitros de la tabla de los errores en menos de 24 horas
+  async findError24(tiempo: number) {
+
+    const queryBuilder = this.logFailRepository.createQueryBuilder();
+    const errorLength = await queryBuilder
+      .where('create_data >=:create_data', {
+        create_data: Date.now() - 60000 * tiempo,
+      }).getCount();
+
+    return await errorLength;
+  }
+
   //#################################################################################################
 
   async findOne( term: string ) {
