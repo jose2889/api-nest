@@ -617,7 +617,7 @@ if (error.status === 400) {
     const errorLength = await queryBuilder
       .where('create_data >=:create_data', {
         create_data: (Date.now() - (60000 * tiempo)),
-      }).getCount();
+      }).getMany(); //.getCount();
     console.log('⌚⌚⌚ ',errorLength, ' ⌚⌚⌚');
     return errorLength;
   }
