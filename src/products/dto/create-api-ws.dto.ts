@@ -1,4 +1,4 @@
-import {  IsOptional, IsString, MinLength } from 'class-validator';
+import {  IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
 
 
 export class CreateApiWSDto {
@@ -47,7 +47,7 @@ export class CreateApiWSDto {
     @IsOptional()
     create_data?: string; 
 
-    @IsString()
+    @IsNumber()
     @IsOptional()
     update_data?: string; 
 }
