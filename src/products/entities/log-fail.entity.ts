@@ -51,7 +51,8 @@ export class LogFail{
     
     @Column({
         type: 'bigint',
-        unique:true
+        unique:true,
+        nullable: true
     })
     create_data: string;
 
