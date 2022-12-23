@@ -102,7 +102,7 @@ export class WhatsappController {
 
   @Get('list-error/:time')
   findOneError(@Param('time') time: number) {
-    console.log('🗒🗒 Se mostrara los errores en las ultimas "', time, '" horas');
+    console.log('⌚⌚ Se mostrara los errores en las ultimas "', time, '" horas');
     return this.chatService.findError24(time);
   }
 
