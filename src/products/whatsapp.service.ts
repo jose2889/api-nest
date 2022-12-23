@@ -616,11 +616,12 @@ if (error.status === 400) {
     const queryBuilder = this.logFailRepository.createQueryBuilder();
     const errorLength = await queryBuilder
       .where('create_data >=:create_data', {
-        create_data: (Date.now() - (60000 * tiempo)),
+        create_data: (Date.now() - (3600000 * tiempo)),
       }).getMany(); //.getCount();
-    console.log('⌚⌚⌚ ',errorLength, ' ⌚⌚⌚');
+    // console.log('⌚⌚⌚ ',errorLength, ' ⌚⌚⌚');
     return errorLength;
   }
+  
 
   //#################################################################################################
 
