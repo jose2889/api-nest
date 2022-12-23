@@ -571,8 +571,8 @@ if (error.status === 400) {
 
   // ################################################################################################
 
-  // ############## Gestión de los datos en la tabla de las Error Response#############
-  // ############################### Edgardo Lugo #####################################
+  // ############################ Gestión de los datos en la tabla de las Error Response#############
+  // ############################################# Edgardo Lugo #####################################
 
   async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
     try {
@@ -603,8 +603,13 @@ if (error.status === 400) {
       ...errorMessges,
     }) )
   }
+  
+  async findLengthError() {
+    const errorLength = await this.logFailRepository.count();
+    return await errorLength;
+  }
 
-  //###################################################################################
+  //#################################################################################################
 
   async findOne( term: string ) {
 

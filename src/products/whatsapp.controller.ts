@@ -89,7 +89,7 @@ export class WhatsappController {
   }
 
   @Get('length-messages')
-  count(@Query() paginationDto: PaginationDto) {
+  countMessages(@Query() paginationDto: PaginationDto) {
     //console.log(this.chatService.findLengthMessages())
     return this.chatService.findLengthMessages();
   }
@@ -99,6 +99,13 @@ export class WhatsappController {
     console.log('🗒🗒 Se mostro listado de errores registrados en la base de datos');
     return this.chatService.findAllError(paginationDto);
   }
+
+  @Get('length-error')
+  countError(@Query() paginationDto: PaginationDto) {
+    //console.log(this.chatService.findLengthMessages())
+    return this.chatService.findLengthError();
+  }
+  
 
   @Post('businne')
   createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto) {

@@ -55,18 +55,21 @@ export class ApiWs{
 
     @Column({
         type: 'text',
-        unique:false
+        unique:false,
+        nullable: true
     })
     id_cuenta_businnes: string;
 
     @Column({
         type: 'text',
+        nullable: true,
         unique:false
     })
     time_zone: string;
 
     @Column({
         type: 'text',
+        nullable: true,
         unique:false
     })
     utc_gmt: string;
