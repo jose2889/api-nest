@@ -69,11 +69,12 @@ export class WhatsappService {
     return data;
   }
 
-  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_businnes): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     console.log("🔄🔄🔄🔄🔄🔄 Update Reservation 🔄🔄🔄🔄🔄🔄 ⋙ ⋘");
     console.log("⏩⏩ token recibido: ", token);
     console.log("⏩⏩ phone_number recibido: ", phone_number);
     console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
+    console.log("⏩⏩ Datos del negocio recibido: ", acount_businnes);
 
     
 
@@ -229,7 +230,6 @@ export class WhatsappService {
         this.CreateRegisterLogFail(logFail);
 
         // ########## enviar email de error ##########
-
         this.sendEmailError(logFail);
 
         // **************************************************************************************************
@@ -267,12 +267,11 @@ export class WhatsappService {
     // } catch (error) {
     //     throw new BadRequestException();
     // }
-    
 
     return data;
   }
 
-/* ############################################################################################################
+/* ##################################################################################################################################
 
 if (error.status === 400) {
   if (error.error.message === 1) {
@@ -295,11 +294,11 @@ if (error.status === 400) {
 }
 
 
-############################################################################################################### */
+##################################################################################################################################### */
 
 
-  // ###################################### Envio de email de error ###########################################
-  async sendEmailError(data: any) {
+  // ############################################################ Envio de email de error ###########################################
+  async sendEmailError(data: any): Promise<void> {
 
     const ret=  (JSON.parse(data.response))? JSON.parse(data.response) : data.response;
     const notFounf = "Dato no recibido";
@@ -388,7 +387,7 @@ if (error.status === 400) {
     }
     
   }
-  // ##################################################################################################################
+  // ########################################################################################################################################
 
   async create(createProductDto: CreateChatDto) {
     
@@ -404,9 +403,9 @@ if (error.status === 400) {
     }
   }
 
-  /* #####################################################################################################################
-  ######################### Se verifica si el id del mensaje ya existe en la base de datos. ##############################
-  ##################################################################################################################### */
+  /* ###########################################################################################################################################
+  ############################################### Se verifica si el id del mensaje ya existe en la base de datos. ##############################
+  ########################################################################################################################################### */
   async validateIDwatsappMessage( watsapp_id: string ) {
     console.info("⏩⏩ Se verifica si el '", watsapp_id, "' ya existe en la base de datos.")
     try {
@@ -427,7 +426,7 @@ if (error.status === 400) {
 
   }
 
-  // ############### Fin de la función de validar si el id del mensaje esta en la base de datos ##########################
+  // ##################################### Fin de la función de validar si el id del mensaje esta en la base de datos ##########################
 
 
   async createWebhook(createProductDto: CreateChatDto) {
@@ -479,14 +478,14 @@ if (error.status === 400) {
   //       console.log(data);
   //     });
   // }
-
-  // ############# Gestión de los datos en la tabla de las ApiWs para negocios #############
-  // #################################### Edgardo Lugo #####################################
+v
+  // ################################### Gestión de los datos en la tabla de las ApiWs para negocios ###################################
+  // ########################################################## Edgardo Lugo ###########################################################
 
   async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
     try {
       const apiWs = this.apiWsRepository.create(createApiWsDot);
-      apiWs.create_data = Date.now().toString();
+      apiWs.create_data = Date.now(); //.toString();
       await this.apiWsRepository.save(apiWs);
       console.log('📁📁💼💼 Se registro el negocio con los siguientes datos: 📁📁 ',apiWs);
       return apiWs;
@@ -578,7 +577,7 @@ if (error.status === 400) {
     try {
       console.log('⋙💾✅💾⋙ Ingresa a guardar error ⋘💾✅💾⋘');
       const logFail = this.logFailRepository.create(createLogFaileDto);
-      logFail.create_data = Date.now().toString();
+      logFail.create_data = Date.now(); //.toString();
       await this.logFailRepository.save(logFail);
       // console.log('Datos del error guardados');
       // return true;
@@ -623,7 +622,8 @@ if (error.status === 400) {
   }
   
 
-  //#################################################################################################
+  //######################################################################################################################################
+
 
   async findOne( term: string ) {
 

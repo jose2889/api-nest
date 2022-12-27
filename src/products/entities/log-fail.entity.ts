@@ -54,6 +54,6 @@ export class LogFail{
         unique:true,
         nullable: true
     })
-    create_data: string;
+    create_data: number;
 
 }

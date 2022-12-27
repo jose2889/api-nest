@@ -68,22 +68,22 @@ export class ApiWs{
     time_zone: string;
 
     @Column({
-        type: 'text',
+        type: 'integer',
         nullable: true,
         unique:false
     })
-    utc_gmt: string;
+    utc_gmt: number;
 
     @Column({
-        type: 'text',
+        type: 'bigint',
         unique:false
     })
-    create_data: string;
+    create_data: number;
 
     @Column({
-        type: 'text', 
+        type: 'bigint', 
         nullable: true
     })
-    update_data: string;
+    update_data: number;
 
 }

@@ -39,15 +39,15 @@ export class CreateApiWSDto {
     @IsOptional()
     time_zone?: string; 
 
-    @IsString()
+    @IsNumber()
     @IsOptional()
-    utc_gmt?: string; 
-
-    @IsString()
-    @IsOptional()
-    create_data?: string; 
+    utc_gmt?: number; 
 
     @IsNumber()
     @IsOptional()
-    update_data?: string; 
+    create_data?: number; 
+
+    @IsNumber()
+    @IsOptional()
+    update_data?: number; 
 }

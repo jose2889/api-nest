@@ -37,5 +37,5 @@ export class CreateLogFailDto {
 
     @IsNumber()
     @IsOptional()
-    create_data?: string;
+    create_data?: number;
 }

@@ -22,6 +22,8 @@ export class WhatsappController {
   //   return this.chatService.create(createProductDto);
   // }
 
+  // ############################### Endpoints para el consumo de la API de Whatsapp Cloud #####################################
+
   @ApiResponse({ status: 201, description: 'Creado con éxito.'  })
   @ApiResponse({ status: 400, description: 'Bad request.' })
   @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
@@ -77,10 +79,11 @@ export class WhatsappController {
           response.status(HttpStatus.BAD_REQUEST).json(err);
       })
   }
+  // ###############################################################################################################################
 
-  // ################### Creacion de  los endpoint para la getion de APIs Ws ##########################
-  // ######################################## Edgardo Lugo ############################################
 
+  // ################### Creacion de  los endpoint de los listaos de los mensajes y de los registros de errores ##########################
+  // ############################################################ Edgardo Lugo ###########################################################
   
   @Get('list-messages')
   findAll(@Query() paginationDto: PaginationDto) {
@@ -93,7 +96,7 @@ export class WhatsappController {
     //console.log(this.chatService.findLengthMessages())
     return this.chatService.findLengthMessages();
   }
-
+  
   @Get('list-error')
   findAllError(@Query() paginationDto: PaginationDto) {
     console.log('🗒🗒 Se mostro listado de errores registrados en la base de datos');
@@ -105,13 +108,17 @@ export class WhatsappController {
     console.log('⌚⌚ Se mostrara los errores en las ultimas "', time, '" horas');
     return this.chatService.findError24(time);
   }
-
+  
   @Get('length-error')
   countError(@Query() paginationDto: PaginationDto) {
     //console.log(this.chatService.findLengthMessages())
     return this.chatService.findLengthError();
   }
+
+  // ######################################################################################################################################
   
+  // ########################################### Creacion de  los endpoint para la getion de APIs Ws ######################################
+  // #################################################### Edgardo Lugo ####################################################################
 
   @Post('businne')
   createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto) {
@@ -151,20 +158,7 @@ export class WhatsappController {
 
 
 
-  // ###################################################################################
-
-  // @Get('list-messages')
-  // findAll( @Query() paginationDto:PaginationDto ) {
-  //   // console.log(paginationDto)
-  //   return this.chatService.findAll( paginationDto );
-  // }
-
-  // @Get('length-messages')
-  // count(@Query() paginationDto:PaginationDto) {
-  //   //console.log(this.chatService.findLengthMessages())
-  //   return this.chatService.findLengthMessages();
-  // }
-
+  // ###################################################################################################################################
 
   // @Get(':term')
   // findOne(@Param( 'term' ) term: string) {
