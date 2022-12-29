@@ -120,6 +120,9 @@ export class WhatsappService {
     else if (phone_number.slice(0,2) == "	34") {
       timezone = "Europe/Madrid";
     }
+    else if (phone_number.slice(0,2) == "	18") {
+      timezone = "America/Santo_Domingo";
+    }
 
 
 
