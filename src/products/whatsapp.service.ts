@@ -120,7 +120,7 @@ export class WhatsappService {
     else if (phone_number.slice(0,2) == "	34") {
       timezone = "Europe/Madrid";
     }
-    
+
 
 
     let bodyChangeTimezone = {
@@ -246,7 +246,7 @@ export class WhatsappService {
         }
         
         // Si el status es 400 con Bad Request y retMessage es 1 
-        if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") && (errorResponse.data.retMessage === "1")){
+        if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") ){// && (errorResponse.data.retMessage === "1")
           console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
           this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para confirmar ha pasado o la reservación ya ha pasado";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
