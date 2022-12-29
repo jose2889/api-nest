@@ -2,26 +2,22 @@ import { CreateApiWSDto } from './dto/create-api-ws.dto';
 import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { CreateLogFailDto } from './dto/create-log-fail.dto';
-
-
 import { Chat } from './entities/chat.entity';
 import { validate as isUUID } from 'uuid';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
 import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response.dto';
-import { BASEURL } from 'src/common/api-resource';
 import { AxiosResponse } from 'axios'
 import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
-import { response } from 'express';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
-import * as luxon from 'luxon';
+
+// ############### Importaciones para el manejo de fechas ###############
 import * as dayjs from 'dayjs';
 import * as utcdayjs from 'dayjs/plugin/utc';
 import * as timezonedayjs from 'dayjs/plugin/timezone';
@@ -76,7 +72,7 @@ export class WhatsappService {
 
   changTimezone(timezone: string, date: string): string {
     return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
-  }
+  }  
 
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     console.log("🔄🔄🔄🔄🔄🔄 Update Reservation 🔄🔄🔄🔄🔄🔄 ⋙ ⋘");
@@ -95,60 +91,44 @@ export class WhatsappService {
     // }    
 
     let timezone = 'UTC';
+    let codePhoneContry = 0;
 
     if (phone_number.startsWith("56")) {
       timezone = "America/Santiago";
+      codePhoneContry = 56;
     }
     else if (phone_number.startsWith("57")) { 
       timezone = "America/Bogota";
+      codePhoneContry = 57;
     }
     else if (phone_number.startsWith("52")) {
       timezone = "America/Mexico_City";
+      codePhoneContry = 52;
     }
     else if (phone_number.startsWith("51")) {
       timezone = "America/Lima";
+      codePhoneContry = 51;
     }
     else if (phone_number.startsWith("54")) {
       timezone = "America/Argentina/Buenos_Aires";
+      codePhoneContry = 54;
     }
     else if (phone_number.startsWith("55")) {
       timezone = "America/Sao_Paulo";
+      codePhoneContry = 55;
     }
     else if (phone_number.startsWith("58")) {
       timezone = "America/Caracas";
+      codePhoneContry = 58;
     }
     else if (phone_number.startsWith("34")) {
       timezone = "Europe/Madrid";
+      codePhoneContry = 34;
     }
     else if (phone_number.startsWith("1089")) {
       timezone = "America/Santo_Domingo";
+      codePhoneContry = 1089;
     }
-
-    // if (phone_number.slice(0,2) == "57") {
-    //   timezone = "America/Bogota";
-    // }
-    // else if (phone_number.slice(0,2) == "52") {
-    //   timezone = "America/Mexico_City";
-    // }
-    // else if (phone_number.slice(0,2) == "51") {
-    //   timezone = "America/Lima";
-    // }
-    // else if (phone_number.slice(0,2) == "54") {
-    //   timezone = "America/Argentina/Buenos_Aires";
-    // }
-    // else if (phone_number.slice(0,2) == "55") {
-    //   timezone = "America/Sao_Paulo";
-    // }
-    // else if (phone_number.slice(0,2) == "58") {
-    //   timezone = "America/Caracas";
-    // }
-    // else if (phone_number.slice(0,2) == "	34") {
-    //   timezone = "Europe/Madrid";
-    // }
-    // else if (phone_number.slice(0,2) == "	18") {
-    //   timezone = "America/Santo_Domingo";
-    // }
-
 
 
     let bodyChangeTimezone = {
@@ -157,11 +137,11 @@ export class WhatsappService {
     }
 
     let body = bodyChangeTimezone;
-    console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ TimeZome: ", timezone);
-    console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ body: ", body);
-    console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ code phone: ", phone_number.slice(0,2));
+    console.log("⏩⏩⏩ TimeZome: ", timezone);
+    console.log("⏩⏩⏩ body: ", body);
+    console.log("⏩⏩⏩ code phone: ", codePhoneContry);
 
-    let data; 
+    // let data; 
 
 
     const urlAPIplanner = `${this.urlPlanner}${token}`;
@@ -274,7 +254,7 @@ export class WhatsappService {
         }
         
         // Si el status es 400 con Bad Request y retMessage es 1 
-        if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") ){// && (errorResponse.data.retMessage === "1")
+        if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") && (errorResponse.data.retMessage === "1")){
           console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
           this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para confirmar ha pasado o la reservación ya ha pasado";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
@@ -302,7 +282,8 @@ export class WhatsappService {
           "body_send":JSON.stringify(body),
           "respuesta":  this.request.text.body,
           "timestamp_message": timestamp_message,
-          "watsapp_id": watsapp_id
+          "watsapp_id": watsapp_id,
+          "timezone": timezone,
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
         // ############# Guardado de los datos en la tabla para Error Response#############
@@ -347,7 +328,7 @@ export class WhatsappService {
     //     throw new BadRequestException();
     // }
 
-    return data;
+    return;
   }
 
 /* ##################################################################################################################################
@@ -437,7 +418,7 @@ if (error.status === 400) {
                 <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>
                 <p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> +${data.phone_number} </p>
                 <p style="margin: 2px; font-size: 15px"><strong>Method: </strong> ${data.config_method} </p>
-                <p style="margin: 2px; font-size: 15px"><strong>Date (UTC+0): </strong> ${JSON.parse(data.config_data).date} </p>
+                <p style="margin: 2px; font-size: 15px"><strong>Date (${data.timezone}): </strong> ${JSON.parse(data.config_data).date} </p>
                 <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws &copy; ${anho}</p>
               </div>
             </td>
@@ -600,7 +581,7 @@ v
     } else {
       const queryBuilder = this.apiWsRepository.createQueryBuilder(); 
       business = await queryBuilder
-        .where('UPPER(phone_api) =:phone_api or slug_business =:slug_business or id_cuenta_business=: id_cuenta_business', {
+        .where('UPPER(phone_api) =:phone_api or slug_business =:slug_business or id_cuenta_business=: id_cuenta_business or country_business=:country_business or time_zone=:time_zone', {
           phone_api: term.toUpperCase(),
           slug_business: term.toLowerCase(),
         }).getOne();

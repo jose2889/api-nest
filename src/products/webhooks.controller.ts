@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query
 import { WhatsappService } from './whatsapp.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { json } from 'stream/consumers';
 
 @ApiTags('Webhooks')
 @Controller('webhook')
