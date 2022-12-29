@@ -17,12 +17,16 @@ import { WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.d
 import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response.dto';
 import { BASEURL } from 'src/common/api-resource';
 import { AxiosResponse } from 'axios'
-import * as dayjs from 'dayjs'
 import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { response } from 'express';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
 import * as luxon from 'luxon';
+import * as dayjs from 'dayjs';
+import * as utcdayjs from 'dayjs/plugin/utc';
+import * as timezonedayjs from 'dayjs/plugin/timezone';
+dayjs.extend(utcdayjs);
+dayjs.extend(timezonedayjs);
 
 
 
@@ -71,9 +75,7 @@ export class WhatsappService {
   }
 
   changTimezone(timezone: string, date: string): string {
-    const dateObj = luxon.DateTime.fromISO(date);
-    const dateObjWithTimezone = dateObj.setZone(timezone);
-    return dateObjWithTimezone.toISO();
+    return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
   }
 
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
@@ -86,18 +88,50 @@ export class WhatsappService {
     
 
     this.request.to = phone_number;
-    let body = {
-      // date: dayjs().format("YYYY-MM-DD HH:mm"),
-      date: dayjs(parseInt(timestamp_message)*1000).format("YYYY-MM-DD HH:mm"),
-    }
-    console.log("⏩⏩ body: ", body);
-
-    // let timezone;
-    // let bodyChangeTimezone = {
+    
+    // let body = {
     //   // date: dayjs().format("YYYY-MM-DD HH:mm"),
-    //   date: this.changTimezone(timezone, dayjs(parseInt(timestamp_message)*1000).format("YYYY-MM-DD HH:mm")),
-    // }
+    //   date: dayjs(parseInt(timestamp_message)*1000).format("YYYY-MM-DD HH:mm"),
+    // }    
 
+    let timezone = 'UTC';
+
+    if (phone_number.slice(0,2) == "56") {  
+      timezone = "America/Santiago";
+    }
+    else if (phone_number.slice(0,2) == "57") {
+      timezone = "America/Bogota";
+    }
+    else if (phone_number.slice(0,2) == "52") {
+      timezone = "America/Mexico_City";
+    }
+    else if (phone_number.slice(0,2) == "51") {
+      timezone = "America/Lima";
+    }
+    else if (phone_number.slice(0,2) == "54") {
+      timezone = "America/Argentina/Buenos_Aires";
+    }
+    else if (phone_number.slice(0,2) == "55") {
+      timezone = "America/Sao_Paulo";
+    }
+    else if (phone_number.slice(0,2) == "58") {
+      timezone = "America/Caracas";
+    }
+    else if (phone_number.slice(0,2) == "	34") {
+      timezone = "Europe/Madrid";
+    }
+    
+
+
+    let bodyChangeTimezone = {
+      // date: dayjs().format("YYYY-MM-DD HH:mm"),
+      date: this.changTimezone(timezone, dayjs(parseInt(timestamp_message)*1000).format("YYYY-MM-DD HH:mm")),
+    }
+
+    let body = bodyChangeTimezone;
+    console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ TimeZome: ", timezone);
+    console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ body: ", body);
+    console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ code phone: ", phone_number.slice(0,2));
 
     let data; 
 
