@@ -514,13 +514,13 @@ v
 
   async findOnebusiness( term: string ) {
 
-    let businne: ApiWs;
+    let business: ApiWs;
 
     if ( isUUID(term) ) {
-      businne = await this.apiWsRepository.findOneBy({ id: term });
+      business = await this.apiWsRepository.findOneBy({ id: term });
     } else {
       const queryBuilder = this.apiWsRepository.createQueryBuilder(); 
-      businne = await queryBuilder
+      business = await queryBuilder
         .where('UPPER(phone_api) =:phone_api or slug_business =:slug_business or id_cuenta_business=: id_cuenta_business', {
           phone_api: term.toUpperCase(),
           slug_business: term.toLowerCase(),
@@ -528,28 +528,28 @@ v
     }
 
 
-    if ( !businne ) {
+    if ( !business ) {
       console.log('Se mostro detalles del negocio con el termino de busqueda: ', term);
-      throw new NotFoundException(`Businne with ${ term } not found`);
+      throw new NotFoundException(`business with ${ term } not found`);
     }
 
-    return businne;
+    return business;
   }
 
   async updatebusiness( id: string, updateApiWsDto: UpdateApiWsDto ) {
 
-    const businne = await this.apiWsRepository.preload({
+    const business = await this.apiWsRepository.preload({
       id: id,
       ...updateApiWsDto
     });
 
-    if ( !businne ) throw new NotFoundException(`Businne with id: ${ id } not found`);
+    if ( !business ) throw new NotFoundException(`business with id: ${ id } not found`);
 
     try {
-      await this.chatRepository.save( businne );
+      await this.chatRepository.save( business );
       console.log('♻︎♻︎💼💼 Se actulizaron los datos del negocio con el id: ', id, ' con los datos: ', updateApiWsDto);
 
-      return businne;
+      return business;
       
     } catch (error) {
       this.handleDBExceptions(error);
@@ -558,11 +558,11 @@ v
   }
 
   async removebusiness(id: string) {
-    const businne: ApiWs = await this.findOnebusiness( id );
+    const business: ApiWs = await this.findOnebusiness( id );
     // try {
-      await this.apiWsRepository.remove( businne );
+      await this.apiWsRepository.remove( business );
       console.log('Se elimino el negocio con el id: ', id);
-      return businne;
+      return business;
     // } catch (error) {
     //   this.handleDBExceptions(error);
     // }

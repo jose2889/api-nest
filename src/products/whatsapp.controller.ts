@@ -120,7 +120,7 @@ export class WhatsappController {
   // ########################################### Creacion de  los endpoint para la getion de APIs Ws ######################################
   // #################################################### Edgardo Lugo ####################################################################
 
-  @Post('businne')
+  @Post('business')
   createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto) {
     try {
       const res = this.chatService.CreateRegisterApiWs(createRegisterApiWs);
@@ -133,17 +133,17 @@ export class WhatsappController {
 
   }
 
-  @Get('businne')
+  @Get('business')
   findAllbusiness(@Query() paginationDto: PaginationDto) {
     return this.chatService.findAllbusiness(paginationDto);
   }
 
-  @Get('businne/:term')
+  @Get('business/:term')
   findOnebusiness(@Param('term') term: string) {
     return this.chatService.findOnebusiness(term);
   }
 
-  @Patch('businne/:id')
+  @Patch('business/:id')
   updatebusiness(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateApiWsDto: UpdateApiWsDto,
@@ -151,7 +151,7 @@ export class WhatsappController {
     return this.chatService.updatebusiness(id, updateApiWsDto);
   }
 
-  @Delete('businne/:id')
+  @Delete('business/:id')
   removebusiness(@Param('id', ParseUUIDPipe) id: string) {
     return this.chatService.removebusiness(id);
   }
