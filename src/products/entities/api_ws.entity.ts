@@ -80,6 +80,13 @@ export class ApiWs{
     time_zone: string;
 
     @Column({
+        type: 'text',
+        nullable: true,
+        unique:false
+    })
+    country_business: string;
+
+    @Column({
         type: 'integer',
         nullable: true,
         unique:false

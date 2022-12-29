@@ -42,6 +42,10 @@ export class CreateApiWSDto {
     @IsOptional()
     time_zone?: string; 
 
+    @IsString()
+    @IsOptional()
+    country_business?: string;
+
     @IsNumber()
     @IsOptional()
     utc_gmt?: number; 
