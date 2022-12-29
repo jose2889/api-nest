@@ -96,33 +96,58 @@ export class WhatsappService {
 
     let timezone = 'UTC';
 
-    if (phone_number.slice(0,2) == "56") {  
+    if (phone_number.startsWith("56")) {
       timezone = "America/Santiago";
     }
-    else if (phone_number.slice(0,2) == "57") {
+    else if (phone_number.startsWith("57")) { 
       timezone = "America/Bogota";
     }
-    else if (phone_number.slice(0,2) == "52") {
+    else if (phone_number.startsWith("52")) {
       timezone = "America/Mexico_City";
     }
-    else if (phone_number.slice(0,2) == "51") {
+    else if (phone_number.startsWith("51")) {
       timezone = "America/Lima";
     }
-    else if (phone_number.slice(0,2) == "54") {
+    else if (phone_number.startsWith("54")) {
       timezone = "America/Argentina/Buenos_Aires";
     }
-    else if (phone_number.slice(0,2) == "55") {
+    else if (phone_number.startsWith("55")) {
       timezone = "America/Sao_Paulo";
     }
-    else if (phone_number.slice(0,2) == "58") {
+    else if (phone_number.startsWith("58")) {
       timezone = "America/Caracas";
     }
-    else if (phone_number.slice(0,2) == "	34") {
+    else if (phone_number.startsWith("34")) {
       timezone = "Europe/Madrid";
     }
-    else if (phone_number.slice(0,2) == "	18") {
+    else if (phone_number.startsWith("1089")) {
       timezone = "America/Santo_Domingo";
     }
+
+    // if (phone_number.slice(0,2) == "57") {
+    //   timezone = "America/Bogota";
+    // }
+    // else if (phone_number.slice(0,2) == "52") {
+    //   timezone = "America/Mexico_City";
+    // }
+    // else if (phone_number.slice(0,2) == "51") {
+    //   timezone = "America/Lima";
+    // }
+    // else if (phone_number.slice(0,2) == "54") {
+    //   timezone = "America/Argentina/Buenos_Aires";
+    // }
+    // else if (phone_number.slice(0,2) == "55") {
+    //   timezone = "America/Sao_Paulo";
+    // }
+    // else if (phone_number.slice(0,2) == "58") {
+    //   timezone = "America/Caracas";
+    // }
+    // else if (phone_number.slice(0,2) == "	34") {
+    //   timezone = "Europe/Madrid";
+    // }
+    // else if (phone_number.slice(0,2) == "	18") {
+    //   timezone = "America/Santo_Domingo";
+    // }
 
 
 
