@@ -22,6 +22,7 @@ import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { response } from 'express';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
+import * as luxon from 'luxon';
 
 
 
@@ -69,6 +70,12 @@ export class WhatsappService {
     return data;
   }
 
+  changTimezone(timezone: string, date: string): string {
+    const dateObj = luxon.DateTime.fromISO(date);
+    const dateObjWithTimezone = dateObj.setZone(timezone);
+    return dateObjWithTimezone.toISO();
+  }
+
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     console.log("🔄🔄🔄🔄🔄🔄 Update Reservation 🔄🔄🔄🔄🔄🔄 ⋙ ⋘");
     console.log("⏩⏩ token recibido: ", token);
@@ -84,7 +91,17 @@ export class WhatsappService {
       date: dayjs(parseInt(timestamp_message)*1000).format("YYYY-MM-DD HH:mm"),
     }
     console.log("⏩⏩ body: ", body);
+
+    // let timezone;
+    // let bodyChangeTimezone = {
+    //   // date: dayjs().format("YYYY-MM-DD HH:mm"),
+    //   date: this.changTimezone(timezone, dayjs(parseInt(timestamp_message)*1000).format("YYYY-MM-DD HH:mm")),
+    // }
+
+
     let data; 
+
+
     const urlAPIplanner = `${this.urlPlanner}${token}`;
     console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
      try {

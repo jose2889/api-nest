@@ -46,7 +46,7 @@ export class ApiWs{
 
     @Column({
         type: 'text',
-        unique:true,
+        unique:false,
         nullable: true
     })
     token_app?: string;
@@ -60,7 +60,7 @@ export class ApiWs{
 
     @Column({
         type: 'text',
-        unique:true,
+        unique:false,
         nullable: true
     })
     id_phone_app: string;
