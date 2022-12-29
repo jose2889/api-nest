@@ -17,39 +17,51 @@ export class ApiWs{
         type: 'text',
         unique:true,
     })
-    slug_businnes: string;
+    slug_business: string;
 
     @Column({
         type: 'text',
-        unique:false
+        nullable: true
+    })
+    business_name: string;
+
+    @Column({
+        type: 'text',
+        unique:false,
+        nullable: true
     })
     id_api_ws: string;
 
     @Column({
-        type: 'text'
+        type: 'text',
+        nullable: true
     })
     type_app: string;
 
     @Column({
-        type: 'text'
+        type: 'text',
+        nullable: true
     })
     ver_app: string;
 
     @Column({
         type: 'text',
-        unique:true
+        unique:true,
+        nullable: true
     })
     token_app?: string;
 
     @Column({
         type: 'text',
-        unique:false
+        unique:false,
+        nullable: true
     })
     phone_api: string;
 
     @Column({
         type: 'text',
-        unique:true
+        unique:true,
+        nullable: true
     })
     id_phone_app: string;
 
@@ -58,7 +70,7 @@ export class ApiWs{
         unique:false,
         nullable: true
     })
-    id_cuenta_businnes: string;
+    id_cuenta_business: string;
 
     @Column({
         type: 'text',

@@ -134,26 +134,26 @@ export class WhatsappController {
   }
 
   @Get('businne')
-  findAllBusinnes(@Query() paginationDto: PaginationDto) {
-    return this.chatService.findAllBusinnes(paginationDto);
+  findAllbusiness(@Query() paginationDto: PaginationDto) {
+    return this.chatService.findAllbusiness(paginationDto);
   }
 
   @Get('businne/:term')
-  findOneBusinnes(@Param('term') term: string) {
-    return this.chatService.findOneBusinnes(term);
+  findOnebusiness(@Param('term') term: string) {
+    return this.chatService.findOnebusiness(term);
   }
 
   @Patch('businne/:id')
-  updateBusinnes(
+  updatebusiness(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateApiWsDto: UpdateApiWsDto,
   ) {
-    return this.chatService.updateBusinnes(id, updateApiWsDto);
+    return this.chatService.updatebusiness(id, updateApiWsDto);
   }
 
   @Delete('businne/:id')
-  removeBusinnes(@Param('id', ParseUUIDPipe) id: string) {
-    return this.chatService.removeBusinnes(id);
+  removebusiness(@Param('id', ParseUUIDPipe) id: string) {
+    return this.chatService.removebusiness(id);
   }
 
 

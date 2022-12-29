@@ -33,7 +33,7 @@ export class Webhookontroller {
         let name = data.entry[0].changes[0].value.contacts[0].profile.name;
         let timestamp = data.entry[0].changes[0].value.messages[0].timestamp;
         let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
-        let acount_businnes = {
+        let acount_business = {
           'id_ws_acount' : data.entry[0].id,
           'display_phone_number' : data.entry[0].changes[0].value.metadata.display_phone_number,
           'id_phone_number' : data.entry[0].changes[0].value.metadata.phone_number_id,
@@ -52,7 +52,7 @@ export class Webhookontroller {
 
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-            this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_businnes); 
+            this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business); 
           } 
         }
         createProductDto.from = from; 
@@ -107,7 +107,7 @@ export class Webhookontroller {
     console.log("⏩⏩⏩ Datos por parametro: ", token)
     console.log("⏩⏩⏩ Datos por body: ", body)
     
-    let response = this.chatService.updateReservation(token, body.phone_number, body.text, 'tiempo_demo','ID Watsapp Message', 'Acount Businnes');
+    let response = this.chatService.updateReservation(token, body.phone_number, body.text, 'tiempo_demo','ID Watsapp Message', 'Acount business');
     console.log(response)
     res.status(201).send(response);
   }

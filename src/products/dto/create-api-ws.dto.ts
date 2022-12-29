@@ -5,7 +5,11 @@ export class CreateApiWSDto {
     
     @IsString()
     @MinLength(5)
-    slug_businnes: string;
+    slug_business: string;
+
+    @IsString()
+    @IsOptional()
+    business_name: string;
     
     @IsString()
     @IsOptional()
@@ -33,7 +37,7 @@ export class CreateApiWSDto {
 
     @IsString()
     @IsOptional()
-    id_cuenta_businnes?: string; 
+    id_cuenta_business?: string; 
 
     @IsString()
     @IsOptional()

@@ -69,12 +69,12 @@ export class WhatsappService {
     return data;
   }
 
-  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_businnes): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     console.log("🔄🔄🔄🔄🔄🔄 Update Reservation 🔄🔄🔄🔄🔄🔄 ⋙ ⋘");
     console.log("⏩⏩ token recibido: ", token);
     console.log("⏩⏩ phone_number recibido: ", phone_number);
     console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
-    console.log("⏩⏩ Datos del negocio recibido: ", acount_businnes);
+    console.log("⏩⏩ Datos del negocio recibido: ", acount_business);
 
     
 
@@ -495,24 +495,24 @@ v
     }
   }
 
-  async findAllBusinnes( paginationDto: PaginationDto ) {
+  async findAllbusiness( paginationDto: PaginationDto ) {
 
     const { limit , offset } = paginationDto;
 
-    const businnes = await this.apiWsRepository.find({
+    const business = await this.apiWsRepository.find({
       take: limit,
       skip: offset,
       // TODO: relaciones
     })
 
     console.log('Se mostro listado de negocios');
-    return businnes.map ( itemsBusinnes => ({
-      ...itemsBusinnes,
+    return business.map ( itemsbusiness => ({
+      ...itemsbusiness,
     }) )
   }
 
 
-  async findOneBusinnes( term: string ) {
+  async findOnebusiness( term: string ) {
 
     let businne: ApiWs;
 
@@ -521,9 +521,9 @@ v
     } else {
       const queryBuilder = this.apiWsRepository.createQueryBuilder(); 
       businne = await queryBuilder
-        .where('UPPER(phone_api) =:phone_api or slug_businnes =:slug_businnes or id_cuenta_businnes=: id_cuenta_businnes', {
+        .where('UPPER(phone_api) =:phone_api or slug_business =:slug_business or id_cuenta_business=: id_cuenta_business', {
           phone_api: term.toUpperCase(),
-          slug_businnes: term.toLowerCase(),
+          slug_business: term.toLowerCase(),
         }).getOne();
     }
 
@@ -536,7 +536,7 @@ v
     return businne;
   }
 
-  async updateBusinnes( id: string, updateApiWsDto: UpdateApiWsDto ) {
+  async updatebusiness( id: string, updateApiWsDto: UpdateApiWsDto ) {
 
     const businne = await this.apiWsRepository.preload({
       id: id,
@@ -557,8 +557,8 @@ v
 
   }
 
-  async removeBusinnes(id: string) {
-    const businne: ApiWs = await this.findOneBusinnes( id );
+  async removebusiness(id: string) {
+    const businne: ApiWs = await this.findOnebusiness( id );
     // try {
       await this.apiWsRepository.remove( businne );
       console.log('Se elimino el negocio con el id: ', id);
