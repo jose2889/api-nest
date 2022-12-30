@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/whastapp.module';
 import { CommonModule } from './common/common.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
@@ -17,6 +19,23 @@ import { CommonModule } from './common/common.module';
       password: process.env.DB_PASSWORD,      
       autoLoadEntities: true,
       synchronize: true,
+    }),
+
+    MailerModule.forRootAsync({
+      useFactory: () => ({
+        transport: {
+          host: process.env.EMAIL_HOST,
+          port: 587,
+          secure: false,
+          auth: {
+            user: process.env.EMAIL_USEREMAIL,
+            pass: process.env.EMAIL_PASSWORD
+          },
+          defaults: {
+            from: process.env.EMAIL_USEREMAIL,
+          },
+        },
+      }),
     }),
 
     ProductsModule,

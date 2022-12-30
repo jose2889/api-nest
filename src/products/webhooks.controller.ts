@@ -75,7 +75,7 @@ export class Webhookontroller {
 
   @Get()
   authWebhook(@Res() res, @Query( 'hub.mode' ) mode: string, @Query( 'hub.verify_token' ) token: string, @Query( 'hub.challenge' ) challenge: string) {
-     console.log("⏩⏩⏩⏩ Datos por parametro ", mode, token, challenge)
+    //  console.log("⏩⏩⏩⏩ Datos por parametro ", mode, token, challenge)
      /**
    * UPDATE YOUR VERIFY TOKEN
    *This will be the Verify Token value when you set up webhook

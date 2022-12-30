@@ -24,6 +24,11 @@ import * as timezonedayjs from 'dayjs/plugin/timezone';
 dayjs.extend(utcdayjs);
 dayjs.extend(timezonedayjs);
 
+// ############### Importaciones para el manejo mail ###############
+import { MailerService } from '@nestjs-modules/mailer';
+import { ConfigService } from '@nestjs/config';
+import * as nodemailer from 'nodemailer';
+
 
 
 
@@ -50,6 +55,8 @@ export class WhatsappService {
   constructor(
 
     private readonly httpService:HttpService,
+
+    private readonly mailerService: MailerService,
 
     @InjectRepository(Chat)
     private readonly chatRepository: Repository<Chat>,
@@ -295,6 +302,7 @@ export class WhatsappService {
         // **************************************************************************************************
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
+
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText); 
         },
@@ -428,25 +436,48 @@ if (error.status === 400) {
     `;
 
     const emailRemitente={
+          "from":process.env.EMAIL_USEREMAIL,
           "to":process.env.EMAIL_TO,
           "subject":"Error de solicitud token: " + data.token,
           "html":emailMessage
         }
     
-    try {
-      await this.httpService.post(process.env.EMAIL_URL, emailRemitente).subscribe(res => {
-          // console.log(" 📧📧 Se envio el correo de error: ", emailRemitente);
-          console.log(" 📧📧 Response of Api email: ", res.data); 
-        },
-        (error) => {
-          console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
-        });
-    } catch (error) {
-        console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
-        throw new BadRequestException();
-    }
+
+    
+  
+    // ################## Sending Email #####################
+    this.sendMailPlanner(emailRemitente);
+    // ######################################################
+
+    // try {
+    //   await this.httpService.post(process.env.EMAIL_URL, emailRemitente).subscribe(res => {
+    //       // console.log(" 📧📧 Se envio el correo de error: ", emailRemitente);
+    //       console.log(" 📧📧 Response of Api email: ", res.data); 
+    //     },
+    //     (error) => {
+    //       console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
+    //     });
+    // } catch (error) {
+    //     console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
+    //     throw new BadRequestException();
+    // }
     
   }
+
+  sendMailPlanner(emailRemitente): void {
+    this.mailerService
+      .sendMail({
+        ...emailRemitente
+      })
+      .then(() => {
+        console.log(" 📧📧 Se envio el correo de error: ", emailRemitente.to);
+      })
+      .catch (error => {
+        console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", emailRemitente.to);
+        console.log(" ⛔⛔ Mesaje de error: ",error.message);
+      });    
+  }
+
   // ########################################################################################################################################
 
   async create(createProductDto: CreateChatDto) {
