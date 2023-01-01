@@ -100,7 +100,13 @@ export class WhatsappService {
     let timezone = 'UTC';
     let codePhoneContry = 0;
 
-    if (phone_number.startsWith("56")) {
+    if (phone_number.startsWith("1089")) {
+      timezone = "America/Santo_Domingo";
+      codePhoneContry = 1089;
+    }else if (phone_number.startsWith("598")){
+      timezone = "America/Montevideo";
+      codePhoneContry = 598;
+    }else if (phone_number.startsWith("56")) {
       timezone = "America/Santiago";
       codePhoneContry = 56;
     }
@@ -131,10 +137,6 @@ export class WhatsappService {
     else if (phone_number.startsWith("34")) {
       timezone = "Europe/Madrid";
       codePhoneContry = 34;
-    }
-    else if (phone_number.startsWith("1089")) {
-      timezone = "America/Santo_Domingo";
-      codePhoneContry = 1089;
     }
 
 
@@ -339,30 +341,30 @@ export class WhatsappService {
     return;
   }
 
-/* ##################################################################################################################################
+    /* ##################################################################################################################################
 
-if (error.status === 400) {
-  if (error.error.message === 1) {
-    this.message = "La reservacion ya se encuentra aprobada previamente.";
-  }else if (error.retMessague === 3) { 
-    this.message = "La reservacion ya ha sido cancelada previamente.";
-  }else if (error.retMessague === 9) {
-    this.message = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
-  }
+    if (error.status === 400) {
+      if (error.error.message === 1) {
+        this.message = "La reservacion ya se encuentra aprobada previamente.";
+      }else if (error.retMessague === 3) { 
+        this.message = "La reservacion ya ha sido cancelada previamente.";
+      }else if (error.retMessague === 9) {
+        this.message = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
+      }
 
-  this.isConfirm = true;
-  this.loading = false;
-} else { if (error.status === 409) {
-  this.message = "El reloj esta atrasado, por favor sincronice su reloj con el servidor.";
-  this.commit = "No se puede establecer una conexion porque la fecha y la hora del equipo no son correctas.";
-  this.isConfirm = true;
-  this.loading = false;
-} else {
-  this.router.navigate(['/error']);
-}
+      this.isConfirm = true;
+      this.loading = false;
+    } else { if (error.status === 409) {
+      this.message = "El reloj esta atrasado, por favor sincronice su reloj con el servidor.";
+      this.commit = "No se puede establecer una conexion porque la fecha y la hora del equipo no son correctas.";
+      this.isConfirm = true;
+      this.loading = false;
+    } else {
+      this.router.navigate(['/error']);
+    }
 
 
-##################################################################################################################################### */
+    ##################################################################################################################################### */
 
 
   // ############################################################ Envio de email de error ###########################################
@@ -441,9 +443,6 @@ if (error.status === 400) {
           "subject":"Error de solicitud token: " + data.token,
           "html":emailMessage
         }
-    
-
-    
   
     // ################## Sending Email #####################
     this.sendMailPlanner(emailRemitente);
