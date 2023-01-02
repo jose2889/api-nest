@@ -28,6 +28,7 @@ dayjs.extend(timezonedayjs);
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
+import { countrytimezone } from './data/country-timezone';
 
 
 
@@ -82,62 +83,89 @@ export class WhatsappService {
   }  
 
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
-    console.log("🔄🔄🔄🔄🔄🔄 Update Reservation 🔄🔄🔄🔄🔄🔄 ⋙ ⋘");
+    console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⋙ Update Reservation ⋘ ⋘ 🔄🔄🔄🔄🔄🔄");
     console.log("⏩⏩ token recibido: ", token);
     console.log("⏩⏩ phone_number recibido: ", phone_number);
     console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
     console.log("⏩⏩ Datos del negocio recibido: ", acount_business);
-
     
 
-    this.request.to = phone_number;
-    
-    // let body = {
-    //   // date: dayjs().format("YYYY-MM-DD HH:mm"),
-    //   date: dayjs(parseInt(timestamp_message)*1000).format("YYYY-MM-DD HH:mm"),
-    // }    
+    this.request.to = phone_number; // numero de telefono del cliente que envia el mensaje
+    let timezone = 'UTC'; // zona horaria por defecto
+    let codePhoneContry = 0; // codigo de pais por defecto
+    let country = ""; // pais por defecto   
+    let id_ws_acount = null; // id de la cuenta de whatsapp inicializado en null
+    const dbCountry = countrytimezone; // base de datos de paises y zonas horarias
+  
+    id_ws_acount = this.findOnebusiness(acount_business.id_ws_acount); // busco el id de la cuenta de whatsapp en la base de datos de la api
 
-    let timezone = 'UTC';
-    let codePhoneContry = 0;
 
-    if (phone_number.startsWith("1089")) {
-      timezone = "America/Santo_Domingo";
-      codePhoneContry = 1089;
-    }else if (phone_number.startsWith("598")){
-      timezone = "America/Montevideo";
-      codePhoneContry = 598;
-    }else if (phone_number.startsWith("56")) {
-      timezone = "America/Santiago";
-      codePhoneContry = 56;
+    if (!id_ws_acount) { // si no se encuentra el id de la cuenta de whatsapp
+      console.log ("No se ha encontrado el ID de la cuenta de Whatsapp");
+    } else { // si se encuentra el id de la cuenta de whatsapp
+      country = id_ws_acount.country_business; // obtengo el pais del negocio de la base de datos de la api
+      for (let i = 0; i < dbCountry.length; i++) {  // busco el pais en la base de datos de paises y zonas horarias
+        if (dbCountry[i].pais == country) { // si el pais del negocio se encuentra en la base de datos
+          timezone = dbCountry[i].timezone; // obtengo la zona horaria del pais del negocio
+          codePhoneContry = dbCountry[i].code_phone; // obtengo el codigo de telefono del pais del negocio
+          break; // salgo del ciclo
+        }
+      }
+      console.log("⏩⏩ timezone: ", timezone); // imprimo la zona horaria del pais del negocio
+      console.log("⏩⏩ codePhoneContry: ", codePhoneContry); // imprimo el codigo de telefono del pais del negocio
+      console.log("⏩⏩ country: ", country); // imprimo el pais del negocio
+    } 
+
+    if (codePhoneContry == 0) { // si no se encuentra el pais del negocio
+      console.log("⏩⏩ No se ha encontrado el pais del negocio"); // imprimo el pais del negocio
+      // A partir de aqui determino el pais del cliente a partir del numero de telefono del cliente que envia el mensaje
+      if (phone_number.startsWith("1809") || phone_number.startsWith("1829") || phone_number.startsWith("1849")) { // si el numero de telefono del cliente que envia el mensaje empieza con 1809, 1829 o 1849
+        timezone = "America/Santo_Domingo";
+        codePhoneContry = 1809;
+      }else if (phone_number.startsWith("598")){
+        timezone = "America/Montevideo";
+        codePhoneContry = 598;
+      }else if (phone_number.startsWith("593")) {
+        timezone = "America/Guayaquil";
+        codePhoneContry = 593;
+      }else if (phone_number.startsWith("591")) {
+        timezone = "America/La_Paz";
+        codePhoneContry = 591;
+      }else if (phone_number.startsWith("56")) {
+        timezone = "America/Santiago";
+        codePhoneContry = 56;
+      }
+      else if (phone_number.startsWith("57")) { 
+        timezone = "America/Bogota";
+        codePhoneContry = 57;
+      }
+      else if (phone_number.startsWith("52")) {
+        timezone = "America/Mexico_City";
+        codePhoneContry = 52;
+      }
+      else if (phone_number.startsWith("51")) {
+        timezone = "America/Lima";
+        codePhoneContry = 51;
+      }
+      else if (phone_number.startsWith("54")) {
+        timezone = "America/Argentina/Buenos_Aires";
+        codePhoneContry = 54;
+      }
+      else if (phone_number.startsWith("55")) {
+        timezone = "America/Sao_Paulo";
+        codePhoneContry = 55;
+      }
+      else if (phone_number.startsWith("58")) {
+        timezone = "America/Caracas";
+        codePhoneContry = 58;
+      }
+      else if (phone_number.startsWith("34")) {
+        timezone = "Europe/Madrid";
+        codePhoneContry = 34;
+      }
+
     }
-    else if (phone_number.startsWith("57")) { 
-      timezone = "America/Bogota";
-      codePhoneContry = 57;
-    }
-    else if (phone_number.startsWith("52")) {
-      timezone = "America/Mexico_City";
-      codePhoneContry = 52;
-    }
-    else if (phone_number.startsWith("51")) {
-      timezone = "America/Lima";
-      codePhoneContry = 51;
-    }
-    else if (phone_number.startsWith("54")) {
-      timezone = "America/Argentina/Buenos_Aires";
-      codePhoneContry = 54;
-    }
-    else if (phone_number.startsWith("55")) {
-      timezone = "America/Sao_Paulo";
-      codePhoneContry = 55;
-    }
-    else if (phone_number.startsWith("58")) {
-      timezone = "America/Caracas";
-      codePhoneContry = 58;
-    }
-    else if (phone_number.startsWith("34")) {
-      timezone = "Europe/Madrid";
-      codePhoneContry = 34;
-    }
+
 
 
     let bodyChangeTimezone = {
@@ -568,7 +596,8 @@ export class WhatsappService {
   //       console.log(data);
   //     });
   // }
-v
+
+
   // ################################### Gestión de los datos en la tabla de las ApiWs para negocios ###################################
   // ########################################################## Edgardo Lugo ###########################################################
 
@@ -611,15 +640,17 @@ v
     } else {
       const queryBuilder = this.apiWsRepository.createQueryBuilder(); 
       business = await queryBuilder
-        .where('UPPER(phone_api) =:phone_api or slug_business =:slug_business or id_cuenta_business=: id_cuenta_business or country_business=:country_business or time_zone=:time_zone', {
-          phone_api: term.toUpperCase(),
+        .where('UPPER(phone_api) =:phone_api or slug_business =:slug_business or id_cuenta_business=:id_cuenta_business or country_business=:country_business', {
+          phone_api: term,
           slug_business: term.toLowerCase(),
+          id_cuenta_business: term,
+          country_business: term
         }).getOne();
     }
 
 
     if ( !business ) {
-      console.log('Se mostro detalles del negocio con el termino de busqueda: ', term);
+      console.log('Detalles de la busqueda de negocio con el termino: ', term);
       throw new NotFoundException(`business with ${ term } not found`);
     }
 
@@ -636,7 +667,7 @@ v
     if ( !business ) throw new NotFoundException(`business with id: ${ id } not found`);
 
     try {
-      await this.chatRepository.save( business );
+      await this.apiWsRepository.save( business );
       console.log('♻︎♻︎💼💼 Se actulizaron los datos del negocio con el id: ', id, ' con los datos: ', updateApiWsDto);
 
       return business;
