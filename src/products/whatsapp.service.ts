@@ -86,7 +86,7 @@ export class WhatsappService {
   }  
 
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
-    console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⋙ Update Reservation ⋘ ⋘ 🔄🔄🔄🔄🔄🔄");
+    console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
     console.log("⏩⏩ token recibido: ", token);
     console.log("⏩⏩ phone_number recibido: ", phone_number);
     console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
@@ -104,7 +104,7 @@ export class WhatsappService {
     const dbCountry = countrytimezone; // base de datos de paises y zonas horarias
   
     id_ws_acount = await this.findOnebusiness(acount_business.id_ws_acount); // busco el id de la cuenta de whatsapp en la base de datos de la api
-    console.log("📝📝📝 id_ws_acount: ", id_ws_acount);
+    console.log("📝💡📝 id_ws_acount: ", id_ws_acount);
 
     if (!id_ws_acount) { // si no se encuentra el id de la cuenta de whatsapp
       console.log ("⭕⭕ No se ha encontrado el ID de la cuenta de Whatsapp");
