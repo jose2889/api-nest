@@ -29,6 +29,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { countrytimezone } from './data/country-timezone';
+import { BusinessService } from './business/business.service';
 
 
 
@@ -52,8 +53,10 @@ export class WhatsappService {
         "body": "Response Default"
     }
   }
-
+  
   constructor(
+
+    private BusinessService: BusinessService,
 
     private readonly httpService:HttpService,
 
@@ -89,6 +92,9 @@ export class WhatsappService {
     console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
     console.log("⏩⏩ Datos del negocio recibido: ", acount_business);
     
+    // let TimeZoneBusiness = this.BusinessService.determineTimeZone(phone_number, acount_business.id_ws_acount); // determino la zona horaria del negocio
+    // console.log("⏩⏩ TimeZoneBusiness: ", TimeZoneBusiness);
+  
 
     this.request.to = phone_number; // numero de telefono del cliente que envia el mensaje
     let timezone = 'UTC'; // zona horaria por defecto
@@ -98,16 +104,18 @@ export class WhatsappService {
     const dbCountry = countrytimezone; // base de datos de paises y zonas horarias
   
     id_ws_acount = this.findOnebusiness(acount_business.id_ws_acount); // busco el id de la cuenta de whatsapp en la base de datos de la api
-
+    console.log("📝📝📝 id_ws_acount: ", id_ws_acount);
 
     if (!id_ws_acount) { // si no se encuentra el id de la cuenta de whatsapp
-      console.log ("No se ha encontrado el ID de la cuenta de Whatsapp");
+      console.log ("⭕⭕ No se ha encontrado el ID de la cuenta de Whatsapp");
     } else { // si se encuentra el id de la cuenta de whatsapp
+      console.log("⏩⏩ Negocio encontrado con el ID WhatsApp Business (",acount_business.id_ws_acount, "): ", id_ws_acount);
       country = id_ws_acount.country_business; // obtengo el pais del negocio de la base de datos de la api
       for (let i = 0; i < dbCountry.length; i++) {  // busco el pais en la base de datos de paises y zonas horarias
         if (dbCountry[i].pais == country) { // si el pais del negocio se encuentra en la base de datos
           timezone = dbCountry[i].timezone; // obtengo la zona horaria del pais del negocio
           codePhoneContry = dbCountry[i].code_phone; // obtengo el codigo de telefono del pais del negocio
+          console.log("📝📝📝📝📝📝 Datos en el arreglo: ", dbCountry[i]);
           break; // salgo del ciclo
         }
       }
@@ -117,9 +125,9 @@ export class WhatsappService {
     } 
 
     if (codePhoneContry == 0) { // si no se encuentra el pais del negocio
-      console.log("⏩⏩ No se ha encontrado el pais del negocio"); // imprimo el pais del negocio
+      console.log("⭕⭕ No se ha encontrado el pais del negocio");
       // A partir de aqui determino el pais del cliente a partir del numero de telefono del cliente que envia el mensaje
-      if (phone_number.startsWith("1809") || phone_number.startsWith("1829") || phone_number.startsWith("1849")) { // si el numero de telefono del cliente que envia el mensaje empieza con 1809, 1829 o 1849
+      if (phone_number.startsWith("1809") || phone_number.startsWith("1829") || phone_number.startsWith("1849")) {
         timezone = "America/Santo_Domingo";
         codePhoneContry = 1809;
       }else if (phone_number.startsWith("598")){
@@ -175,6 +183,7 @@ export class WhatsappService {
 
     let body = bodyChangeTimezone;
     console.log("⏩⏩⏩ TimeZome: ", timezone);
+    console.log("⏩⏩⏩ Country: ", country);
     console.log("⏩⏩⏩ body: ", body);
     console.log("⏩⏩⏩ code phone: ", codePhoneContry);
 

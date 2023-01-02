@@ -9,17 +9,18 @@ import { HttpConfigService } from 'src/httpService.config';
 import { Webhookontroller } from './webhooks.controller';
 import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
-// import { BusinessService } from './business/business.service';
-// import { BusinessController } from './business/business.controller';
+import { BusinessService } from './business/business.service';
+import { BusinessController } from './business/business.controller';
 
 
 @Module({
-  controllers: [WhatsappController, Webhookontroller, ],
-  providers: [WhatsappService, ],
+  controllers: [WhatsappController, Webhookontroller, BusinessController],
+  providers: [WhatsappService, BusinessService],
   imports: [HttpModule.registerAsync({
     useClass: HttpConfigService,
   }),
     TypeOrmModule.forFeature([ Chat, ApiWs, LogFail ])
-  ]
+  ],
+
 })
 export class ProductsModule {}
