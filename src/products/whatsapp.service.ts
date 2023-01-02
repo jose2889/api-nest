@@ -103,7 +103,7 @@ export class WhatsappService {
     let id_ws_acount = null; // id de la cuenta de whatsapp inicializado en null
     const dbCountry = countrytimezone; // base de datos de paises y zonas horarias
   
-    id_ws_acount = this.findOnebusiness(acount_business.id_ws_acount); // busco el id de la cuenta de whatsapp en la base de datos de la api
+    id_ws_acount = await this.findOnebusiness(acount_business.id_ws_acount); // busco el id de la cuenta de whatsapp en la base de datos de la api
     console.log("📝📝📝 id_ws_acount: ", id_ws_acount);
 
     if (!id_ws_acount) { // si no se encuentra el id de la cuenta de whatsapp
