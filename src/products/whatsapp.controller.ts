@@ -69,9 +69,11 @@ export class WhatsappController {
       templateWhatsappApiRequest.template.components[0].parameters[2].text = businessName;   
       templateWhatsappApiRequest.template.components[1].parameters[0].payload = confirmToken;   
       templateWhatsappApiRequest.template.components[2].parameters[0].payload = cancelToken;   
+
       console.log("⏩⏩⏩⏩ Template: ", process.env.TEMPLATE_RESERVATION_CONFIRMATION);
       console.log("⏩⏩⏩⏩ wsApiReques: ", templateWhatsappApiRequest);
       console.log("⏩⏩⏩⏩ Empresa: ", slug);
+      
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
       }).catch((err) => {
