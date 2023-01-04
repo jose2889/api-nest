@@ -55,8 +55,6 @@ export class WhatsappService {
   
   constructor(
 
-    private BusinessService: BusinessService,
-
     private readonly httpService:HttpService,
 
     private readonly mailerService: MailerService,
