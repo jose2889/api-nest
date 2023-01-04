@@ -245,7 +245,7 @@ export const countrytimezone:CountryTimezone[] = [
     },
     {
         continente: "America",
-        pais: "Clile",
+        pais: "Chile",
         capital: "Santiago de Chile",
         idioma: "Español",
         timezone: "America/Santiago",

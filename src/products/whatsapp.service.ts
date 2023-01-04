@@ -104,27 +104,30 @@ export class WhatsappService {
     const dbCountry = countrytimezone; // base de datos de paises y zonas horarias
   
     id_ws_acount = await this.findOnebusiness(acount_business.id_ws_acount); // busco el id de la cuenta de whatsapp en la base de datos de la api
-    console.log("📝💡📝 id_ws_acount: ", id_ws_acount);
+    console.log("📝💡📝 id_ws_acount: ", id_ws_acount.slug_business);
 
     if (!id_ws_acount) { // si no se encuentra el id de la cuenta de whatsapp
       console.log ("⭕⭕ No se ha encontrado el ID de la cuenta de Whatsapp");
     } else { // si se encuentra el id de la cuenta de whatsapp
-      console.log("⏩⏩ Negocio encontrado con el ID WhatsApp Business (",acount_business.id_ws_acount, "): ", id_ws_acount);
+      console.log("⏩⏩ Negocio encontrado con el ID WhatsApp Business (",acount_business.id_ws_acount, "): ", id_ws_acount.slug_business);
       country = id_ws_acount.country_business; // obtengo el pais del negocio de la base de datos de la api
-      for (let i = 0; i < dbCountry.length; i++) {  // busco el pais en la base de datos de paises y zonas horarias
-        if (dbCountry[i].pais == country) { // si el pais del negocio se encuentra en la base de datos
-          timezone = dbCountry[i].timezone; // obtengo la zona horaria del pais del negocio
-          codePhoneContry = dbCountry[i].code_phone; // obtengo el codigo de telefono del pais del negocio
-          console.log("📝📝📝📝📝📝 Datos en el arreglo: ", dbCountry[i]);
-          break; // salgo del ciclo
-        }
-      }
+      timezone = id_ws_acount.time_zone; // obtengo la zona horaria del negocio de la base de datos de la api
+      // for (let i = 0; i < dbCountry.length; i++) {  // busco el pais en la base de datos de paises y zonas horarias
+      //   console.log ("index: ", i, " - ", dbCountry[i].pais, " - ", country, " --> ", dbCountry[i].pais == country)
+
+      //   if (dbCountry[i].pais == country) { // si el pais del negocio se encuentra en la base de datos
+      //     timezone = dbCountry[i].timezone; // obtengo la zona horaria del pais del negocio
+      //     codePhoneContry = dbCountry[i].code_phone; // obtengo el codigo de telefono del pais del negocio
+      //     console.log("📝📝📝📝📝📝 Datos en el arreglo: ", dbCountry[i]);
+      //     break; // salgo del ciclo
+      //   }
+      // }
       console.log("⏩⏩ timezone: ", timezone); // imprimo la zona horaria del pais del negocio
       console.log("⏩⏩ codePhoneContry: ", codePhoneContry); // imprimo el codigo de telefono del pais del negocio
       console.log("⏩⏩ country: ", country); // imprimo el pais del negocio
     } 
 
-    if (codePhoneContry == 0) { // si no se encuentra el pais del negocio
+    if (timezone == 'UTC') { // si no se encuentra el pais del negocio
       console.log("⭕⭕ No se ha encontrado el pais del negocio");
       // A partir de aqui determino el pais del cliente a partir del numero de telefono del cliente que envia el mensaje
       if (phone_number.startsWith("1809") || phone_number.startsWith("1829") || phone_number.startsWith("1849")) {
@@ -633,7 +636,7 @@ export class WhatsappService {
       // TODO: relaciones
     })
 
-    console.log('Se mostro listado de negocios');
+    console.log('🔎🔎🔎 Se mostro listado de negocios');
     return business.map ( itemsbusiness => ({
       ...itemsbusiness,
     }) )
