@@ -31,13 +31,15 @@ export interface WhatsappNotificationRequest {
     businessName:       string;
     date:               string;
     businessWbsite:     string;
+    countryBusiness:    string;
 }
 
 export interface WhatsappConfimationRequest {
-    phoneNumber:    string;
-    customerName:   string;
-    businessName:   string;
-    confirmToken:   string;
-    cancelToken:    string;
-    date:           string;
+    phoneNumber:        string;
+    customerName:       string;
+    businessName:       string;
+    confirmToken:       string;
+    cancelToken:        string;
+    date:               string;
+    countryBusiness:    string;
 }

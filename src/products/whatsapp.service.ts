@@ -1,5 +1,5 @@
 import { CreateApiWSDto } from './dto/create-api-ws.dto';
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConsoleLogger, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateChatDto } from './dto/create-chat.dto';
@@ -8,7 +8,7 @@ import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { CreateLogFailDto } from './dto/create-log-fail.dto';
 import { Chat } from './entities/chat.entity';
 import { validate as isUUID } from 'uuid';
-import { HttpService } from '@nestjs/axios';
+import { HttpService, HttpModuleOptions, HttpModuleOptionsFactory } from '@nestjs/axios';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
 import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response.dto';
@@ -29,7 +29,9 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { countrytimezone } from './data/country-timezone';
-import { BusinessService } from './business/business.service';
+// import { BusinessService } from './business/business.service';
+import { HttpConfigService } from 'src/httpService.config';
+import { Console } from 'console';
 
 
 
@@ -38,8 +40,10 @@ import { BusinessService } from './business/business.service';
 export class WhatsappService {
 
   private readonly logger = new Logger('WhatsappService');
-  baseUrl = process.env.BASE_URL_PROD; //BASEURL.baseUrlWhatsappCloudApiProd;
+  baseUrl = ""; //process.env.BASE_URL_PROD; //BASEURL.baseUrlWhatsappCloudApiProd;
   urlPlanner = process.env.URLPLANNER; 
+  url_api = ""; //"hhttps://graph.facebook.com/";
+  // configUrl ={};
   
   // date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
 
@@ -56,7 +60,7 @@ export class WhatsappService {
   
   constructor(
 
-    private BusinessService: BusinessService,
+    // private BusinessService: BusinessService,
 
     private readonly httpService:HttpService,
 
@@ -73,12 +77,65 @@ export class WhatsappService {
 
   ) {}
 
+  async getDataApi(countryBusiness:string): Promise<ApiWs> {
+    const dataBusiness = await this.findOnebusiness(countryBusiness);
+    if (!dataBusiness) {
+      throw new NotFoundException(`No se encontró el token de la API para el countryBusiness: ${countryBusiness}`);
+    }
+    return dataBusiness;
+  }
 
-  async sendMessage(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
-    const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
+  async sendMessage(countryBusiness:string ,request: WhatsappCloudApiRequest, template?:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+
+    let data_app = await this.getDataApi(countryBusiness);
+    if (template) {
+      console.log("📩📩📩 Template 📩 ⋙ ", template);
+      if (template == 'confirmation') {
+        request.template.name = data_app.template_confirmation;
+      }
+      if (template == 'notification') {
+        request.template.name = data_app.template_notification;
+      }
+    }
+    console.log("📩📩📩 Plantilla enviada 📩 ⋙ ", request.template.name);
+    let token_app = data_app.token_app;
+  
+    let configUrl = {
+      "headers": {
+          'Authorization': 'Bearer '+token_app,
+          'Content-Type': 'application/json'
+      }
+    };
+
+    console.log("👍👍👍👍 Token de la API de Facebook: ", token_app);
+    console.log("👍👍👍👍 Configuracion de la solicitud: ", configUrl);
+
     console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
+    console.log("📩📩📩 Compomenetes del objeto enviado a Facebook 📩 ⋙ ", request.template.components);
+
+    
+    this.url_api= "v" + data_app.ver_app + "/" + data_app.id_phone_app + "/messages";
+    this.baseUrl = "https://graph.facebook.com/" + this.url_api;
+
+    console.log("👍👍👍👍 URL de la API de Facebook: ", this.baseUrl);
+
+
+    const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request, configUrl));
+   
+
+    // let data = await this.httpService.post(this.baseUrl, this.request, configUrl).subscribe(res => {
+    //     console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText); 
+    //     return res;
+    //   },
+    //   (error) => {
+    //     console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
+    //     return error;
+    //   }); 
+
     console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
+
     return data;
+
   }
 
   changTimezone(timezone: string, date: string): string {
@@ -100,28 +157,35 @@ export class WhatsappService {
     let timezone = 'UTC'; // zona horaria por defecto
     let codePhoneContry = 0; // codigo de pais por defecto
     let country = ""; // pais por defecto   
-    let id_ws_acount = null; // id de la cuenta de whatsapp inicializado en null
-    const dbCountry = countrytimezone; // base de datos de paises y zonas horarias
-  
-    id_ws_acount = await this.findOnebusiness(acount_business.id_ws_acount); // busco el id de la cuenta de whatsapp en la base de datos de la api
-    console.log("📝💡📝 id_ws_acount: ", id_ws_acount.slug_business);
+    
+    let ws_acount_business = await this.findOnebusiness(acount_business); // busco el id de la cuenta de whatsapp en la base de datos de la api
+    console.log("📝💡📝 id_ws_acount: ", ws_acount_business.slug_business);
+    let token_app = ws_acount_business.token_app; // obtengo el token de la cuenta de whatsapp de la base de datos de la api
+    let ver_app = ws_acount_business.ver_app; // obtengo la version de la api de la base de datos de la api
+    let id_phone_app;
 
-    if (!id_ws_acount) { // si no se encuentra el id de la cuenta de whatsapp
+    
+    
+
+
+    if (!ws_acount_business) { // si no se encuentra el id de la cuenta de whatsapp
       console.log ("⭕⭕ No se ha encontrado el ID de la cuenta de Whatsapp");
     } else { // si se encuentra el id de la cuenta de whatsapp
-      console.log("⏩⏩ Negocio encontrado con el ID WhatsApp Business (",acount_business.id_ws_acount, "): ", id_ws_acount.slug_business);
-      country = id_ws_acount.country_business; // obtengo el pais del negocio de la base de datos de la api
-      timezone = id_ws_acount.time_zone; // obtengo la zona horaria del negocio de la base de datos de la api
-      // for (let i = 0; i < dbCountry.length; i++) {  // busco el pais en la base de datos de paises y zonas horarias
-      //   console.log ("index: ", i, " - ", dbCountry[i].pais, " - ", country, " --> ", dbCountry[i].pais == country)
+      console.log("⏩⏩ Negocio encontrado con el ID WhatsApp Business (",acount_business, "): ", ws_acount_business.slug_business);
+      country = ws_acount_business.country_business; // obtengo el pais del negocio de la base de datos de la api
+      timezone = ws_acount_business.time_zone; // obtengo la zona horaria del negocio de la base de datos de la api
+      id_phone_app = acount_business.ip_phone_app;
 
-      //   if (dbCountry[i].pais == country) { // si el pais del negocio se encuentra en la base de datos
-      //     timezone = dbCountry[i].timezone; // obtengo la zona horaria del pais del negocio
-      //     codePhoneContry = dbCountry[i].code_phone; // obtengo el codigo de telefono del pais del negocio
-      //     console.log("📝📝📝📝📝📝 Datos en el arreglo: ", dbCountry[i]);
-      //     break; // salgo del ciclo
-      //   }
-      // }
+      let configUrl = {
+        "headers": {
+            'Authorization': 'Bearer '+token_app,
+            'Content-Type': 'application/json'
+        }
+      };
+  
+      this.url_api= "v" + ver_app + "/" + ws_acount_business.id_phone_app + "/messages";
+      this.baseUrl = "https://graph.facebook.com/" + this.url_api;
+      
       console.log("⏩⏩ timezone: ", timezone); // imprimo la zona horaria del pais del negocio
       console.log("⏩⏩ codePhoneContry: ", codePhoneContry); // imprimo el codigo de telefono del pais del negocio
       console.log("⏩⏩ country: ", country); // imprimo el pais del negocio
@@ -236,8 +300,22 @@ export class WhatsappService {
           this.request.text.body = 'Lo sentimos pero ya no puede procesar la reserva.';
           console.log("⭕⭕⭕⭕ Respuesta de planner Bad Request: Cancel => ",token);
         }
+
+        let configUrl = {
+          "headers": {
+              'Authorization': 'Bearer '+token_app,
+              'Content-Type': 'application/json'
+          }
+        };
+
+        console.log("👍👍👍👍 Enviando menjsade de aceptacion por whatsapp: ");
+        console.log("👍👍👍👍 URL de la API de Facebook: ", this.baseUrl);
+        console.log("👍👍👍👍 Token de la API de Facebook: ", token_app);
+        console.log("👍👍👍👍 Vesion de la API de Facebook: ", ver_app);
+        console.log("👍👍👍👍 Configuracion de la solicitud: ", configUrl);
+        console.log("👍👍👍👍 Datos que se envian: ", this.request);
         
-        this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+        this.httpService.post(this.baseUrl, this.request, configUrl).subscribe(res => {
           console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText); 
         },
         (error) => {
@@ -345,7 +423,25 @@ export class WhatsappService {
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
 
-        this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+        let configUrl = {
+          "headers": {
+              'Authorization': 'Bearer '+token_app,
+              'Content-Type': 'application/json'
+          }
+        };
+
+        // this.url_api= "v" + ver_app + "/" + ws_acount_business.id_phone_app + "/messages";
+        // this.baseUrl = "https://graph.facebook.com/" + this.url_api;
+
+        console.log("👎👎👎👎 Enviando mensaje de error por whatsapp 👎👎👎👎");
+        console.log("👎👎👎👎 URL de la API de Facebook: ", this.baseUrl);
+        console.log("👎👎👎👎 Token de la API de Facebook: ", token_app);
+        console.log("👎👎👎👎 Vesion de la API de Facebook: ", ver_app);
+        console.log("👎👎👎👎 Configuracions de la solicitud: ", configUrl);
+        console.log("👎👎👎👎 Datos que se envian: ", this.request);
+
+
+        this.httpService.post(this.baseUrl, this.request, configUrl).subscribe(res => {
           console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText); 
         },
         (error) => {
@@ -357,26 +453,6 @@ export class WhatsappService {
         throw new BadRequestException();
     }
     
-    // if (data.retCode === "1"){
-    //   this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
-    // }else if (data.retCode === "1"){
-    //   if (data.retMessage === "1") {
-    //     this.request.text.body = "La reservación ya se encuentra aprobada previamente.";
-    //   } else if (data.retMessage === "3") {
-    //     this.request.text.body = "La reservación ya ha sido cancelada previamente.";
-    //   } else if (data.retMessage === "9") {
-    //     this.request.text.body = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
-    //   }
-    // }else {
-    //   this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."; 
-    // }
-
-    // try {
-    //   let response = await firstValueFrom(this.httpService.post(this.baseUrl, this.request));
-    //   console.log("Response de whatapp API ", response.data);
-    // } catch (error) {
-    //     throw new BadRequestException();
-    // }
 
     return;
   }
@@ -488,18 +564,6 @@ export class WhatsappService {
     this.sendMailPlanner(emailRemitente);
     // ######################################################
 
-    // try {
-    //   await this.httpService.post(process.env.EMAIL_URL, emailRemitente).subscribe(res => {
-    //       // console.log(" 📧📧 Se envio el correo de error: ", emailRemitente);
-    //       console.log(" 📧📧 Response of Api email: ", res.data); 
-    //     },
-    //     (error) => {
-    //       console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
-    //     });
-    // } catch (error) {
-    //     console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
-    //     throw new BadRequestException();
-    // }
     
   }
 
@@ -540,7 +604,7 @@ export class WhatsappService {
     console.info("⏩⏩ Se verifica si el '", watsapp_id, "' ya existe en la base de datos.")
     try {
       let idMessage = await this.chatRepository.findOneBy({ watsapp_id: watsapp_id });
-      console.log("⏩⏩ Coincidencia: ", idMessage)
+      // console.log("⏩⏩ Coincidencia: ", idMessage)
 
       if ( idMessage ){
         console.log("⏩⏩ El id del mensaje ya existe en la base de datos.")
@@ -564,7 +628,7 @@ export class WhatsappService {
     try {
       
       let product = await this.chatRepository.findOneBy({ watsapp_id: createProductDto.watsapp_id });
-      console.log("⏩⏩ Se encontro una coincidencia: ", product)
+      // console.log("⏩⏩ Se encontro una coincidencia: ", product)
       if ( !product ) {
         product = this.chatRepository.create(createProductDto);
         await this.chatRepository.save( product );
@@ -602,14 +666,7 @@ export class WhatsappService {
     }) )
   }
 
-  // enviarNotificacion(): Observable<any> {
-  //   return this.httpService.get('https://api-nest-ws.herokuapp.com/api/chat').pipe(
-  //     map(resp => resp.data)).subscribe(data => {
-  //       console.log(data);
-  //     });
-  // }
-
-
+  // ###################################################################################################################################
   // ################################### Gestión de los datos en la tabla de las ApiWs para negocios ###################################
   // ########################################################## Edgardo Lugo ###########################################################
 
@@ -646,6 +703,7 @@ export class WhatsappService {
   async findOnebusiness( term: string ) {
 
     let business: ApiWs;
+    console.log('🔎🔎🔎 Se busco el negocio con el termino: ', term);
 
     if ( isUUID(term) ) {
       business = await this.apiWsRepository.findOneBy({ id: term });
@@ -654,7 +712,7 @@ export class WhatsappService {
       business = await queryBuilder
         .where('UPPER(phone_api) =:phone_api or slug_business =:slug_business or id_cuenta_business=:id_cuenta_business or country_business=:country_business', {
           phone_api: term,
-          slug_business: term.toLowerCase(),
+          slug_business: term,//.toLowerCase(),
           id_cuenta_business: term,
           country_business: term
         }).getOne();
