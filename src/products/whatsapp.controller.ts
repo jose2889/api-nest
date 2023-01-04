@@ -28,7 +28,6 @@ export class WhatsappController {
   notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
      
     const { phoneNumber, slug, date, businessName} = request; 
-    // console.log('############# Templete notification ############:', process.env.TEMPLATE_RESERVATION_NOTIFICATION);
 
     let first_chart=slug.slice(0, 1);
     
@@ -40,6 +39,10 @@ export class WhatsappController {
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
         templateWhatsappApiRequest.template.components[1].parameters[0].text = ( first_chart == '/') ? slug.slice(1) : slug; //slug;  // con el slice quitamos el #( primer caracter ) del slug
+      
+      console.log("⏩⏩⏩⏩ Template: ", process.env.TEMPLATE_RESERVATION_NOTIFICATION);
+      console.log("⏩⏩⏩⏩ wsApiReques: ", templateWhatsappApiRequest);
+      console.log("⏩⏩⏩⏩ Empresa: ", slug);
 
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
@@ -54,7 +57,6 @@ export class WhatsappController {
   @Post('confirmationsws')
   confirmationsWhatsapp(@Body() request: CreateConfirmationDto, @Res() response) {
       // this.logger.warn('consume-template');
-      // console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION);
 
       const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken, slug} = request; 
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
@@ -67,8 +69,8 @@ export class WhatsappController {
       templateWhatsappApiRequest.template.components[0].parameters[2].text = businessName;   
       templateWhatsappApiRequest.template.components[1].parameters[0].payload = confirmToken;   
       templateWhatsappApiRequest.template.components[2].parameters[0].payload = cancelToken;   
-      // console.log("⏩⏩⏩⏩ Template: ", process.env.TEMPLATE_RESERVATION_CONFIRMATION);
-      console.log("⏩⏩⏩⏩ wsApiReques: ", dataApiRequest);
+      console.log("⏩⏩⏩⏩ Template: ", process.env.TEMPLATE_RESERVATION_CONFIRMATION);
+      console.log("⏩⏩⏩⏩ wsApiReques: ", templateWhatsappApiRequest);
       console.log("⏩⏩⏩⏩ Empresa: ", slug);
       this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
