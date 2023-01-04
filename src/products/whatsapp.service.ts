@@ -71,10 +71,11 @@ export class WhatsappService {
   ) {}
 
 
-  async sendMessage(request: WhatsappCloudApiRequest): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async sendMessage(request: WhatsappCloudApiRequest, template?:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+    console.log("📩📩📩 Se envio la plantilla de ",template," de reserva");
     const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
-    console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
-    console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
+    // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
+    // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
     return data;
   }
 
@@ -84,10 +85,9 @@ export class WhatsappService {
 
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
-    console.log("⏩⏩ token recibido: ", token);
-    console.log("⏩⏩ phone_number recibido: ", phone_number);
-    console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
-    console.log("⏩⏩ Datos del negocio recibido: ", acount_business);
+    console.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
+    // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
+    // console.log("⏩⏩ Datos del negocio recibido: ", acount_business);
     
     // let TimeZoneBusiness = this.BusinessService.determineTimeZone(phone_number, acount_business.id_ws_acount); // determino la zona horaria del negocio
     // console.log("⏩⏩ TimeZoneBusiness: ", TimeZoneBusiness);
@@ -149,16 +149,17 @@ export class WhatsappService {
     }
 
     let body = bodyChangeTimezone;
+
     console.log("⏩⏩⏩ TimeZome: ", timezone);
     // console.log("⏩⏩⏩ Country: ", country);
     console.log("⏩⏩⏩ body: ", body);
-    console.log("⏩⏩⏩ code phone: ", codePhoneContry);
+    // console.log("⏩⏩⏩ code phone: ", codePhoneContry);
 
     // let data; 
 
 
     const urlAPIplanner = `${this.urlPlanner}${token}`;
-    console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
+    // console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
      try {
       this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
 
@@ -219,15 +220,15 @@ export class WhatsappService {
         console.log("⏩⏩ Status: ", errorResponse.status.toString());
         console.log("⏩⏩ Data: ", JSON.stringify(errorResponse.data));
         console.log("⏩⏩ Status Text: ",errorResponse.statusText);
-        console.log("⏩⏩ ConfigMethod: ",errorResponse.config.method);
-        console.log("⏩⏩ ConfigURL: ",errorResponse.config.url);
-        console.log("⏩⏩ ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
-        console.log("⏩⏩ Texto recibido: ", text_message);
-        console.log("⏩⏩ Token recibido: ", token);
+        // console.log("⏩⏩ ConfigMethod: ",errorResponse.config.method);
+        // console.log("⏩⏩ ConfigURL: ",errorResponse.config.url);
+        // console.log("⏩⏩ ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
+        // console.log("⏩⏩ Texto recibido: ", text_message);
+        // console.log("⏩⏩ Token recibido: ", token);
         // console.log("⏩⏩ URL API Planner: ", urlAPIplanner);
-        console.log("⏩⏩ Body enviado", JSON.stringify(body));
-        console.log("⏩⏩ Timestamp del mensaje: ",timestamp_message);
-        console.log("⏩⏩ Id Message WhatsApp: ", watsapp_id);
+        // console.log("⏩⏩ Body enviado", JSON.stringify(body));
+        // console.log("⏩⏩ Timestamp del mensaje: ",timestamp_message);
+        // console.log("⏩⏩ Id Message WhatsApp: ", watsapp_id);
 
         this.request.text.body = "Ocurrio un inconveniente al procesar su solicitud. Disculpe las molestias, estamos trabajando para solventarlo. ";
 
@@ -511,7 +512,7 @@ export class WhatsappService {
     console.info("⏩⏩ Se verifica si el '", watsapp_id, "' ya existe en la base de datos.")
     try {
       let idMessage = await this.chatRepository.findOneBy({ watsapp_id: watsapp_id });
-      console.log("⏩⏩ Coincidencia: ", idMessage)
+      // console.log("⏩⏩ Coincidencia: ", idMessage)
 
       if ( idMessage ){
         console.log("⏩⏩ El id del mensaje ya existe en la base de datos.")
@@ -535,7 +536,7 @@ export class WhatsappService {
     try {
       
       let product = await this.chatRepository.findOneBy({ watsapp_id: createProductDto.watsapp_id });
-      console.log("⏩⏩ Se encontro una coincidencia: ", product)
+      // console.log("⏩⏩ Se encontro una coincidencia: ", product)
       if ( !product ) {
         product = this.chatRepository.create(createProductDto);
         await this.chatRepository.save( product );
@@ -714,14 +715,15 @@ export class WhatsappService {
 
   // ### Regitros de la tabla de los errores en menos de 24 horas
   async findError24(tiempo: number) {
-    console.log('⌚⌚⌚ ',Date.now(), ' ⌚⌚⌚');
-    console.log('⌚⌚⌚ ',Date.now() - (60000 * tiempo), ' ⌚⌚⌚');
+    // console.log('⌚⌚⌚ ',Date.now(), ' ⌚⌚⌚');
+    // console.log('⌚⌚⌚ ',Date.now() - (60000 * tiempo), ' ⌚⌚⌚');
     const queryBuilder = this.logFailRepository.createQueryBuilder();
     const errorLength = await queryBuilder
       .where('create_data >=:create_data', {
         create_data: (Date.now() - (3600000 * tiempo)),
       }).getMany(); //.getCount();
-    // console.log('⌚⌚⌚ ',errorLength, ' ⌚⌚⌚');
+    console.log('⌚⌚⌚ Lista de errores en un tiempo determinado (',tiempo,'): ',errorLength, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (60000 * tiempo),' ⌚');
+
     return errorLength;
   }
   
