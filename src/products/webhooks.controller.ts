@@ -13,7 +13,7 @@ export class Webhookontroller {
   async createWebhook(@Body() data:any) {
 
     console.log("📜📜📜📜📜 Objeto recibido de Facebook de la API de WhatsApp 📜📜📜 ",JSON.stringify(data));
-
+    
     let createProductDto = new CreateChatDto();
     if (data.object) {
       if (
@@ -24,7 +24,7 @@ export class Webhookontroller {
         data.entry[0].changes[0].value.messages[0]
       ) {
 
-        // console.log("📜📜📜 La petición POST de Facebook es de tipo message");
+        console.log("📜📜📜 La petición POST de Facebook es de tipo message");
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
         let from = data.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
@@ -40,18 +40,18 @@ export class Webhookontroller {
 
         let coincidencia = await this.chatService.validateIDwatsappMessage(watsapp_id);
         // console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Horita: ", Date.now());
-        // console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia: ", coincidencia);
+        console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia: ", coincidencia);
         let tiempoRetraso = Date.now() - timestamp*1000;
         if (!coincidencia && tiempoRetraso < 600000) {
           console.log(coincidencia)
           if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
           if (type == "button") {
 
-            // console.log("📜📜📜 Objeto de la petición de tipo button recibida: ", JSON.stringify(data));
+            console.log("📜📜📜 Objeto de la petición de tipo button recibida: ", JSON.stringify(data));
 
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-            this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business.id_ws_acount); 
+            this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business); 
           } 
         }
         createProductDto.from = from; 

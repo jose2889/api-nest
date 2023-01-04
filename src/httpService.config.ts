@@ -5,10 +5,10 @@ import { HttpModuleOptions, HttpModuleOptionsFactory } from '@nestjs/axios';
 export class HttpConfigService implements HttpModuleOptionsFactory {
     createHttpOptions(): HttpModuleOptions {
         return {
-            // headers: {
-            //     'Authorization': 'Bearer '+process.env.WHATSAPP_TOKEN,
-            //     'Content-Type': 'application/json'
-            // }
+            headers: {
+                'Authorization': 'Bearer '+process.env.WHATSAPP_TOKEN,
+                'Content-Type': 'application/json'
+            }
         }
     }
 }

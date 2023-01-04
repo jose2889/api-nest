@@ -27,31 +27,25 @@ export class WhatsappController {
   @Post('notificationsws')
   notificationsWhatsapp(@Body() request: CreateNotificationDto, @Res() response) {
      
-    
-    
-    const { phoneNumber, slug, date, businessName, countryBusiness} = request; 
+    const { phoneNumber, slug, date, businessName} = request; 
     // console.log('############# Templete notification ############:', process.env.TEMPLATE_RESERVATION_NOTIFICATION);
-    let tempalePlanner = "notification";
-    console.log("⏩⏩⏩⏩ Se envio un mensaje de notificacion de la empresa: ", slug);
 
     let first_chart=slug.slice(0, 1);
     
     let templateWhatsappApiRequest:WhatsappCloudApiRequest;
         templateWhatsappApiRequest = dataNotificationApiRequest;
 
-        templateWhatsappApiRequest.template.name = ""; //process.env.TEMPLATE_RESERVATION_NOTIFICATION;//"notification_reservation_keoagenda";//"notification_reservation_client";//"notificacion_reservacion_cliente"; 
+        templateWhatsappApiRequest.template.name = process.env.TEMPLATE_RESERVATION_NOTIFICATION;//"notification_reservation_keoagenda";//"notification_reservation_client";//"notificacion_reservacion_cliente"; 
         templateWhatsappApiRequest.to = phoneNumber;
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
         templateWhatsappApiRequest.template.components[1].parameters[0].text = ( first_chart == '/') ? slug.slice(1) : slug; //slug;  // con el slice quitamos el #( primer caracter ) del slug
-    
-    console.log("⏩⏩⏩⏩ Empresa: ", slug);
 
-    this.chatService.sendMessage(countryBusiness, templateWhatsappApiRequest, tempalePlanner).then( res => {
-        response.status(HttpStatus.CREATED).json(res);
-    }).catch((err) => {
-        response.status(HttpStatus.BAD_REQUEST).json(err);
-    })
+      this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
+          response.status(HttpStatus.CREATED).json(res);
+      }).catch((err) => {
+          response.status(HttpStatus.BAD_REQUEST).json(err);
+      })
   }
 
   @ApiResponse({ status: 201, description: 'Creado con éxito.'  })
@@ -62,25 +56,21 @@ export class WhatsappController {
       // this.logger.warn('consume-template');
       // console.log('############# Templete confirmation ############:', process.env.TEMPLATE_RESERVATION_CONFIRMATION);
 
-      
-      const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken, slug, countryBusiness} = request; 
-      let tempalePlanner = "confirmation";
-      console.log("⏩⏩⏩⏩ Se envio un mensaje de confirmacion de la empresa: ", slug);
-
+      const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken, slug} = request; 
       let templateWhatsappApiRequest:WhatsappCloudApiRequest;
-          templateWhatsappApiRequest = dataApiRequest;
-              
-          templateWhatsappApiRequest.template.name = ""; //process.env.TEMPLATE_RESERVATION_CONFIRMATION;//"confirmation_reservation_keoagenda";
-          templateWhatsappApiRequest.to = phoneNumber;
-          templateWhatsappApiRequest.template.components[0].parameters[0].text = customerName;
-          templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
-          templateWhatsappApiRequest.template.components[0].parameters[2].text = businessName;   
-          templateWhatsappApiRequest.template.components[1].parameters[0].payload = confirmToken;   
-          templateWhatsappApiRequest.template.components[2].parameters[0].payload = cancelToken; 
-
+      templateWhatsappApiRequest = dataApiRequest;
+          
+      templateWhatsappApiRequest.template.name = process.env.TEMPLATE_RESERVATION_CONFIRMATION;//"confirmation_reservation_keoagenda";
+      templateWhatsappApiRequest.to = phoneNumber;
+      templateWhatsappApiRequest.template.components[0].parameters[0].text = customerName;
+      templateWhatsappApiRequest.template.components[0].parameters[1].text = date;
+      templateWhatsappApiRequest.template.components[0].parameters[2].text = businessName;   
+      templateWhatsappApiRequest.template.components[1].parameters[0].payload = confirmToken;   
+      templateWhatsappApiRequest.template.components[2].parameters[0].payload = cancelToken;   
+      // console.log("⏩⏩⏩⏩ Template: ", process.env.TEMPLATE_RESERVATION_CONFIRMATION);
+      console.log("⏩⏩⏩⏩ wsApiReques: ", dataApiRequest);
       console.log("⏩⏩⏩⏩ Empresa: ", slug);
-
-      this.chatService.sendMessage(countryBusiness, templateWhatsappApiRequest,tempalePlanner).then( res => {
+      this.chatService.sendMessage(templateWhatsappApiRequest).then( res => {
           response.status(HttpStatus.CREATED).json(res);
       }).catch((err) => {
           response.status(HttpStatus.BAD_REQUEST).json(err);

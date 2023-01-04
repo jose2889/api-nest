@@ -94,27 +94,6 @@ export class ApiWs{
     utc_gmt: number;
 
     @Column({
-        type: 'integer',
-        nullable: true,
-        unique:false
-    })
-    code_phone: number;
-
-    @Column({
-        type: 'text',
-        nullable: true,
-        unique:false
-    })
-    template_notification: string;
-
-    @Column({
-        type: 'text',
-        nullable: true,
-        unique:false
-    })
-    template_confirmation: string;
-
-    @Column({
         type: 'bigint',
         unique:false
     })

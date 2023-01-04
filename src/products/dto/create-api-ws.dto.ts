@@ -52,18 +52,6 @@ export class CreateApiWSDto {
 
     @IsNumber()
     @IsOptional()
-    code_phone?: number;
-
-    @IsString()
-    @IsOptional()
-    template_notification?: string;
-
-    @IsString()
-    @IsOptional()
-    template_confirmation?: string;
-
-    @IsNumber()
-    @IsOptional()
     create_data?: number; 
 
     @IsNumber()

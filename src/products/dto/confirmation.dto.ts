@@ -67,12 +67,4 @@ export class CreateConfirmationDto {
     @IsString()
     @MinLength(1)
     slug: string;
-
-    @ApiProperty({
-        example: 'Venezuela',
-        description: 'Pais del Negocio',
-    })
-    @IsString()
-    @MinLength(2)
-    countryBusiness: string;
 }

@@ -41,12 +41,4 @@ export class CreateNotificationDto {
     @MinLength(1)
     phoneNumber: string; 
 
-    @ApiProperty({
-        example: 'Venezuela',
-        description: 'Pais del Negocio',
-    })
-    @IsString()
-    @MinLength(2)
-    countryBusiness: string;
-
 }
