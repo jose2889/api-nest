@@ -12,9 +12,7 @@ import { HttpService, HttpModuleOptions, HttpModuleOptionsFactory } from '@nestj
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
 import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response.dto';
-import { AxiosResponse } from 'axios'
-import { ApiWs } from './entities/api_ws.entity';
-import * as dayjs from 'dayjs'
+import { AxiosResponse } from 'axios';
 import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
@@ -68,13 +66,6 @@ export class WhatsappService {
 
     private readonly mailerService: MailerService,
 
-    // private BusinessService: BusinessService,
-
-    private readonly httpService:HttpService,
-
-    private readonly mailerService: MailerService,
-
-    private readonly httpService:HttpService,
     @InjectRepository(Chat)
     private readonly chatRepository: Repository<Chat>,
 
@@ -868,18 +859,18 @@ export class WhatsappService {
   // ################### Fuciones para el manejo de los datos de Business ############################
 
 
-  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
-    try {
-      const apiWs = this.apiWsRepository.create(createApiWsDot);
-      apiWs.create_data = Date.now().toString();
-      await this.apiWsRepository.save(apiWs);
-      console.log('Se registro el negocio con los siguientes datos: ',apiWs);
-      return {apiWs};
-    } catch (error) {
-      console.log('Ocurrio un error al registrar el negocio: ',error);
-      this.handleDBExceptions(error)
-    }
-  }
+  // async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
+  //   try {
+  //     const apiWs = this.apiWsRepository.create(createApiWsDot);
+  //     apiWs.create_data = Date.now().toString();
+  //     await this.apiWsRepository.save(apiWs);
+  //     console.log('Se registro el negocio con los siguientes datos: ',apiWs);
+  //     return {apiWs};
+  //   } catch (error) {
+  //     console.log('Ocurrio un error al registrar el negocio: ',error);
+  //     this.handleDBExceptions(error)
+  //   }
+  // }
 
   async findAllBusinnes( paginationDto: PaginationDto ) {
 
