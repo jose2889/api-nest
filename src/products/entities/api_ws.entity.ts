@@ -17,58 +17,113 @@ export class ApiWs{
         type: 'text',
         unique:true,
     })
-    slug_businnes: string;
+    slug_business: string;
 
     @Column({
         type: 'text',
-        unique:true
+        nullable: true
+    })
+    business_name: string;
+
+    @Column({
+        type: 'text',
+        unique:false,
+        nullable: true
     })
     id_api_ws: string;
 
     @Column({
-        type: 'text'
+        type: 'text',
+        nullable: true
     })
     type_app: string;
 
     @Column({
-        type: 'text'
+        type: 'text',
+        nullable: true
     })
     ver_app: string;
 
     @Column({
         type: 'text',
-        unique:true
+        unique:false,
+        nullable: true
     })
     token_app?: string;
 
     @Column({
         type: 'text',
-        unique:true
+        unique:false,
+        nullable: true
     })
     phone_api: string;
 
     @Column({
         type: 'text',
-        unique:true
+        unique:false,
+        nullable: true
     })
     id_phone_app: string;
 
     @Column({
         type: 'text',
-        unique:true
+        unique:false,
+        nullable: true
     })
     id_cuenta_business: string;
 
     @Column({
         type: 'text',
-        unique:true
+        nullable: true,
+        unique:false
     })
-    create_data: string;
+    time_zone: string;
 
     @Column({
-        type: 'text', 
+        type: 'text',
+        nullable: true,
+        unique:false
+    })
+    country_business: string;
+
+    @Column({
+        type: 'integer',
+        nullable: true,
+        unique:false
+    })
+    utc_gmt: number;
+
+    @Column({
+        type: 'integer',
+        nullable: true,
+        unique:false
+    })
+    code_phone: number;
+
+    @Column({
+        type: 'text',
+        nullable: true,
+        unique:false
+    })
+    template_notification: string;
+
+    @Column({
+        type: 'text',
+        nullable: true,
+        unique:false
+    })
+    template_confirmation: string;
+
+    @Column({
+        type: 'bigint',
+        unique:false
+    })
+    create_data: number;
+
+    @Column({
+        type: 'bigint', 
         nullable: true
     })
-    update_data: string;
+    update_data: number;
 
 }

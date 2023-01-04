@@ -1,4 +1,4 @@
-import { IsArray, IsIn, IsInt, IsNumber, IsOptional, 
+import { IsArray, IsBoolean, IsIn, IsInt, IsNumber, IsOptional, 
          IsPositive, IsString, MinLength 
 } from 'class-validator';
 
@@ -36,5 +36,9 @@ export class CreateChatDto {
     @IsString()
     @IsOptional()
     phone_number_id?: string; 
+
+    @IsBoolean()
+    @IsOptional()
+    answered_message?: boolean;
 
 }

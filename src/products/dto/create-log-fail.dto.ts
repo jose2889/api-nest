@@ -1,4 +1,4 @@
-import {  IsOptional, IsString, MinLength } from 'class-validator';
+import {  IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
 
 
 export class CreateLogFailDto {
@@ -35,7 +35,7 @@ export class CreateLogFailDto {
     @IsOptional()
     text_message?: string;
 
-    @IsString()
+    @IsNumber()
     @IsOptional()
-    create_data?: string;
+    create_data?: number;
 }

@@ -1,14 +1,17 @@
-import {  IsOptional, IsString, MinLength } from 'class-validator';
-
+import {  IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateApiWSDto {
     
     @IsString()
-    @MinLength(1)
-    slug_businnes: string;
+    @MinLength(5)
+    slug_business: string;
+
+    @IsString()
+    @IsOptional()
+    business_name: string;
     
     @IsString()
-    @MinLength(1)
+    @IsOptional()
     id_api_ws: string;
 
     @IsString()
@@ -37,9 +40,33 @@ export class CreateApiWSDto {
 
     @IsString()
     @IsOptional()
-    create_data?: string; 
+    time_zone?: string; 
 
     @IsString()
     @IsOptional()
-    update_data?: string; 
+    country_business?: string;
+
+    @IsNumber()
+    @IsOptional()
+    utc_gmt?: number; 
+
+    @IsNumber()
+    @IsOptional()
+    code_phone?: number;
+
+    @IsString()
+    @IsOptional()
+    template_notification?: string;
+
+    @IsString()
+    @IsOptional()
+    template_confirmation?: string;
+
+    @IsNumber()
+    @IsOptional()
+    create_data?: number; 
+
+    @IsNumber()
+    @IsOptional()
+    update_data?: number; 
 }

@@ -50,9 +50,10 @@ export class LogFail{
     config_data: string;
     
     @Column({
-        type: 'text',
-        unique:true
+        type: 'bigint',
+        unique:true,
+        nullable: true
     })
-    create_data: string;
+    create_data: number;
 
 }
