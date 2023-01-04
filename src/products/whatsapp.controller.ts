@@ -166,27 +166,4 @@ export class WhatsappController {
   }
 
 
-
-  // ###################################################################################################################################
-
-  @Get('businne/:term')
-  findOneBusinnes(@Param('term') term: string) {
-    return this.chatService.findOneBusinnes(term);
-  }
-
-  @Patch('businne/:id')
-  updateBusinnes(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateApiWsDto: UpdateApiWsDto,
-  ) {
-    return this.chatService.updateBusinnes(id, updateApiWsDto);
-  }
-
-  @Delete('businne/:id')
-  removeBusinnes(@Param('id', ParseUUIDPipe) id: string) {
-    return this.chatService.removeBusinnes(id);
-  }
-
-}
-
-  // ###################################################################################
+  // #########################################################################################################################################
