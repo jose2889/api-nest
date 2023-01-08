@@ -91,7 +91,7 @@ export class WhatsappService {
       type: template,
       template: request.template.name,
       date: "",
-      timestamp: dayjs(),
+      timestamp: Date.now(),
       slug: "",
       token_confirm: "",
       token_cancel: ""
