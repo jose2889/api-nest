@@ -11,7 +11,7 @@ import { validate as isUUID } from 'uuid';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
-import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response.dto';
+import { WhatsappCloudAPIResponse, responseWhatsappTemplate } from 'src/common/whatsapp-cloud-api-response.dto';
 import { AxiosResponse } from 'axios'
 import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
@@ -29,6 +29,8 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { countrytimezone } from './data/country-timezone';
+import { CreateSendTemplateDto } from './dto/create-send-template.dto';
+import { SendTemplate } from './entities/send-template.entity';
 
 
 
@@ -66,16 +68,56 @@ export class WhatsappService {
     private readonly apiWsRepository: Repository<ApiWs>, //variable para regsitar API Ws
 
     @InjectRepository(LogFail)
-    private readonly logFailRepository: Repository<LogFail>, //variable para regsitar API Ws
+    private readonly logFailRepository: Repository<LogFail>, //variable para regsitar Log Fail
+
+    @InjectRepository(SendTemplate)
+    private readonly sendTemplateRepository:Repository<SendTemplate>// varaible paa registrar Send Template
 
   ) {}
 
 
-  async sendMessage(request: WhatsappCloudApiRequest, template?:string): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async sendMessage(request: WhatsappCloudApiRequest, template?:string, request_planner?:any): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
     console.log("📩📩📩 Se envio la plantilla de ",template," de reserva");
-    const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
+
+    const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
     console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
+
+    let dataRes = {
+      watsapp_id: data.contacts[0].wa_id,
+      to_phone: data.messages[0].id,
+      customer_name: "",
+      name_business: "",
+      type: template,
+      template: request.template.name,
+      date: "",
+      timestamp: parseInt(dayjs().format("YYYY-MM-DD HH:mm")),
+      slug: "",
+      token_confirm: "",
+      token_cancel: ""
+    }
+
+    if (template === "notificacion"){
+      const { phoneNumber, slug, date, businessName} = request_planner;
+      dataRes.name_business = businessName;
+      dataRes.slug = slug;
+      dataRes.to_phone = phoneNumber;
+      dataRes.date = date;
+    }
+
+    if (template === "confirmacion"){
+      const { phoneNumber, customerName, date, businessName, confirmToken, cancelToken, slug} = request_planner; 
+      dataRes.name_business = businessName;
+      dataRes.customer_name = customerName;
+      dataRes.slug = slug;
+      dataRes.to_phone = phoneNumber;
+      dataRes.date = date;
+      dataRes.token_confirm = confirmToken;
+      dataRes.token_cancel = cancelToken;
+    }
+
+    this.createSendTemplate(dataRes);    
+     
     return data;
   }
 
@@ -499,6 +541,20 @@ export class WhatsappService {
       await this.chatRepository.save( product );
 
       return product;
+      
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+  }
+
+  async createSendTemplate(createSendTemplateDto: CreateSendTemplateDto) {
+    
+    try {
+
+      const sendTemaplate = this.sendTemplateRepository.create(createSendTemplateDto);
+      await this.sendTemplateRepository.save( sendTemaplate );
+
+      return sendTemaplate;
       
     } catch (error) {
       this.handleDBExceptions(error);

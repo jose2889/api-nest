@@ -11,6 +11,7 @@ import { HttpConfigService } from 'src/httpService.config';
 import { Webhookontroller } from './webhooks.controller';
 import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
+import { SendTemplate } from './entities/send-template.entity';
 
 
 @Module({
@@ -19,7 +20,7 @@ import { LogFail } from './entities/log-fail.entity';
   imports: [HttpModule.registerAsync({
     useClass: HttpConfigService,
   }),
-    TypeOrmModule.forFeature([ Chat, ApiWs, LogFail ])
+    TypeOrmModule.forFeature([ Chat, ApiWs, LogFail, SendTemplate ])
   ],
 
 })

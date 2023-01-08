@@ -47,7 +47,7 @@ export class WhatsappController {
       // console.log("⏩⏩⏩⏩ wsApiReques: ", templateWhatsappApiRequest);
       // console.log("⏩⏩⏩⏩ Empresa: ", slug);
 
-      this.chatService.sendMessage(templateWhatsappApiRequest, template).then( res => {
+      this.chatService.sendMessage(templateWhatsappApiRequest, template, request).then( res => {
           response.status(HttpStatus.CREATED).json(res);
       }).catch((err) => {
           response.status(HttpStatus.BAD_REQUEST).json(err);
@@ -77,7 +77,7 @@ export class WhatsappController {
       // console.log("⏩⏩⏩⏩ wsApiReques: ", templateWhatsappApiRequest);
       // console.log("⏩⏩⏩⏩ Empresa: ", slug);
 
-      this.chatService.sendMessage(templateWhatsappApiRequest, template).then( res => {
+      this.chatService.sendMessage(templateWhatsappApiRequest, template, request).then( res => {
           response.status(HttpStatus.CREATED).json(res);
       }).catch((err) => {
           response.status(HttpStatus.BAD_REQUEST).json(err);

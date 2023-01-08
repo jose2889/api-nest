@@ -1,3 +1,4 @@
+
 export interface WhatsappCloudAPIResponse {
     messaging_product: string;
     contacts:          Contact[];
@@ -12,3 +13,19 @@ export interface Contact {
 export interface Message {
     id: string;
 }
+
+export let responseWhatsappTemplate : WhatsappCloudAPIResponse =
+    {
+        "messaging_product": "whatsapp",
+        "contacts": [
+            {
+            "input": "",
+            "wa_id": ""
+            }
+        ],
+        "messages": [
+            {
+            "id": ""
+            }
+    ]
+    }
