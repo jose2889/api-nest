@@ -75,7 +75,7 @@ export class WhatsappService {
     console.log("📩📩📩 Se envio la plantilla de ",template," de reserva");
     const { data } = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
-    // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
+    console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
     return data;
   }
 

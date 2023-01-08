@@ -43,4 +43,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
   ],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  
+}

@@ -1,3 +1,5 @@
+import { BachpuDBService } from './backup.service';
+import { BackupDBController } from './backup.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { WhatsappService } from './whatsapp.service';
@@ -12,8 +14,8 @@ import { LogFail } from './entities/log-fail.entity';
 
 
 @Module({
-  controllers: [WhatsappController, Webhookontroller, ],
-  providers: [WhatsappService, ],
+  controllers: [WhatsappController, Webhookontroller, BackupDBController],
+  providers: [WhatsappService, BachpuDBService],
   imports: [HttpModule.registerAsync({
     useClass: HttpConfigService,
   }),
