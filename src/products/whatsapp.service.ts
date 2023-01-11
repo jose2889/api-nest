@@ -75,9 +75,9 @@ export class WhatsappService {
   ) {}
 
 
-  async sendMessage(request: WhatsappCloudApiRequest, template?:string, request_planner?:any): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async sendMessage(request: WhatsappCloudApiRequest, template:string, request_planner:any): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
 
-    console.log("📩📩📩 Se envio la plantilla de ",template," de reserva de la empresa '", request_planner.businessName ,"' al +", request.to, );
+    console.log("📩📩📩 Se envio la plantilla de ",template," de reserva de la empresa '", request_planner.businessName ,"' al +", request_planner.phoneNumber, );
     
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
