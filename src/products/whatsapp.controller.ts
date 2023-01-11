@@ -124,19 +124,19 @@ export class WhatsappController {
   // ########################################### Creacion de  los endpoint paa mostrar los egistro de envios de plantillas ######################################
 
   
-  @Get('list-error')
+  @Get('list-template')
   findAllTemplate(@Query() paginationDto: PaginationDto) {
     console.log('🗒🗒 Se mostro listado de plantillas enviadas registradas en la base de datos');
     return this.chatService.findAllTemplate(paginationDto);
   }
 
-  @Get('list-error/:time')
+  @Get('list-template/:time')
   findOneTemplate(@Param('time') time: number) {
     console.log('⌚⌚ Se mostrara las plantillas enviadas en las ultimas "', time, '" horas');
     return this.chatService.findTemplate24(time);
   }
   
-  @Get('length-error')
+  @Get('length-template')
   countTemplate(@Query() paginationDto: PaginationDto) {
     //console.log(this.chatService.findLengthMessages())
     return this.chatService.findLengthTemplate();
