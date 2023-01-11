@@ -64,7 +64,6 @@ export class SendTemplate {
     
     @Column({
         type: 'text',
-        default: false,
         nullable: true
     })
     token_cancel: string;

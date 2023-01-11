@@ -77,6 +77,7 @@ export class WhatsappService {
 
 
   async sendMessage(request: WhatsappCloudApiRequest, template?:string, request_planner?:any): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+    
     console.log("📩📩📩 Se envio la plantilla de ",template," de reserva");
 
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
@@ -553,7 +554,7 @@ export class WhatsappService {
 
       const sendTemaplate = this.sendTemplateRepository.create(createSendTemplateDto);
       await this.sendTemplateRepository.save( sendTemaplate );
-
+      console.log('🌌🌌🌌Se registro el envio de mensjae de plantilla de ',createSendTemplateDto.type);
       return sendTemaplate;
       
     } catch (error) {
@@ -639,7 +640,6 @@ export class WhatsappService {
 
 
   // ################################### Gestión de los datos en la tabla de las ApiWs para negocios ###################################
-  // ########################################################## Edgardo Lugo ###########################################################
 
   async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
     try {
@@ -732,7 +732,6 @@ export class WhatsappService {
   // ################################################################################################
 
   // ############################ Gestión de los datos en la tabla de las Error Response#############
-  // ############################################# Edgardo Lugo #####################################
 
   async CreateRegisterLogFail(createLogFaileDto:CreateLogFailDto){
     try {
@@ -781,6 +780,47 @@ export class WhatsappService {
     console.log('⌚⌚⌚ Lista de errores en un tiempo determinado (',tiempo,'): ',errorLength, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (60000 * tiempo),' ⌚');
 
     return errorLength;
+  }
+  
+
+  //######################################################################################################################################
+
+
+  // ############################ Gestión de los datos en la tabla de los envios de plantillas #############
+
+ 
+   async findAllTemplate( paginationDto: PaginationDto ) {
+
+    const { limit , offset } = paginationDto;
+
+    const templateList = await this.sendTemplateRepository.find({
+      take: limit,
+      skip: offset,
+      // TODO: relaciones
+    })
+
+     return templateList.map ( errorMessges => ({
+      ...errorMessges,
+    }) )
+  }
+  
+  async findLengthTemplate() {
+    const templateLength = await this.sendTemplateRepository.count();
+    return await templateLength;
+  }
+
+  // ### Regitros de la tabla de los template en un tiempo determinado en horas
+  async findTemplate24(tiempo: number) {
+    // console.log('⌚⌚⌚ ',Date.now(), ' ⌚⌚⌚');
+    // console.log('⌚⌚⌚ ',Date.now() - (60000 * tiempo), ' ⌚⌚⌚');
+    const queryBuilder = this.sendTemplateRepository.createQueryBuilder();
+    const templateLength = await queryBuilder
+      .where('create_data >=:create_data', {
+        create_data: (Date.now() - (3600000 * tiempo)),
+      }).getMany(); //.getCount();
+    console.log('⌚⌚⌚ Lista de errores en un tiempo determinado (',tiempo,'): ',templateLength, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (60000 * tiempo),' ⌚');
+
+    return templateLength;
   }
   
 
