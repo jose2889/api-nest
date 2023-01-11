@@ -815,8 +815,8 @@ export class WhatsappService {
     // console.log('⌚⌚⌚ ',Date.now() - (60000 * tiempo), ' ⌚⌚⌚');
     const queryBuilder = this.sendTemplateRepository.createQueryBuilder();
     const templateLength = await queryBuilder
-      .where('create_data >=:create_data', {
-        create_data: (Date.now() - (3600000 * tiempo)),
+      .where('timestamp >=:timestamp', {
+        timestamp: (Date.now() - (3600000 * tiempo)),
       }).getMany(); //.getCount();
     console.log('⌚⌚⌚ Lista de errores en un tiempo determinado (',tiempo,'): ',templateLength, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (60000 * tiempo),' ⌚');
 
