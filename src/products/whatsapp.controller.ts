@@ -41,8 +41,8 @@ export class WhatsappController {
         templateWhatsappApiRequest.template.components[0].parameters[0].text = date;
         templateWhatsappApiRequest.template.components[0].parameters[1].text = businessName;   
         templateWhatsappApiRequest.template.components[1].parameters[0].text = ( first_chart == '/') ? slug.slice(1) : slug; //slug;  // con el slice quitamos el #( primer caracter ) del slug
-      console.log("⏩⏩⏩⏩ Se enviara platilla de ",template)
       
+      // console.log("⏩⏩⏩⏩ Se enviara platilla de ",template)      
       // console.log("⏩⏩⏩⏩ Template: ", process.env.TEMPLATE_RESERVATION_NOTIFICATION);
       // console.log("⏩⏩⏩⏩ wsApiReques: ", templateWhatsappApiRequest);
       // console.log("⏩⏩⏩⏩ Empresa: ", slug);
@@ -72,7 +72,8 @@ export class WhatsappController {
       templateWhatsappApiRequest.template.components[0].parameters[2].text = businessName;   
       templateWhatsappApiRequest.template.components[1].parameters[0].payload = confirmToken;   
       templateWhatsappApiRequest.template.components[2].parameters[0].payload = cancelToken;   
-      console.log("⏩⏩⏩⏩ Se enviara platilla de ",template)
+
+      // console.log("⏩⏩⏩⏩ Se enviara platilla de ",template)
       // console.log("⏩⏩⏩⏩ Template: ", process.env.TEMPLATE_RESERVATION_CONFIRMATION);
       // console.log("⏩⏩⏩⏩ wsApiReques: ", templateWhatsappApiRequest);
       // console.log("⏩⏩⏩⏩ Empresa: ", slug);

@@ -31,6 +31,7 @@ import * as nodemailer from 'nodemailer';
 import { countrytimezone } from './data/country-timezone';
 import { CreateSendTemplateDto } from './dto/create-send-template.dto';
 import { SendTemplate } from './entities/send-template.entity';
+import { Message } from '../../dist/common/whatsapp-cloud-api-response.dto';
 
 
 
@@ -42,8 +43,6 @@ export class WhatsappService {
   baseUrl = process.env.BASE_URL_PROD; //BASEURL.baseUrlWhatsappCloudApiProd;
   urlPlanner = process.env.URLPLANNER; 
   
-  // date = dayjs(1662237384 * 1000).format("YYYY-MM-DD HH:mm");
-
   request = {
     "messaging_product": "whatsapp",
     "preview_url": true,
@@ -77,9 +76,9 @@ export class WhatsappService {
 
 
   async sendMessage(request: WhatsappCloudApiRequest, template?:string, request_planner?:any): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
-    
-    console.log("📩📩📩 Se envio la plantilla de ",template," de reserva");
 
+    console.log("📩📩📩 Se envio la plantilla de ",template," de reserva de la empresa '", request_planner.businessName ,"' al +", request.to, );
+    
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
     // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
@@ -429,8 +428,8 @@ export class WhatsappService {
     const notFounf = "Dato no recibido";
     const anho = new Date().getFullYear();
     const emailMessage = `
-      <div style="margin: 0 0 7px border-radius: 15px 50px 30px border: 1px solid transparent; ">
-        <table style="max-width: 800px; padding: 10px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
+      <div style="margin: 3px 3px 7px border-radius: 15px 50px 30px border: 1px solid transparent; ">
+        <table style="max-width: 800px; padding: 8px; margin:0 auto; border-collapse: collapse; border-radius: 8px;">
     
           <tr>
             <td style="padding: 0">
