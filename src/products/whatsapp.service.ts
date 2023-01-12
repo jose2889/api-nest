@@ -26,7 +26,7 @@ dayjs.extend(timezonedayjs);
 
 // ############### Importaciones para el manejo mail ###############
 import { MailerService } from '@nestjs-modules/mailer';
-import { ConfigService } from '@nestjs/config';
+// import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { countrytimezone } from './data/country-timezone';
 import { CreateSendTemplateDto } from './dto/create-send-template.dto';
