@@ -40,7 +40,7 @@ export class Webhookontroller {
 
         let coincidencia = await this.chatService.validateIDwatsappMessage(watsapp_id);
         // console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Horita: ", Date.now());
-        console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia: ", coincidencia);
+        console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia en la base de datos: ", coincidencia);
         let tiempoRetraso = Date.now() - timestamp*1000;
         if (!coincidencia && tiempoRetraso < 600000) {
           console.log(coincidencia)
@@ -98,7 +98,7 @@ export class Webhookontroller {
        throw new ForbiddenException();
      }
    }
-   res.status(400).send("Los datos no son validos");
+   res.status(400).send("⭕❌⭕ Los datos no son validos ⭕❌⭕");
   }
 
   @Post('test')

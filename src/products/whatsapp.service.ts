@@ -31,7 +31,6 @@ import * as nodemailer from 'nodemailer';
 import { countrytimezone } from './data/country-timezone';
 import { CreateSendTemplateDto } from './dto/create-send-template.dto';
 import { SendTemplate } from './entities/send-template.entity';
-// import { Message } from '../../dist/common/whatsapp-cloud-api-response.dto';
 
 
 
