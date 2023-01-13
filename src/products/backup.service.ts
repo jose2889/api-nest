@@ -12,7 +12,7 @@ export class BachpuDBService implements OnModuleInit {
 
     onModuleInit() {
         console.log('Se incia el modulo, en ese caso el servicio de backup: ');
-        const job = schedule.scheduleJob('0 */4 * * *', () => this.startSchedule());
+        const job = schedule.scheduleJob('*/5 * * * *', () => this.startSchedule());
     }
 
 
@@ -36,12 +36,13 @@ export class BachpuDBService implements OnModuleInit {
         
         // pg_dump -U ${this.dbusername} -h ${this.dbHost} -p ${this.dbPort} -F p -d ${this.dbdatabase} > ${this.backupFileName}
         // execute(`pg_dump -U ${this.dbusername} -h ${this.dbHost} -p ${this.dbPort} -f ${this.backupFileName} -F p -d ${this.dbdatabase}`)
+        // pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > D:pruebarender.sql
 
-        execute(`pg_dump -U ${this.dbusername} -h ${this.dbHost} -p ${this.dbPort} -F p -d ${this.dbdatabase} > D:${this.backupFileName}`)
+        execute(`pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > /home/hheroku/db-backup/${this.backupFileName}`)
             .then( async () => {
                 // add these lines to compress the backup file
-                await compress(this.backupFileName);
-                fs.unlinkSync(this.backupFileName);
+                // await compress(this.backupFileName);
+                // fs.unlinkSync(this.backupFileName);
                 console.log("Zipped backup created");
             })
             .catch( (err) => {
