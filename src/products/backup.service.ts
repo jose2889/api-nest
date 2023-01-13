@@ -12,7 +12,7 @@ export class BachpuDBService implements OnModuleInit {
 
     onModuleInit() {
         console.log('Se incia el modulo, en ese caso el servicio de backup: ');
-        const job = schedule.scheduleJob('0 3 * * *', () => this.startSchedule());
+        const job = schedule.scheduleJob('0 2 * * *', () => this.startSchedule());
     }
 
 
