@@ -817,7 +817,7 @@ export class WhatsappService {
         timestamp: (Date.now() - (3600000 * tiempo)),
       }).getMany(); //.getCount();
     // console.log('⌚⌚⌚ Lista de plantillas en un tiempo determinado (',tiempo,'): ',templateLength, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (60000 * tiempo),' ⌚');
-    console.log('⌚⌚⌚ Lista de plantillas en un tiempo determinado (',tiempo,'): ',templateLength);
+    console.log('⌚⌚⌚ Cantidad de plantillas enviadas en un tiempo determinado (',tiempo,') meno a la hoa actual: ',templateLength.length);
     return templateLength;
   }
   
