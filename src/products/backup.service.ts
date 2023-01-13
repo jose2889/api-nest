@@ -53,7 +53,7 @@ export class BachpuDBService implements OnModuleInit {
             console.log(err);
             });
         
-        execute(`touch ./db-backup/${this.backupFileName}`)
+        execute(`touch db-backup/${this.backupFileName}`)
             .then( async () => {
                 // add these lines to compress the backup file
                 // await compress(this.backupFileName);
@@ -64,7 +64,7 @@ export class BachpuDBService implements OnModuleInit {
             console.log(err);
             });
 
-        execute(`pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} -f ./db-backup/${this.backupFileName}`)
+        execute(`pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} -f db-backup/${this.backupFileName}`)
             .then( async () => {
                 // add these lines to compress the backup file
                 // await compress(this.backupFileName);
