@@ -25,10 +25,14 @@ export class BachpuDBService implements OnModuleInit {
     dbpass = process.env.PGPASS;
 
     // defining backup file name
-    date = new Date();
-    today = this.date.getFullYear()+'-'+this.date.getMonth()+'-'+this.date.getDate();
-    backupFileName= `pg-backup-${this.dbdatabase}-${this.today}.sql`;
-    fileNameGzip = `${this.backupFileName}.tar.gz`;
+    // date = new Date();
+    // year = this.date.getFullYear();
+    // month = this.date.getMonth()+1;
+    // day = this.date.getDate();
+    date_backup = dayjs().format("YYYY-MM-DD");
+    // today = this.year+'-'+this.month+'-'+this.day;
+    backupFileName= `pg-backup-${this.dbdatabase}-${this.date_backup}.sql`;
+    // fileNameGzip = `${this.backupFileName}.tar.gz`;
 
     takePGBackup() {
 
@@ -39,7 +43,7 @@ export class BachpuDBService implements OnModuleInit {
         // execute(`pg_dump -U ${this.dbusername} -h ${this.dbHost} -p ${this.dbPort} -f ${this.backupFileName} -F p -d ${this.dbdatabase}`)
         // pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > D:pruebarender.sql
 
-        execute(`pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > ./db-backup/${this.backupFileName}`)
+        execute(`pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > /db-backup/${this.backupFileName}`)
             .then( async () => {
                 // add these lines to compress the backup file
                 // await compress(this.backupFileName);
