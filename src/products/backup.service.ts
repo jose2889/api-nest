@@ -4,6 +4,7 @@ import  * as compress from 'gzipme';
 import * as fs from 'fs';
 const schedule = require('node-schedule');
 import { Injectable, OnModuleInit } from '@nestjs/common';
+// import * as execute from '@getvim/execute';
 
 @Injectable()
 export class BachpuDBService implements OnModuleInit {
@@ -38,7 +39,7 @@ export class BachpuDBService implements OnModuleInit {
         // execute(`pg_dump -U ${this.dbusername} -h ${this.dbHost} -p ${this.dbPort} -f ${this.backupFileName} -F p -d ${this.dbdatabase}`)
         // pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > D:pruebarender.sql
 
-        execute(`pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > /home/heroku/db-backup/${this.backupFileName}`)
+        module.exports.execute(`pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > ./db-backup/${this.backupFileName}`)
             .then( async () => {
                 // add these lines to compress the backup file
                 // await compress(this.backupFileName);
