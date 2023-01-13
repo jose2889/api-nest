@@ -1,5 +1,5 @@
 import * as dayjs from 'dayjs';
-const execute = require('@getvim/execute');
+const { execute } = require('@getvim/execute');
 import  * as compress from 'gzipme';
 import * as fs from 'fs';
 const schedule = require('node-schedule');
@@ -39,12 +39,12 @@ export class BachpuDBService implements OnModuleInit {
         // execute(`pg_dump -U ${this.dbusername} -h ${this.dbHost} -p ${this.dbPort} -f ${this.backupFileName} -F p -d ${this.dbdatabase}`)
         // pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > D:pruebarender.sql
 
-        module.exports.execute(`pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > ./db-backup/${this.backupFileName}`)
+        execute(`pg_dump -d postgres://${this.dbusername}:${this.dbpass}@${this.dbHost}:${this.dbPort}/${this.dbdatabase} > ./db-backup/${this.backupFileName}`)
             .then( async () => {
                 // add these lines to compress the backup file
                 // await compress(this.backupFileName);
                 // fs.unlinkSync(this.backupFileName);
-                console.log("Zipped backup created");
+                console.log("backup created");
             })
             .catch( (err) => {
             console.log(err);
