@@ -32,7 +32,7 @@ export class BachpuDBService implements OnModuleInit {
     date_backup = dayjs().format("YYYY-MM-DD");
     // today = this.year+'-'+this.month+'-'+this.day;
     backupFileName= `pg-backup-${this.dbdatabase}-${this.date_backup}.sql`;
-    // fileNameGzip = `${this.backupFileName}.tar.gz`;
+    fileNameGzip = `${this.backupFileName}.tar.gz`;
 
     takePGBackup() {
 
