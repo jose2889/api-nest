@@ -816,8 +816,8 @@ export class WhatsappService {
       .where('timestamp >=:timestamp', {
         timestamp: (Date.now() - (3600000 * tiempo)),
       }).getMany(); //.getCount();
-    console.log('⌚⌚⌚ Lista de errores en un tiempo determinado (',tiempo,'): ',templateLength, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (60000 * tiempo),' ⌚');
-
+    // console.log('⌚⌚⌚ Lista de plantillas en un tiempo determinado (',tiempo,'): ',templateLength, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (60000 * tiempo),' ⌚');
+    console.log('⌚⌚⌚ Lista de plantillas en un tiempo determinado (',tiempo,'): ',templateLength);
     return templateLength;
   }
   
