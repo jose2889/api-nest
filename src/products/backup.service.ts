@@ -1,12 +1,9 @@
-import axios from 'axios';
-import { HttpService } from '@nestjs/axios';
+import * as dayjs from 'dayjs';
+const execute = require('@getvim/execute');
 import  * as compress from 'gzipme';
 import * as fs from 'fs';
-// import * as schedule  from 'node-schedule';
 const schedule = require('node-schedule');
-import { execute } from '@getvim/execute';
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import * as dayjs from 'dayjs';
 
 @Injectable()
 export class BachpuDBService implements OnModuleInit {
@@ -43,8 +40,8 @@ export class BachpuDBService implements OnModuleInit {
         execute(`pg_dump -U ${this.dbusername} -h ${this.dbHost} -p ${this.dbPort} -F p -d ${this.dbdatabase} > D:${this.backupFileName}`)
             .then( async () => {
                 // add these lines to compress the backup file
-                // await compress(this.backupFileName);
-                // fs.unlinkSync(this.backupFileName);
+                await compress(this.backupFileName);
+                fs.unlinkSync(this.backupFileName);
                 console.log("Zipped backup created");
             })
             .catch( (err) => {
