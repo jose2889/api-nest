@@ -12,6 +12,7 @@ import { Webhookontroller } from './webhooks.controller';
 import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { SendTemplate } from './entities/send-template.entity';
+import { SystemConfigEntity } from './entities/system-config.entity';
 
 
 @Module({
@@ -20,7 +21,7 @@ import { SendTemplate } from './entities/send-template.entity';
   imports: [HttpModule.registerAsync({
     useClass: HttpConfigService,
   }),
-    TypeOrmModule.forFeature([ Chat, ApiWs, LogFail, SendTemplate ])
+    TypeOrmModule.forFeature([ Chat, ApiWs, LogFail, SendTemplate, SystemConfigEntity ])
   ],
 
 })
