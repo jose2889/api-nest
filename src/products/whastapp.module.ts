@@ -13,6 +13,7 @@ import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { SendTemplate } from './entities/send-template.entity';
 import { SystemConfigEntity } from './entities/system-config.entity';
+import { EmailConfigEntity } from './entities/email-config.entity';
 
 
 @Module({
@@ -21,7 +22,7 @@ import { SystemConfigEntity } from './entities/system-config.entity';
   imports: [HttpModule.registerAsync({
     useClass: HttpConfigService,
   }),
-    TypeOrmModule.forFeature([ Chat, ApiWs, LogFail, SendTemplate, SystemConfigEntity ])
+    TypeOrmModule.forFeature([ Chat, ApiWs, LogFail, SendTemplate, SystemConfigEntity, EmailConfigEntity ])
   ],
 
 })

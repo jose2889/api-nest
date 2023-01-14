@@ -1,38 +1,44 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('system_config')
-export class SystemConfigEntity {
+@Entity('EmailConfig')
+export class EmailConfigEntity {
     @PrimaryGeneratedColumn() id:string;
+
+    @Column({
+        type: 'text',
+        nullable: true
+    })
+    email_host:string;
+    
+    @Column({
+        type: 'numeric',
+        nullable: true
+    })
+    email_port:number;
     
     @Column({
         type: 'text',
-        nullable: true,
-    })
-    development_environment:string;
-
-    @Column({
-        type: 'text',
         nullable: true
     })
-    verify_token:string;
+    email_security:string;
     
     @Column({
         type: 'text',
         nullable: true
     })
-    url_planner:string;
-
+    email_useremail:string;
+        
     @Column({
         type: 'text',
         nullable: true
     })
-    kf_id_api_ws:string;
-
+    email_password:string;
+        
     @Column({
         type: 'text',
         nullable: true
     })
-    kf_id_email_config:string;
+    email_to:string;
     
     @Column({
         type: 'bigint',

@@ -1,26 +1,30 @@
 import {  IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
 
-export class CreateSystemConfigDto {
+export class CreateEmailConfigDto {
     
     @IsString()
     @IsOptional()
-    development_environment:string;
+    email_host:string;
     
     @IsString()
     @IsOptional()
-    verify_token:string;
+    email_port:number;
     
     @IsString()
     @IsOptional()
-    url_planner:string;
+    email_security:string;
     
     @IsString()
     @IsOptional()
-    kf_id_email_confi:string;
+    email_useremail:string;
     
-    @IsNumber()
+    @IsString()
     @IsOptional()
-    kf_id_api_ws:number;
+    email_password:string;
+    
+    @IsString()
+    @IsOptional()
+    email_to:string;
     
     @IsNumber()
     @IsOptional()
@@ -29,5 +33,6 @@ export class CreateSystemConfigDto {
     @IsNumber()
     @IsOptional()
     update_data: number;
+
 
 }
