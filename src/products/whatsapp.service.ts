@@ -114,7 +114,7 @@ export class WhatsappService {
       dataRes.token_confirm = confirmToken;
       dataRes.token_cancel = cancelToken;
     }
-
+    console.log("⏩⏩ Datos del envio de plantilla a guadar: ", dataRes)
     this.createSendTemplate(dataRes);    
      
     return data;
