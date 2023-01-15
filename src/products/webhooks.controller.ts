@@ -42,7 +42,7 @@ export class Webhookontroller {
         // console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Horita: ", Date.now());
         console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia en la base de datos: ", coincidencia);
         let tiempoRetraso = Date.now() - timestamp*1000;
-        if (!coincidencia && tiempoRetraso < 600000) {
+        if (!coincidencia && tiempoRetraso < 900000) {
           // console.log(coincidencia)
           if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
           if (type == "button") {
@@ -51,7 +51,7 @@ export class Webhookontroller {
 
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-            status_response_api= await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business); 
+            createProductDto.status_response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business); 
           } 
         }
 
@@ -62,7 +62,6 @@ export class Webhookontroller {
         createProductDto.timestamp = timestamp; 
         createProductDto.watsapp_id = watsapp_id;
         createProductDto.answered_message = true;
-        createProductDto.status_response_api = status_response_api;
 
         console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
         this.chatService.createWebhook(createProductDto);
