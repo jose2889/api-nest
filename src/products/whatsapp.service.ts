@@ -246,6 +246,8 @@ export class WhatsappService {
         (error) => {
           console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
         }); 
+
+        return status_response_api;
       },
       (error) => {
 
@@ -262,7 +264,7 @@ export class WhatsappService {
         console.log("⏩⏩ Status: ", errorResponse.status.toString());
         console.log("⏩⏩ Data: ", JSON.stringify(errorResponse.data));
         console.log("⏩⏩ Status Text: ",errorResponse.statusText);
-        
+
         console.log("⏩⏩ retMessage: ", retMessage);
         console.log("⏩⏩ retCode: ", retCode);
         console.log("⏩⏩ retObject: ", retObject);
@@ -371,8 +373,10 @@ export class WhatsappService {
         (error) => {
           console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
         }); 
+
       });
       // console.log("Response de planner", data);
+       return status_response_api;
     } catch (error) {
         throw new BadRequestException();
     }

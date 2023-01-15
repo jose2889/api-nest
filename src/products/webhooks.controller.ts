@@ -31,14 +31,14 @@ export class Webhookontroller {
         let type = data.entry[0].changes[0].value.messages[0].type;
         let name = data.entry[0].changes[0].value.contacts[0].profile.name;
         let timestamp = data.entry[0].changes[0].value.messages[0].timestamp;
-        let watsapp_id = data.entry[0].changes[0].value.messages[0].id;
+        let whatsapp_id = data.entry[0].changes[0].value.messages[0].id;
         let acount_business = {
           'id_ws_acount' : data.entry[0].id,
           'display_phone_number' : data.entry[0].changes[0].value.metadata.display_phone_number,
           'id_phone_number' : data.entry[0].changes[0].value.metadata.phone_number_id,
         }
 
-        let coincidencia = await this.chatService.validateIDwatsappMessage(watsapp_id);
+        let coincidencia = await this.chatService.validateIDwatsappMessage(whatsapp_id);
         // console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Horita: ", Date.now());
         console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia en la base de datos: ", coincidencia);
         let tiempoRetraso = Date.now() - timestamp*1000;
@@ -51,7 +51,7 @@ export class Webhookontroller {
 
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-            createProductDto.status_response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business); 
+            createProductDto.status_response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, whatsapp_id, acount_business); 
           } 
         }
 
@@ -60,7 +60,7 @@ export class Webhookontroller {
         createProductDto.name = name;
         createProductDto.type = type;
         createProductDto.timestamp = timestamp; 
-        createProductDto.watsapp_id = watsapp_id;
+        createProductDto.watsapp_id = whatsapp_id;
         createProductDto.answered_message = true;
 
         console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
