@@ -13,7 +13,7 @@ export class Webhookontroller {
   async createWebhook(@Body() data:any) {
 
     console.log("📜📜📜📜📜 Objeto recibido de Facebook de la API de WhatsApp 📜📜📜 ",JSON.stringify(data));
-    
+    let status_response_api=null;
     let createProductDto = new CreateChatDto();
     if (data.object) {
       if (
@@ -51,9 +51,10 @@ export class Webhookontroller {
 
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-            this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business); 
+            status_response_api=this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business); 
           } 
         }
+
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
         createProductDto.name = name;
@@ -61,6 +62,7 @@ export class Webhookontroller {
         createProductDto.timestamp = timestamp; 
         createProductDto.watsapp_id = watsapp_id;
         createProductDto.answered_message = true;
+        createProductDto.status_response_api = status_response_api;
 
         // console.log(" ⏩⏩⏩⏩⏩ Se guarada el objeto ", JSON.stringify(createProductDto));
         this.chatService.createWebhook(createProductDto);

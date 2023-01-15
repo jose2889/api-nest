@@ -37,6 +37,10 @@ export class CreateChatDto {
     @IsOptional()
     phone_number_id?: string; 
 
+    @IsString()
+    @IsOptional()
+    status_response_api: string;
+
     @IsBoolean()
     @IsOptional()
     answered_message?: boolean;

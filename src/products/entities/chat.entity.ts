@@ -59,6 +59,12 @@ export class Chat {
         nullable: true
     })
     phone_number_id: string;
+
+    @Column({
+        type: 'text',
+        nullable: true
+    })
+    status_response_api: string;
     
     @Column({
         type: 'bool',

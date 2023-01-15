@@ -80,7 +80,7 @@ export class WhatsappService {
     
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
-    console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
+    // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
 
     let dataRes = {
       to_phone: data.contacts[0].wa_id,
@@ -114,7 +114,7 @@ export class WhatsappService {
       dataRes.token_confirm = confirmToken;
       dataRes.token_cancel = cancelToken;
     }
-    console.log("⏩⏩ Datos del envio de plantilla a guadar: ", dataRes)
+    // console.log("⏩⏩ Datos del envio de plantilla a guadar: ", dataRes)
     this.createSendTemplate(dataRes);    
      
     return data;
@@ -133,7 +133,7 @@ export class WhatsappService {
     // let TimeZoneBusiness = this.BusinessService.determineTimeZone(phone_number, acount_business.id_ws_acount); // determino la zona horaria del negocio
     // console.log("⏩⏩ TimeZoneBusiness: ", TimeZoneBusiness);
   
-
+    let status_response_api=null;
     this.request.to = phone_number; // numero de telefono del cliente que envia el mensaje
     let timezone = 'UTC'; // zona horaria por defecto
     let codePhoneContry = 0; // codigo de pais por defecto
@@ -154,32 +154,25 @@ export class WhatsappService {
       }else if (phone_number.startsWith("56")) {
         timezone = "America/Santiago";
         codePhoneContry = 56;
-      }
-      else if (phone_number.startsWith("57")) { 
+      }else if (phone_number.startsWith("57")) { 
         timezone = "America/Bogota";
         codePhoneContry = 57;
-      }
-      else if (phone_number.startsWith("52")) {
+      }else if (phone_number.startsWith("52")) {
         timezone = "America/Mexico_City";
         codePhoneContry = 52;
-      }
-      else if (phone_number.startsWith("51")) {
+      }else if (phone_number.startsWith("51")) {
         timezone = "America/Lima";
         codePhoneContry = 51;
-      }
-      else if (phone_number.startsWith("54")) {
+      }else if (phone_number.startsWith("54")) {
         timezone = "America/Argentina/Buenos_Aires";
         codePhoneContry = 54;
-      }
-      else if (phone_number.startsWith("55")) {
+      }else if (phone_number.startsWith("55")) {
         timezone = "America/Sao_Paulo";
         codePhoneContry = 55;
-      }
-      else if (phone_number.startsWith("58")) {
+      }else if (phone_number.startsWith("58")) {
         timezone = "America/Caracas";
         codePhoneContry = 58;
-      }
-      else if (phone_number.startsWith("34")) {
+      }else if (phone_number.startsWith("34")) {
         timezone = "Europe/Madrid";
         codePhoneContry = 34;
       }
@@ -243,8 +236,10 @@ export class WhatsappService {
           console.log("⭕⭕⭕⭕ Respuesta de planner Bad Request: Cancel => ",token);
         }
         
+        status_response_api=data.statusText;
+
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-          console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText); 
+          console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText);
         },
         (error) => {
           console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
@@ -328,6 +323,7 @@ export class WhatsappService {
           this.request.text.body = "Su solicitud no ha sido procesada. Verifique la fecha de su sistema";
         }
 
+        status_response_api=errorResponse.statusText;
 
         // **************************************************************************************************
 
@@ -391,7 +387,7 @@ export class WhatsappService {
     //     throw new BadRequestException();
     // }
 
-    return;
+    return status_response_api;
   }
 
     /* ##################################################################################################################################
