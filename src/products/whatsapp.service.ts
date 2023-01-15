@@ -80,7 +80,7 @@ export class WhatsappService {
     
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
-    // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
+    console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
 
     let dataRes = {
       watsapp_id: data.contacts[0].wa_id,
@@ -93,7 +93,7 @@ export class WhatsappService {
       timestamp: Date.now(),
       slug: "",
       token_confirm: "",
-      token_cancel: ""
+      token_cancel: "",
     }
 
     if (template === "notificacion"){

@@ -41,7 +41,7 @@ export class CreateSendTemplateDto {
     @IsOptional()
     token_confirm?: string; 
 
-    @IsBoolean()
+    @IsString()
     @IsOptional()
     token_cancel?: string;
 

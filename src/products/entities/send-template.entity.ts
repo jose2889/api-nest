@@ -67,6 +67,5 @@ export class SendTemplate {
         nullable: true
     })
     token_cancel: string;
-
 }
 
