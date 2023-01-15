@@ -83,8 +83,8 @@ export class WhatsappService {
     console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
 
     let dataRes = {
-      watsapp_id: data.contacts[0].wa_id,
-      to_phone: data.messages[0].id,
+      to_phone: data.contacts[0].wa_id,
+      watsapp_id: data.messages[0].id,
       customer_name: "",
       name_business: "",
       type: template,
