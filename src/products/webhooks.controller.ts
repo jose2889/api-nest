@@ -51,7 +51,7 @@ export class Webhookontroller {
 
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
-            status_response_api=this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business); 
+            status_response_api= await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, watsapp_id, acount_business); 
           } 
         }
 
