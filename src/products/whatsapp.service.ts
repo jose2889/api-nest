@@ -255,9 +255,17 @@ export class WhatsappService {
 
         // console.log('⏩⏩⏩⏩⏩⏩⏩⏩ Cuerpo de la respuesta de error: ', errorResponse)
 
+        let retMessage = errorResponse.data.retMessage;
+        let retCode = errorResponse.data.retCode;
+        let retObject = errorResponse.data.retObject;
+        
         console.log("⏩⏩ Status: ", errorResponse.status.toString());
         console.log("⏩⏩ Data: ", JSON.stringify(errorResponse.data));
         console.log("⏩⏩ Status Text: ",errorResponse.statusText);
+        
+        console.log("⏩⏩ retMessage: ", retMessage);
+        console.log("⏩⏩ retCode: ", retCode);
+        console.log("⏩⏩ retObject: ", retObject);
         // console.log("⏩⏩ ConfigMethod: ",errorResponse.config.method);
         // console.log("⏩⏩ ConfigURL: ",errorResponse.config.url);
         // console.log("⏩⏩ ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
