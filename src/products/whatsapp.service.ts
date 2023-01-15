@@ -1,7 +1,7 @@
 import { CreateApiWSDto } from './dto/create-api-ws.dto';
 import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, SimpleConsoleLogger } from 'typeorm';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
@@ -237,6 +237,8 @@ export class WhatsappService {
         }
         
         status_response_api=data.statusText;
+        console.log("✅✅✅✅✅✅ Estado de la respuesta de planner:",status_response_api);
+
 
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText);
@@ -324,6 +326,7 @@ export class WhatsappService {
         }
 
         status_response_api=errorResponse.statusText;
+        console.log("❌❌❌❌❌❌ Estado de la respuesta de planner:",status_response_api);
 
         // **************************************************************************************************
 

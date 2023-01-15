@@ -64,7 +64,7 @@ export class Webhookontroller {
         createProductDto.answered_message = true;
         createProductDto.status_response_api = status_response_api;
 
-        // console.log(" ⏩⏩⏩⏩⏩ Se guarada el objeto ", JSON.stringify(createProductDto));
+        console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
         this.chatService.createWebhook(createProductDto);
 
         return;
