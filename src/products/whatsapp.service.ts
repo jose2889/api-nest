@@ -247,12 +247,13 @@ export class WhatsappService {
           console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
         }); 
 
-        console.log("✅✅✅ PUT ✅✅✅ ");
+        // ############ Si se recibe respuesta se devuelve el estado de la peticion
+        console.log("✅✅✅ SUCCESS PUT ✅✅✅ ");
         return status_response_api;
       },
       (error) => {
 
-        console.log("❌❌❌❌❌❌ Error de solicitud ❌❌❌❌❌❌ ");
+        console.log("❌❌❌❌❌❌ Respuesta de error de planner ❌❌❌❌❌❌ ");
 
         let errorResponse = error.response;
 
@@ -380,38 +381,42 @@ export class WhatsappService {
 
       });
       // console.log("Response de planner", data);
+      
+      // ############ Si se recibe respuesta se devuelve el estado de la peticion
       console.log("✅✅✅ TRY ✅✅✅ ");
       return status_response_api;
+
     } catch (error) {
         console.log("✅✅✅ ERROR TRY ✅✅✅ ");
         throw new BadRequestException();
-    }finally {
+    }finally { // ############## Aquí tambien se intenta devolver el estado de la peticion
       // hacer en cualquier caso después de try/catch
+      // ############ Si se recibe respuesta se devuelve el estado de la peticion
       console.log("✅❌✅❌✅❌ FINALY => Estado de la respuesta de planner:",status_response_api);
       return status_response_api;
     }
-    
-    // if (data.retCode === "1"){
-    //   this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
-    // }else if (data.retCode === "1"){
-    //   if (data.retMessage === "1") {
-    //     this.request.text.body = "La reservación ya se encuentra aprobada previamente.";
-    //   } else if (data.retMessage === "3") {
-    //     this.request.text.body = "La reservación ya ha sido cancelada previamente.";
-    //   } else if (data.retMessage === "9") {
-    //     this.request.text.body = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
-    //   }
-    // }else {
-    //   this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."; 
-    // }
+    /* ######################################################################################################
+    if (data.retCode === "1"){
+      this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
+    }else if (data.retCode === "1"){
+      if (data.retMessage === "1") {
+        this.request.text.body = "La reservación ya se encuentra aprobada previamente.";
+      } else if (data.retMessage === "3") {
+        this.request.text.body = "La reservación ya ha sido cancelada previamente.";
+      } else if (data.retMessage === "9") {
+        this.request.text.body = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
+      }
+    }else {
+      this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."; 
+    }
 
-    // try {
-    //   let response = await firstValueFrom(this.httpService.post(this.baseUrl, this.request));
-    //   console.log("Response de whatapp API ", response.data);
-    // } catch (error) {
-    //     throw new BadRequestException();
-    // }
-
+    try {
+      let response = await firstValueFrom(this.httpService.post(this.baseUrl, this.request));
+      console.log("Response de whatapp API ", response.data);
+    } catch (error) {
+        throw new BadRequestException();
+    }
+    ###################################################################################################### */
     return status_response_api;
   }
 
@@ -611,15 +616,15 @@ export class WhatsappService {
     
     try {
       
-      let product = await this.chatRepository.findOneBy({ watsapp_id: createProductDto.watsapp_id });
+      let chat = await this.chatRepository.findOneBy({ watsapp_id: createProductDto.watsapp_id });
       // console.log("⏩⏩ Se encontro una coincidencia: ", product)
-      if ( !product ) {
-        product = this.chatRepository.create(createProductDto);
-        await this.chatRepository.save( product );
+      if ( !chat ) {
+        chat = this.chatRepository.create(createProductDto);
+        await this.chatRepository.save( chat );
 
-        console.log("⏩⏩ Se guardo el mensaje: ", product)
+        console.log("⏩⏩ Se guardo el mensaje: ", chat)
   
-        return product;
+        return chat;
       }
     } catch (error) {
       this.handleDBExceptions(error);

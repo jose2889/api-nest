@@ -51,6 +51,7 @@ export class Webhookontroller {
 
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
+            // #################### Se llama a la funcion (AWAIT) para actualiza la reservas ################
             status_response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, whatsapp_id, acount_business); 
             createProductDto.status_response_api = status_response_api;
             console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Respuesta de la funcion: ",createProductDto.status_response_api = status_response_api);
@@ -69,7 +70,8 @@ export class Webhookontroller {
         
         console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = status_response_api);
         console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
-        this.chatService.createWebhook(createProductDto);
+        // ############## Se llama a la funcion para guardar el mensaje en la DB
+        await this.chatService.createWebhook(createProductDto);
 
         return;
       }
