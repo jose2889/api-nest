@@ -53,9 +53,8 @@ export class Webhookontroller {
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
             status_response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, whatsapp_id, acount_business); 
             createProductDto.status_response_api = status_response_api;
-
-          } 
-        }
+          };
+        };
 
         createProductDto.from = from; 
         createProductDto.phone_number_id = phone_number_id; 
@@ -65,7 +64,8 @@ export class Webhookontroller {
         createProductDto.watsapp_id = whatsapp_id;
         createProductDto.answered_message = true;
         // createProductDto.status_response_api = status_response_api;
-
+        
+        console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = status_response_api);
         console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
         this.chatService.createWebhook(createProductDto);
 

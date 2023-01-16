@@ -374,6 +374,8 @@ export class WhatsappService {
           console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
         }); 
 
+        return status_response_api;
+
       });
       // console.log("Response de planner", data);
        return status_response_api;
