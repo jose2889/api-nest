@@ -247,6 +247,7 @@ export class WhatsappService {
           console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
         }); 
 
+        console.log("✅✅✅ PUT ✅✅✅ ");
         return status_response_api;
       },
       (error) => {
@@ -374,12 +375,15 @@ export class WhatsappService {
           console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
         }); 
 
+        console.log("✅✅✅ ERROR PUT ✅✅✅ ");
         return status_response_api;
 
       });
       // console.log("Response de planner", data);
+      console.log("✅✅✅ TRY ✅✅✅ ");
       return status_response_api;
     } catch (error) {
+        console.log("✅✅✅ ERROR TRY ✅✅✅ ");
         throw new BadRequestException();
     }finally {
       // hacer en cualquier caso después de try/catch
