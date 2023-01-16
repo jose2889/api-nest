@@ -195,7 +195,7 @@ export class WhatsappService {
     const urlAPIplanner = `${this.urlPlanner}${token}`;
     // console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
      try {
-      status_response_api = await this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
+      await this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
 
         console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
 
@@ -381,6 +381,10 @@ export class WhatsappService {
       return status_response_api;
     } catch (error) {
         throw new BadRequestException();
+    }finally {
+      // hacer en cualquier caso después de try/catch
+      console.log("✅❌✅❌✅❌ FINALY => Estado de la respuesta de planner:",status_response_api);
+      return status_response_api;
     }
     
     // if (data.retCode === "1"){
