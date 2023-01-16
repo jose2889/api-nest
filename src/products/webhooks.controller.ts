@@ -53,6 +53,8 @@ export class Webhookontroller {
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
             status_response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, whatsapp_id, acount_business); 
             createProductDto.status_response_api = status_response_api;
+            console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Respuesta de la funcion: ",createProductDto.status_response_api = status_response_api);
+
           };
         };
 
