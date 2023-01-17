@@ -175,6 +175,9 @@ export class WhatsappService {
       }else if (phone_number.startsWith("34")) {
         timezone = "Europe/Madrid";
         codePhoneContry = 34;
+      }else if (phone_number.startsWith("1")) {
+        timezone = "America/New_York";
+        codePhoneContry = 1;
       }
 
     let bodyChangeTimezone = {
