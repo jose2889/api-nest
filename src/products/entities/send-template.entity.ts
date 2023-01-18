@@ -36,6 +36,12 @@ export class SendTemplate {
         type: 'text',
         nullable: true
     })
+    date: string;
+
+    @Column({
+        type: 'text',
+        nullable: true
+    })
     template?: string;
 
     @Column({

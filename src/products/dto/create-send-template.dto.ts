@@ -23,6 +23,10 @@ export class CreateSendTemplateDto {
 
     @IsString()
     @IsOptional()
+    date?: string;
+
+    @IsString()
+    @IsOptional()
     slug?: string;
 
     @IsString()
