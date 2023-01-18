@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/whastapp.module';
 import { CommonModule } from './common/common.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { SystemApiModule } from './config/system-api/system-api.module';
+import { SystemEmailModule } from './config/system-email/system-email.module';
 
 @Module({
   imports: [
@@ -40,6 +42,10 @@ import { MailerModule } from '@nestjs-modules/mailer';
     ProductsModule,
 
     CommonModule,
+
+    SystemApiModule,
+
+    SystemEmailModule,
   ],
   providers: [],
 })
