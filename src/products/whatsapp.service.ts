@@ -670,9 +670,7 @@ export class WhatsappService {
   async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto):Promise<ApiWs>{
     try {
       const apiWs = this.apiWsRepository.create(createApiWsDot);
-      // const apiWs = this.apiWsRepository.getRepository(createApiWsDot);
-
-      apiWs.create_data = Date.now(); //.toString();       
+      apiWs.create_data = Date.now();   
       console.log('📁📁💼💼 Se registro el negocio con los siguientes datos: 📁📁 ',apiWs);
       return this.apiWsRepository.save(apiWs);
     } catch (error) {
