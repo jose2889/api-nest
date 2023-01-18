@@ -119,9 +119,14 @@ export class WhatsappService {
     return data;
   }
 
+
+
   changTimezone(timezone: string, date: string): string {
     return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
   }  
+
+
+
 
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business?:any): Promise<AxiosResponse<ApiWs>> {
     console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
@@ -132,7 +137,7 @@ export class WhatsappService {
     // let TimeZoneBusiness = this.BusinessService.determineTimeZone(phone_number, acount_business.id_ws_acount); // determino la zona horaria del negocio
     // console.log("⏩⏩ TimeZoneBusiness: ", TimeZoneBusiness);
   
-    let status_response_api:string=null;
+    let status_response_api=null;
     this.request.to = phone_number; // numero de telefono del cliente que envia el mensaje
     let timezone = 'UTC'; // zona horaria por defecto
     let codePhoneContry = 0; // codigo de pais por defecto
