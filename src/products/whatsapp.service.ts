@@ -123,7 +123,7 @@ export class WhatsappService {
     return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
   }  
 
-  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business:any): Promise<string> {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business?:any): Promise<string> {
     console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
     console.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);

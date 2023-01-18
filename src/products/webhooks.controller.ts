@@ -56,22 +56,27 @@ export class Webhookontroller {
             createProductDto.status_response_api = status_response_api;
             console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Respuesta de la funcion: ",createProductDto.status_response_api = status_response_api);
 
+
+
+
+            createProductDto.from = from; 
+            createProductDto.phone_number_id = phone_number_id; 
+            createProductDto.name = name;
+            createProductDto.type = type;
+            createProductDto.timestamp = timestamp; 
+            createProductDto.watsapp_id = whatsapp_id;
+            createProductDto.answered_message = true;
+            // createProductDto.status_response_api = status_response_api;
+            
+            console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = status_response_api);
+            console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
+            // ############## Se llama a la funcion para guardar el mensaje en la DB
+            await this.chatService.createWebhook(createProductDto);
+
+            
           };
         };
 
-        createProductDto.from = from; 
-        createProductDto.phone_number_id = phone_number_id; 
-        createProductDto.name = name;
-        createProductDto.type = type;
-        createProductDto.timestamp = timestamp; 
-        createProductDto.watsapp_id = whatsapp_id;
-        createProductDto.answered_message = true;
-        // createProductDto.status_response_api = status_response_api;
-        
-        console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = status_response_api);
-        console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
-        // ############## Se llama a la funcion para guardar el mensaje en la DB
-        await this.chatService.createWebhook(createProductDto);
 
         return;
       }
