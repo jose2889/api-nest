@@ -13,7 +13,7 @@ import { firstValueFrom, map, Observable } from 'rxjs';
 import { WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
 import { WhatsappCloudAPIResponse, responseWhatsappTemplate } from 'src/common/whatsapp-cloud-api-response.dto';
 import { AxiosResponse } from 'axios'
-import { ApiWs } from './entities/api_ws.entity';
+import { ApiWs } from './entities/api-ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
 
@@ -31,7 +31,6 @@ import * as nodemailer from 'nodemailer';
 import { countrytimezone } from './data/country-timezone';
 import { CreateSendTemplateDto } from './dto/create-send-template.dto';
 import { SendTemplate } from './entities/send-template.entity';
-
 
 
 

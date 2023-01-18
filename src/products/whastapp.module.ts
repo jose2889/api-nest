@@ -9,11 +9,12 @@ import { Chat } from './entities/chat.entity';
 import { HttpModule } from '@nestjs/axios';
 import { HttpConfigService } from 'src/httpService.config';
 import { Webhookontroller } from './webhooks.controller';
-import { ApiWs } from './entities/api_ws.entity';
+import { ApiWs } from './entities/api-ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { SendTemplate } from './entities/send-template.entity';
 import { SystemConfigEntity } from './entities/system-config.entity';
 import { EmailConfigEntity } from './entities/email-config.entity';
+
 
 
 @Module({

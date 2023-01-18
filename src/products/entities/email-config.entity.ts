@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('EmailConfig')
+@Entity('email_config')
 export class EmailConfigEntity {
     @PrimaryGeneratedColumn() id:string;
 
