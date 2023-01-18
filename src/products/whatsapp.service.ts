@@ -123,7 +123,7 @@ export class WhatsappService {
     return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
   }  
 
-  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business:any): Promise<AxiosResponse<string>> {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business:any): Promise<string> {
     console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
     console.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
@@ -132,7 +132,7 @@ export class WhatsappService {
     // let TimeZoneBusiness = this.BusinessService.determineTimeZone(phone_number, acount_business.id_ws_acount); // determino la zona horaria del negocio
     // console.log("⏩⏩ TimeZoneBusiness: ", TimeZoneBusiness);
   
-    let status_response_api=null;
+    let status_response_api:string=null;
     this.request.to = phone_number; // numero de telefono del cliente que envia el mensaje
     let timezone = 'UTC'; // zona horaria por defecto
     let codePhoneContry = 0; // codigo de pais por defecto
@@ -392,7 +392,7 @@ export class WhatsappService {
         console.log("✅✅✅ ERROR TRY ✅✅✅ ");
         throw new BadRequestException();
     }
-    
+
     /* ######################################################################################################
     if (data.retCode === "1"){
       this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
