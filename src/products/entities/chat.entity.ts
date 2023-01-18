@@ -65,6 +65,12 @@ export class Chat {
         nullable: true
     })
     status_response_api: string;
+
+    @Column({
+        type: 'text',
+        nullable: true
+    })
+    context_id_wa_msg: string;
     
     @Column({
         type: 'bool',

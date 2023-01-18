@@ -48,7 +48,7 @@ export class Webhookontroller {
           if (type == "button") {
 
             // console.log("📜📜📜 Objeto de la petición de tipo button recibida: ", JSON.stringify(data));
-
+            createProductDto.context_id_wa_msg = data.entry[0].changes[0].value.messages[0].context.id;
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
             // #################### Se llama a la funcion (AWAIT) para actualiza la reservas ################

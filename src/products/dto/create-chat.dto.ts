@@ -41,6 +41,10 @@ export class CreateChatDto {
     @IsOptional()
     status_response_api: string;
 
+    @IsString()
+    @IsOptional()
+    context_id_wa_msg:string;
+
     @IsBoolean()
     @IsOptional()
     answered_message?: boolean;
