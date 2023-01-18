@@ -665,16 +665,16 @@ export class WhatsappService {
   //     });
   // }
 
-
   // ################################### Gestión de los datos en la tabla de las ApiWs para negocios ###################################
 
-  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
+  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto):Promise<ApiWs>{
     try {
       const apiWs = this.apiWsRepository.create(createApiWsDot);
-      apiWs.create_data = Date.now(); //.toString();
-      await this.apiWsRepository.save(apiWs);
+      // const apiWs = this.apiWsRepository.getRepository(createApiWsDot);
+
+      apiWs.create_data = Date.now(); //.toString();       
       console.log('📁📁💼💼 Se registro el negocio con los siguientes datos: 📁📁 ',apiWs);
-      return apiWs;
+      return this.apiWsRepository.save(apiWs);
     } catch (error) {
       console.log('💩💩 Ocurrio un error al registrar el negocio: 💩💩 ',error);
       this.handleDBExceptions(error)

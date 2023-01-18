@@ -15,7 +15,7 @@ export class ApiWs{
 
     @Column({
         type: 'text',
-        unique:true,
+        unique:false,
     })
     slug_business: string;
 

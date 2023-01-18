@@ -8,6 +8,7 @@ import { CreateNotificationDto } from './dto/notification.dto';
 import { CreateApiWSDto } from './dto/create-api-ws.dto';
 import { response } from 'express';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
+import { ApiWs } from './entities/api_ws.entity';
 
 @ApiTags('Chats')
 @Controller('chat')
@@ -147,9 +148,9 @@ export class WhatsappController {
   // ########################################### Creacion de  los endpoint para la getion de APIs Ws ######################################
 
   @Post('business')
-  createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto) {
+  async createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto):Promise<void> {
     try {
-      const res = this.chatService.CreateRegisterApiWs(createRegisterApiWs);
+      const res = await this.chatService.CreateRegisterApiWs(createRegisterApiWs);
       console.log('📁📁💼💼 Se registro un nuevo negocio');
       response.status(HttpStatus.CREATED).json(res);
     } catch (err) {
