@@ -123,7 +123,7 @@ export class WhatsappService {
     return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
   }  
 
-  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business:any): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business:any): Promise<AxiosResponse<string>> {
     console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
     console.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
@@ -391,12 +391,8 @@ export class WhatsappService {
     } catch (error) {
         console.log("✅✅✅ ERROR TRY ✅✅✅ ");
         throw new BadRequestException();
-    }finally { // ############## Aquí tambien se intenta devolver el estado de la peticion
-      // hacer en cualquier caso después de try/catch
-      // ############ Si se recibe respuesta se devuelve el estado de la peticion
-      console.log("✅❌✅❌✅❌ FINALY => Estado de la respuesta de planner:",status_response_api);
-      return status_response_api;
     }
+    
     /* ######################################################################################################
     if (data.retCode === "1"){
       this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
