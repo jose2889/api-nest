@@ -149,13 +149,13 @@ export class WhatsappController {
   // ########################################### Creacion de  los endpoint para la getion de APIs Ws ######################################
 
   @Post('business')
-  async createRegisterApiWsDB(@Body() createRegisterApiWs: CreateApiWSDto):Promise<void> {
+  async createRegisterApiWsDB(@Res() response, @Body() createRegisterApiWs: CreateApiWSDto):Promise<void> {
     try {
       const res = await this.chatService.CreateRegisterApiWs(createRegisterApiWs);
       console.log('📁📁💼💼 Se registro un nuevo negocio');
       response.status(HttpStatus.CREATED).json(res);
     } catch (err) {
-      console.log('💩💩 Ocurrio un error al registrar negocio');
+      console.log('💩💩 Ocurrio un error al registrar negocio', err);
       response.status(HttpStatus.BAD_REQUEST).json(err);
     }
 
