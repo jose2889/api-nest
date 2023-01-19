@@ -16,6 +16,7 @@ import { AxiosResponse } from 'axios'
 import { ApiWs } from './entities/api-ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
+import axios from 'axios';
 
 // ############### Importaciones para el manejo de fechas ###############
 import * as dayjs from 'dayjs';
@@ -119,16 +120,11 @@ export class WhatsappService {
     return data;
   }
 
-
-
   changTimezone(timezone: string, date: string): string {
     return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
   }  
 
-
-
-
-  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business?:any): Promise<AxiosResponse<ApiWs>> {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business?:any): Promise<string> {
     console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
     console.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
@@ -137,7 +133,7 @@ export class WhatsappService {
     // let TimeZoneBusiness = this.BusinessService.determineTimeZone(phone_number, acount_business.id_ws_acount); // determino la zona horaria del negocio
     // console.log("⏩⏩ TimeZoneBusiness: ", TimeZoneBusiness);
   
-    let status_response_api=null;
+    let status_response_api:string=null;
     this.request.to = phone_number; // numero de telefono del cliente que envia el mensaje
     let timezone = 'UTC'; // zona horaria por defecto
     let codePhoneContry = 0; // codigo de pais por defecto
@@ -201,8 +197,15 @@ export class WhatsappService {
 
     const urlAPIplanner = `${this.urlPlanner}${token}`;
     // console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
-     try {
-      await this.httpService.put(`${this.urlPlanner}${token}`, body).subscribe(data =>{
+
+      try {
+        const { data } = await axios({
+          method: 'put',
+          url: `${this.urlPlanner}${token}`,
+          data: body
+        });
+
+        console.log(data);
 
         console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
 
@@ -257,12 +260,19 @@ export class WhatsappService {
         // ############ Si se recibe respuesta se devuelve el estado de la peticion
         console.log("✅✅✅ SUCCESS PUT ✅✅✅ ");
         return status_response_api;
-      },
-      (error) => {
+      } catch (err) {
+        console.log("ESTE ES EL ERRROR ", err);
+        if (err.response) {
+          
+            console.log(err.response.data);
+            console.log(err.response.status);
+            console.log(err.response.headers);
+            console.log(err.response.statusText);
+        }
 
         console.log("❌❌❌❌❌❌ Respuesta de error de planner ❌❌❌❌❌❌ ");
 
-        let errorResponse = error.response;
+        let errorResponse = err.response;
 
         // console.log('⏩⏩⏩⏩⏩⏩⏩⏩ Cuerpo de la respuesta de error: ', errorResponse)
 
@@ -385,42 +395,7 @@ export class WhatsappService {
 
         console.log("✅✅✅ ERROR PUT ✅✅✅ ");
         return status_response_api;
-
-      });
-      // console.log("Response de planner", data);
-      
-      // ############ Si se recibe respuesta se devuelve el estado de la peticion
-      console.log("✅✅✅ TRY ✅✅✅ ");
-      return status_response_api;
-
-    } catch (error) {
-        console.log("✅✅✅ ERROR TRY ✅✅✅ ");
-        throw new BadRequestException();
-    }
-
-    /* ######################################################################################################
-    if (data.retCode === "1"){
-      this.request.text.body = "Su reserva ha sido procesada con éxito. Gracias por su respuesta.";
-    }else if (data.retCode === "1"){
-      if (data.retMessage === "1") {
-        this.request.text.body = "La reservación ya se encuentra aprobada previamente.";
-      } else if (data.retMessage === "3") {
-        this.request.text.body = "La reservación ya ha sido cancelada previamente.";
-      } else if (data.retMessage === "9") {
-        this.request.text.body = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
       }
-    }else {
-      this.request.text.body = "Gracias por su respuesta, su reserva sera gestionada a la brevedad y pronto sera contactado."; 
-    }
-
-    try {
-      let response = await firstValueFrom(this.httpService.post(this.baseUrl, this.request));
-      console.log("Response de whatapp API ", response.data);
-    } catch (error) {
-        throw new BadRequestException();
-    }
-    ###################################################################################################### */
-    return status_response_api;
   }
 
     /* ##################################################################################################################################

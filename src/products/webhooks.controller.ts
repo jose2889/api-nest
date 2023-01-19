@@ -44,7 +44,7 @@ export class Webhookontroller {
         console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia en la base de datos: ", coincidencia);
         
         let tiempoRetraso = Date.now() - timestamp*1000;
-        if (!coincidencia && tiempoRetraso < 900000) {
+        if (!coincidencia && tiempoRetraso < 90000000) {
           // console.log(coincidencia)
           if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
           if (type == "button") {
