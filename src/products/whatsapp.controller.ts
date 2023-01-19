@@ -122,7 +122,13 @@ export class WhatsappController {
     return this.chatService.findLengthError();
   }
 
-  // ######################################################################################################################################
+  // ###################################################################################################################################### statistics
+
+  @Get('statistics/:time')
+  findStatistics(@Param('time') time: number) {
+    console.log('⌚⌚ Se mostrara las estadisticas de las ultimas "', time, '" horas');
+    return this.chatService.findStatistics24(time);
+  }
   
   // ########################################### Creacion de  los endpoint paa mostrar los egistro de envios de plantillas ######################################
 

@@ -785,6 +785,51 @@ export class WhatsappService {
 
   //######################################################################################################################################
 
+  async findStatistics24(tiempo: number){
+    const queryBuilder = this.chatRepository.createQueryBuilder();
+    const statisticsChat = await queryBuilder
+      .where('timestamp >=:timestamp', {
+        timestamp: (Date.now() - (3600000 * tiempo)),
+      }).getMany(); 
+    console.log('⌚⌚⌚ Cantidad de mensajes en un tiempo determinado (',tiempo,'): ',statisticsChat.length, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (3600000 * tiempo),' ⌚');
+    
+    let lengthOK=0;
+    let lengthError=0;
+    let msg_ok=[];
+    let msg_error=[];
+
+    if(statisticsChat){
+      statisticsChat.forEach(element => {
+        if (element.type === 'button'){
+          if (element.status_response_api === 'OK'){
+            console.log(element)
+            ++lengthOK;
+            msg_ok.push(element);
+          }else{ 
+            console.log(element)
+
+            ++lengthError;
+            msg_error.push(element);
+          }
+        }
+      });
+    }
+
+    console.log('Cantidad de respuesta de planner exitosas: ',lengthOK);
+    console.log('Cantidad de respuesta de planner on error: ',lengthError);
+
+    const statistics = {
+      'countSuccess':lengthOK,
+      'countfail':lengthError,
+      'time':tiempo,
+      'msg_success':msg_ok,
+      'msg_error':msg_error,
+    }
+
+    return statistics;
+  }
+
+  
 
   // ############################ Gestión de los datos en la tabla de los envios de plantillas #############
 
