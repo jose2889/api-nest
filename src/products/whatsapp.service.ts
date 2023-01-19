@@ -199,10 +199,10 @@ export class WhatsappService {
     // console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
 
       try {
-        const { data } = await axios({
-          method: 'put',
-          url: `${this.urlPlanner}${token}`,
-          data: body
+        const { data } = await axios.put(
+          // method: 'put',
+          `${this.urlPlanner}${token}`,
+          {data: body
         });
 
         console.log(data);
