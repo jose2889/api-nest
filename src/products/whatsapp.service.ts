@@ -209,16 +209,18 @@ export class WhatsappService {
 
         console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
 
-        // console.log("⏩⏩⏩⏩⏩⏩⏩⏩ Cuerpo de la respuesta: ", data.data);
+        console.log("⏩⏩⏩⏩⏩⏩⏩⏩ Cuerpo de la respuesta: ", data);
 
-        let retMessage = data.data.retMessage;
-        let retCode = data.data.retCode;
-        let retObject = data.data.retObject;
-        console.log("⏩⏩ Status: ", data.status);
-        console.log("⏩⏩ StatusText: ", data.statusText);
+
+
+        let retMessage = data.retMessage;
+        let retCode = data.retCode;
+        let retObject = data.retObject;
         console.log("⏩⏩ retMessage: ", retMessage);
         console.log("⏩⏩ retCode: ", retCode);
         console.log("⏩⏩ retObject: ", retObject);
+        console.log("⏩⏩ Status: ", data.status);
+        console.log("⏩⏩ StatusText: ", data.statusText);
         console.log("⏩⏩ timestamp_message: ", timestamp_message);
 
         this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado.";
