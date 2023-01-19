@@ -32,6 +32,7 @@ import * as nodemailer from 'nodemailer';
 import { countrytimezone } from './data/country-timezone';
 import { CreateSendTemplateDto } from './dto/create-send-template.dto';
 import { SendTemplate } from './entities/send-template.entity';
+import { response } from 'express';
 
 
 
@@ -124,7 +125,7 @@ export class WhatsappService {
     return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
   }  
 
-  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business?:any): Promise<string> {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business?:any) {
     console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
     console.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
@@ -198,50 +199,48 @@ export class WhatsappService {
     const urlAPIplanner = `${this.urlPlanner}${token}`;
     // console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
 
-      try {
-        const { data } = await axios.put(
-          // method: 'put',
-          `${this.urlPlanner}${token}`,
-          {data: body
-        });
+      
+      await axios({
+          method: 'put',
+          url:`${this.urlPlanner}${token}`,
+          data: body
+      }).then( data =>{
 
-        console.log(data);
-
-        console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
-
-        console.log("⏩⏩⏩⏩⏩⏩⏩⏩ Cuerpo de la respuesta: ", data);
-
-
-
-        let retMessage = data.retMessage;
-        let retCode = data.retCode;
-        let retObject = data.retObject;
+        // console.log('✅✅✅RESPONSE: ',data);
+        // console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
+        // console.log("⏩⏩⏩⏩⏩⏩⏩⏩ Data de la respuesta: ", data.data);
+        // console.log("⏩⏩⏩⏩⏩⏩⏩⏩ Status de la respuesta: ", data.status);
+        // console.log("⏩⏩⏩⏩⏩⏩⏩⏩ StatusText de la respuesta: ", data.statusText);
+  
+        let retMessage = data.data.retMessage;
+        let retCode = data.data.retCode;
+        let retObject = data.data.retObject;
         console.log("⏩⏩ retMessage: ", retMessage);
         console.log("⏩⏩ retCode: ", retCode);
         console.log("⏩⏩ retObject: ", retObject);
         console.log("⏩⏩ Status: ", data.status);
         console.log("⏩⏩ StatusText: ", data.statusText);
         console.log("⏩⏩ timestamp_message: ", timestamp_message);
-
+  
         this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado.";
-
+  
         if ((data.statusText === "OK") && (retMessage === "1")){
           this.request.text.body = "Su reserva ha sido confirmada con éxito. Gracias por su respuesta.";
           console.log("👍👍👍👍 Respuesta de planner OK: Accept => ",token);
-
+  
         }
-
+  
         if ((data.statusText === "OK") && (retMessage === "3")) {
           this.request.text.body = "Su reserva ha sido cancelada con éxito. Gracias por su respuesta.";
           console.log("👍👍👍👍 Respuesta de planner OK: Cancel => ",token);
         }
-
+  
         if ((data.statusText === "Bad Request") && (retMessage === "9")) {  
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + retObject.time + ' horas antes.';
           this.request.text.body = 'Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.';
           console.log("⭕⭕⭕⭕ Respuesta de planner Bad Request: Cancel => ",token);
         }
-
+  
         if ((data.statusText === "Bad Request") && (retMessage === "1")) {  
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + retObject.time + ' horas antes.';
           this.request.text.body = 'Lo sentimos pero ya no puede procesar la reserva.';
@@ -250,27 +249,29 @@ export class WhatsappService {
         
         status_response_api=data.statusText;
         console.log("✅✅✅✅✅✅ Estado de la respuesta de planner:",status_response_api);
-
-
+  
+  
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText);
         },
         (error) => {
           console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
         }); 
-
+  
         // ############ Si se recibe respuesta se devuelve el estado de la peticion
         console.log("✅✅✅ SUCCESS PUT ✅✅✅ ");
-        return status_response_api;
-      } catch (err) {
-        console.log("ESTE ES EL ERRROR ", err);
-        if (err.response) {
+        // return status_response_api;
+      }). catch ( err => {
+      
+
+        // console.log("❌❌❌ESTE ES EL ERRROR ", err);
+        // if (err.response) {
           
-            console.log(err.response.data);
-            console.log(err.response.status);
-            console.log(err.response.headers);
-            console.log(err.response.statusText);
-        }
+        //     console.log('Error Response data',err.response.data);
+        //     console.log('Error Response status',err.response.status);
+        //     console.log('Error Response headers',err.response.headers);
+        //     console.log('Error Response statusText',err.response.statusText);
+        // }
 
         console.log("❌❌❌❌❌❌ Respuesta de error de planner ❌❌❌❌❌❌ ");
 
@@ -301,6 +302,7 @@ export class WhatsappService {
 
         this.request.text.body = "Ocurrio un inconveniente al procesar su solicitud. Disculpe las molestias, estamos trabajando para solventarlo. ";
 
+        
 
         // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
 
@@ -323,30 +325,23 @@ export class WhatsappService {
         }
         
         // Si el token es válido en planner, pero ya no se puede cancelar la reverva
-        if ((errorResponse.status === 400) && (errorResponse.data.retMessage === "9")) { // errorResponse.statusText === "Bad Request" && 
+        if ((errorResponse.status === 400) && ((errorResponse.data.retMessage === "9") || (errorResponse.data.retMessage === 9) )) { // errorResponse.statusText === "Bad Request" && 
           console.log("👎👎👎👎 Respuesta de planner Status 400: Cancel => ",token);
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
           this.request.text.body = 'Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.';
         }
         
         // Si el tiempo para cancelar ha pasado 
-        if ((errorResponse.status === 406) && (errorResponse.statusText === "Not Acceptable") && (errorResponse.data.retCode === "1")){
+        if ((errorResponse.status === 406) && (errorResponse.statusText === "Not Acceptable") && ((errorResponse.data.retCode === "1") || (errorResponse.data.retCode === 1))){
           console.log("👎👎👎👎 Error de solicitud! Not Acceptable: Token => ", token);
           this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
         }
         
         // Si el status es 400 con Bad Request y retMessage es 1 
-        if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") && (errorResponse.data.retMessage === "1")){
+        if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") && ((errorResponse.data.retMessage === "1") || (errorResponse.data.retMessage === 1) ) && ((errorResponse.data.retCode === "1") || (errorResponse.data.retCode === 1))){
           console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
-          this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para confirmar ha pasado o la reservación ya ha pasado";
-          // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
-        }
-
-        // Si el status es Bad Request y retCode es 1 
-        if ((errorResponse.statusText === "Bad Request") && (errorResponse.data.retCode === "1")){
-          console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
-          this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado o la reservación ya ha pasado";
+          this.request.text.body = "Su solicitud no ha sido procesada. La reservaba ya había sido confimada";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
         }
 
@@ -387,7 +382,6 @@ export class WhatsappService {
         // **************************************************************************************************
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
-
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText); 
         },
@@ -395,33 +389,29 @@ export class WhatsappService {
           console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
         }); 
 
-        console.log("✅✅✅ ERROR PUT ✅✅✅ ");
-        return status_response_api;
-      }
+        console.log("❌❌❌ SUCCESS PUT ❌❌❌");
+        // return status_response_api;
+
+      });
+
+
+      return status_response_api;
+    
   }
 
     /* ##################################################################################################################################
 
-    if (error.status === 400) {
-      if (error.error.message === 1) {
-        this.message = "La reservacion ya se encuentra aprobada previamente.";
-      }else if (error.retMessague === 3) { 
-        this.message = "La reservacion ya ha sido cancelada previamente.";
-      }else if (error.retMessague === 9) {
-        this.message = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
+    if (errorResponse.status === 400) {
+      if (retMessage === 1) {
+        this.request.text.body = "La reservacion ya se encuentra aprobada previamente.";
+      }else if (retMessage === 3) { 
+        this.request.text.body = "La reservacion ya ha sido cancelada previamente.";
+      }else if (retMessage === 9) {
+        this.request.text.body = "Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo previo permitido para cancelar ha sido superado.";
       }
-
-      this.isConfirm = true;
-      this.loading = false;
-    } else { if (error.status === 409) {
-      this.message = "El reloj esta atrasado, por favor sincronice su reloj con el servidor.";
-      this.commit = "No se puede establecer una conexion porque la fecha y la hora del equipo no son correctas.";
-      this.isConfirm = true;
-      this.loading = false;
-    } else {
-      this.router.navigate(['/error']);
-    }
-
+    } else if (errorResponse.status === 409) {
+      this.request.text.body = "El reloj esta atrasado, por favor sincronice su reloj con el servidor. 'No se puede establecer una conexion porque la fecha y la hora del equipo no son correctas.'";
+    }  
 
     ##################################################################################################################################### */
 
