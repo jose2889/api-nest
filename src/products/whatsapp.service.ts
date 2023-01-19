@@ -802,12 +802,11 @@ export class WhatsappService {
       statisticsChat.forEach(element => {
         if (element.type === 'button'){
           if (element.status_response_api === 'OK'){
-            console.log(element)
+            // console.log(element)
             ++lengthOK;
             msg_ok.push(element);
-          }else{ 
-            console.log(element)
-
+          }else if (element.status_response_api != null){ 
+            // console.log(element)
             ++lengthError;
             msg_error.push(element);
           }
