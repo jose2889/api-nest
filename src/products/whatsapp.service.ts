@@ -262,7 +262,7 @@ export class WhatsappService {
   
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText);
-          console.log("✅✅ Mensaje enviado al usuario po Whatsapp", body.date);
+          console.log("✅✅ Mensaje enviado al usuario po Whatsapp", this.request.text.body);
         },
         (error) => {
           console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
@@ -395,7 +395,7 @@ export class WhatsappService {
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText); 
-          console.log("✅✅ Mensaje enviado al usuario po Whatsapp", body.date);
+          console.log("✅✅ Mensaje enviado al usuario po Whatsapp", this.request.text.body);
         },
         (error) => {
           console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
@@ -409,6 +409,28 @@ export class WhatsappService {
 
       return response_api;
     
+  }
+
+  async sendDefaultMsg(to:string){
+    
+    let requestMsgDefault = {
+      "messaging_product": "whatsapp",
+      "preview_url": true,
+      "recipient_type": "individual",
+      "to": to,
+      "type": "text",
+      "text": {
+          "body": "Estimado cliente esté es un número para envios de mensajes automaticos de KeoPlanner.com"
+      }
+    }
+
+    const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, requestMsgDefault));
+   
+
+    Logger.getTimestamp; Logger.log(data,'Datos de la respuesta de Facebook')
+
+    return response
+
   }
 
     /* ##################################################################################################################################

@@ -50,7 +50,10 @@ export class Webhookontroller {
         let tiempoRetraso = Date.now() - timestamp*1000;
         if (!coincidencia && tiempoRetraso < 600000) {
           // console.log(coincidencia)
-          if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
+          if (type == "text") {
+            await this.chatService.sendDefaultMsg(from);
+            createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
+          }
           if (type == "button") {
 
             // console.log("📜📜📜 Objeto de la petición de tipo button recibida: ", JSON.stringify(data));
