@@ -13,7 +13,11 @@ export class Webhookontroller {
   async createWebhook(@Body() data:any) {
 
     console.log("📜📜📜📜📜 Objeto recibido de Facebook de la API de WhatsApp 📜📜📜 ",JSON.stringify(data));
-    let response_api=null;
+    let response_api={
+      'response_msg': '',
+      'status_response_api':null,
+      'body_request': '',
+    };
     let createProductDto = new CreateChatDto();
     if (data.object) {
       if (
@@ -68,7 +72,7 @@ export class Webhookontroller {
           createProductDto.watsapp_id = whatsapp_id;
           createProductDto.answered_message = true;
           createProductDto.response_msg = response_api.response_msg;
-          createProductDto = response_api.body_request;
+          createProductDto.body_request = response_api.body_request;
           
           console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = response_api.status_response_api);
           console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
