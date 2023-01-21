@@ -134,7 +134,12 @@ export class WhatsappService {
     // let TimeZoneBusiness = this.BusinessService.determineTimeZone(phone_number, acount_business.id_ws_acount); // determino la zona horaria del negocio
     // console.log("⏩⏩ TimeZoneBusiness: ", TimeZoneBusiness);
   
-    let status_response_api:string=null;
+    let response_api={
+      'response_msg': '',
+      'status_response_api':'',
+      'body_request': '',
+
+    };
     this.request.to = phone_number; // numero de telefono del cliente que envia el mensaje
     let timezone = 'UTC'; // zona horaria por defecto
     let codePhoneContry = 0; // codigo de pais por defecto
@@ -247,8 +252,12 @@ export class WhatsappService {
           console.log("⭕⭕⭕⭕ Respuesta de planner Bad Request: Cancel => ",token);
         }
         
-        status_response_api=data.statusText;
-        console.log("✅✅✅✅✅✅ Estado de la respuesta de planner:",status_response_api);
+        response_api={
+          'response_msg': this.request.text.body,
+          'status_response_api':data.statusText,
+          'body_request': body.date,
+        };
+        console.log("✅✅✅✅✅✅ Estado de la respuesta de planner:",response_api.status_response_api);
   
   
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
@@ -351,8 +360,13 @@ export class WhatsappService {
           this.request.text.body = "Su solicitud no ha sido procesada. Verifique la fecha de su sistema";
         }
 
-        status_response_api=errorResponse.statusText;
-        console.log("❌❌❌❌❌❌ Estado de la respuesta de planner:",status_response_api);
+        
+          response_api={          
+          'response_msg':this.request.text.body,
+          'status_response_api': errorResponse.statusText,
+          'body_request': body.date,
+        };
+        console.log("❌❌❌❌❌❌ Estado de la respuesta de planner:",response_api.status_response_api);
 
         // **************************************************************************************************
 
@@ -395,7 +409,7 @@ export class WhatsappService {
       });
 
 
-      return status_response_api;
+      return response_api;
     
   }
 
@@ -769,7 +783,7 @@ export class WhatsappService {
       .where('create_data >=:create_data', {
         create_data: (Date.now() - (3600000 * tiempo)),
       }).getMany(); //.getCount();
-    console.log('⌚⌚⌚ Lista de errores en un tiempo determinado (',tiempo,'): ',errorLength, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (60000 * tiempo),' ⌚');
+    console.log('⌚⌚⌚ Cantidad de errores en un tiempo determinado (',tiempo,'): ',errorLength); // , ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (60000 * tiempo),' ⌚');
 
     return errorLength;
   }
@@ -783,7 +797,7 @@ export class WhatsappService {
       .where('timestamp >=:timestamp', {
         timestamp: (Date.now() - (3600000 * tiempo)),
       }).getMany(); 
-    console.log('⌚⌚⌚ Cantidad de mensajes en un tiempo determinado (',tiempo,'): ',statisticsChat.length, ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (3600000 * tiempo),' ⌚');
+    console.log('⌚⌚⌚ Cantidad de mensajes en un tiempo determinado (',tiempo,'): ',statisticsChat.length); // , ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (3600000 * tiempo),' ⌚');
     
     let lengthOK=0;
     let lengthError=0;
@@ -811,7 +825,7 @@ export class WhatsappService {
 
     const statistics = {
       'countSuccess':lengthOK,
-      'countfail':lengthError,
+      'countFail':lengthError,
       'time':tiempo,
       'msg_success':msg_ok,
       'msg_error':msg_error,

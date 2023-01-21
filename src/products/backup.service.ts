@@ -3,7 +3,7 @@ const { execute } = require('@getvim/execute');
 import  * as compress from 'gzipme';
 import * as fs from 'fs';
 const schedule = require('node-schedule');
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit, ConsoleLogger } from '@nestjs/common';
 // import * as execute from '@getvim/execute';
 
 @Injectable()
@@ -12,7 +12,12 @@ export class BachpuDBService implements OnModuleInit {
     constructor(){}
 
     onModuleInit() {
-        console.log('Se incia el modulo, en ese caso el servicio de backup: ');
+        Logger.getTimestamp(); Logger.log('🐳🐳 log 🐳🐳 Se incia el modulo, en ese caso el servicio de backup 🐳🐳🐳🐳','LOG');
+        Logger.getTimestamp(); Logger.error('🐳🐳 error 🐳🐳 Se incia el modulo, en ese caso el servicio de backup 🐳🐳🐳🐳','EROR');
+        Logger.getTimestamp(); Logger.warn('🐳🐳 warn 🐳🐳 Se incia el modulo, en ese caso el servicio de backup 🐳🐳🐳🐳','WARN');
+        Logger.getTimestamp(); Logger.verbose('🐳🐳 verbose 🐳🐳 Se incia el modulo, en ese caso el servicio de backup 🐳🐳🐳🐳','VERBOSE');
+        Logger.getTimestamp(); Logger.debug('🐳🐳 debug 🐳🐳 Se incia el modulo, en ese caso el servicio de backup 🐳🐳🐳🐳','DEBUG',Logger.getTimestamp());
+        
         const job = schedule.scheduleJob('0 3 * * *', () => this.startSchedule());
     }
 
@@ -37,7 +42,7 @@ export class BachpuDBService implements OnModuleInit {
     takePGBackup() {
 
         let dateschedule = dayjs().format("YYYY-MM-DD HH:mm");
-        console.log('Ingresa a la funcion de backup: ', dateschedule); 
+        Logger.getTimestamp(); Logger.log('Ingresa a la funcion de backup: ', dateschedule); 
         
         // pg_dump -U ${this.dbusername} -h ${this.dbHost} -p ${this.dbPort} -F p -d ${this.dbdatabase} > ${this.backupFileName}
         // execute(`pg_dump -U ${this.dbusername} -h ${this.dbHost} -p ${this.dbPort} -f ${this.backupFileName} -F p -d ${this.dbdatabase}`)

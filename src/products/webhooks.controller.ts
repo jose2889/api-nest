@@ -13,7 +13,7 @@ export class Webhookontroller {
   async createWebhook(@Body() data:any) {
 
     console.log("📜📜📜📜📜 Objeto recibido de Facebook de la API de WhatsApp 📜📜📜 ",JSON.stringify(data));
-    let status_response_api=null;
+    let response_api=null;
     let createProductDto = new CreateChatDto();
     if (data.object) {
       if (
@@ -54,9 +54,9 @@ export class Webhookontroller {
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
             // #################### Se llama a la funcion (AWAIT) para actualiza la reservas ################
-            status_response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, whatsapp_id, acount_business); 
-            createProductDto.status_response_api = status_response_api;
-            console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Respuesta de la funcion: ",createProductDto.status_response_api = status_response_api);
+            response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, whatsapp_id, acount_business); 
+            createProductDto.status_response_api = response_api.status_response_api;
+            console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Respuesta de la funcion: ",createProductDto.status_response_api = response_api.status_response_api);
 
           };
 
@@ -67,9 +67,11 @@ export class Webhookontroller {
           createProductDto.timestamp = timestamp; 
           createProductDto.watsapp_id = whatsapp_id;
           createProductDto.answered_message = true;
+          createProductDto.response_msg = response_api.response_msg;
+          createProductDto = response_api.body_request;
           // createProductDto.status_response_api = status_response_api;
           
-          console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = status_response_api);
+          console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = response_api.status_response_api);
           console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
           // ############## Se llama a la funcion para guardar el mensaje en la DB
           await this.chatService.createWebhook(createProductDto);

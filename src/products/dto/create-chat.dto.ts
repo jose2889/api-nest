@@ -43,6 +43,14 @@ export class CreateChatDto {
 
     @IsString()
     @IsOptional()
+    response_msg: string;
+
+    @IsString()
+    @IsOptional()
+    body_request: string;
+
+    @IsString()
+    @IsOptional()
     context_id_wa_msg:string;
 
     @IsBoolean()

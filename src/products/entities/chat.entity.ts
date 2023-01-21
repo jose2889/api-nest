@@ -70,6 +70,18 @@ export class Chat {
         type: 'text',
         nullable: true
     })
+    response_msg: string;
+
+    @Column({
+        type: 'text',
+        nullable: true
+    })
+    body_request: string;
+
+    @Column({
+        type: 'text',
+        nullable: true
+    })
     context_id_wa_msg: string;
     
     @Column({
