@@ -136,7 +136,7 @@ export class WhatsappService {
   
     let response_api={
       'response_msg': '',
-      'status_response_api':'',
+      'status_response_api':null,
       'body_request': '',
 
     };
@@ -254,10 +254,10 @@ export class WhatsappService {
         
         response_api={
           'response_msg': this.request.text.body,
-          'status_response_api':data.statusText,
+          'status_response_api': data.statusText,
           'body_request': body.date.toString(),
         };
-        console.log("✅✅✅✅✅✅ Estado de la respuesta de planner:",response_api.status_response_api);
+        console.log("✅✅✅✅✅✅ Estado de la respuesta de planner:",response_api);
   
   
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
@@ -312,10 +312,6 @@ export class WhatsappService {
 
         this.request.text.body = "Ocurrio un inconveniente al procesar su solicitud. Disculpe las molestias, estamos trabajando para solventarlo. ";
 
-        
-
-        // console.log("ocurrio un error en la respuesta de planner y no se cancelo", JSON.stringify(errorResponse));
-
         // Si el token no existe en planner, error en escribir el token
         if ((errorResponse.status === 401) && (errorResponse.statusText === "Unauthorized")){
           console.log("👎👎👎👎 Error de solicitud: Unauthorized => ",token);
@@ -367,7 +363,7 @@ export class WhatsappService {
           'status_response_api': errorResponse.statusText,
           'body_request': body.date.toString(),
         };
-        console.log("❌❌❌❌❌❌ Estado de la respuesta de planner:",response_api.status_response_api);
+        console.log("❌❌❌❌❌❌ Estado de la respuesta de planner:",response_api);
 
         // **************************************************************************************************
 
