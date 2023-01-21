@@ -44,7 +44,7 @@ export class Webhookontroller {
         console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia en la base de datos: ", coincidencia);
 
         let tiempoRetraso = Date.now() - timestamp*1000;
-        if (!coincidencia && tiempoRetraso < 900000) {
+        if (!coincidencia && tiempoRetraso < 600000) {
           // console.log(coincidencia)
           if (type == "text") createProductDto.text = data.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
           if (type == "button") {
@@ -69,7 +69,6 @@ export class Webhookontroller {
           createProductDto.answered_message = true;
           createProductDto.response_msg = response_api.response_msg;
           createProductDto = response_api.body_request;
-          // createProductDto.status_response_api = status_response_api;
           
           console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = response_api.status_response_api);
           console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));

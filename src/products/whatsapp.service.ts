@@ -255,13 +255,14 @@ export class WhatsappService {
         response_api={
           'response_msg': this.request.text.body,
           'status_response_api':data.statusText,
-          'body_request': body.date,
+          'body_request': body.date.toString(),
         };
         console.log("✅✅✅✅✅✅ Estado de la respuesta de planner:",response_api.status_response_api);
   
   
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText);
+          console.log("✅✅ Mensaje enviado al usuario po Whatsapp", body.date);
         },
         (error) => {
           console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
@@ -364,7 +365,7 @@ export class WhatsappService {
           response_api={          
           'response_msg':this.request.text.body,
           'status_response_api': errorResponse.statusText,
-          'body_request': body.date,
+          'body_request': body.date.toString(),
         };
         console.log("❌❌❌❌❌❌ Estado de la respuesta de planner:",response_api.status_response_api);
 
@@ -398,6 +399,7 @@ export class WhatsappService {
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
         this.httpService.post(this.baseUrl, this.request).subscribe(res => {
           console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText); 
+          console.log("✅✅ Mensaje enviado al usuario po Whatsapp", body.date);
         },
         (error) => {
           console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
