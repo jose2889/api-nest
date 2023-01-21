@@ -420,14 +420,14 @@ export class WhatsappService {
       "to": to,
       "type": "text",
       "text": {
-          "body": "Estimado cliente esté es un número para envios de mensajes automaticos de KeoPlanner.com"
+          "body": "Estimado cliente esta es un número para envíos de mensajes automáticos de KeoPlanner.com"
       }
     }
 
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, requestMsgDefault));
    
 
-    Logger.getTimestamp; Logger.log(data,'Datos de la respuesta de Facebook')
+    Logger.log(data,'Datos de la respuesta de Facebook');
 
     return response
 
