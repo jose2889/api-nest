@@ -476,44 +476,41 @@ export class WhatsappService {
 
                 <p style="margin: 2px; font-size: 15px"><h3>Los siguientes datos han sido guardados en la bade de datos:</h3></p>
                 <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
-                <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p>
-
+                <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p><br>
                 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
-                <li><strong> Texto recibido: </strong> ${data.text_message || notFounf } </li>
-                <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
-                <li><strong>Timestamp del mensaje: </strong> ${data.timestamp_message || notFounf } </li>
-                <li><strong>Id del mensaje de WhatsApp: </strong> ${data.watsapp_id || notFounf } </li>
+                  <li><strong> Texto recibido: </strong> ${data.text_message || notFounf } </li>
+                  <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
+                  <li><strong>Timestamp del mensaje: </strong> ${data.timestamp_message || notFounf } </li>
+                  <li><strong>Id del mensaje de WhatsApp: </strong> ${data.watsapp_id || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Repuesta enviada al usuario.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
-                <li><strong> Texto enviado: </strong> ${data.respuesta || notFounf } </li>
+                  <li><p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> +${data.phone_number} </p></li>
+                  <li><strong> Texto enviado: </strong> ${data.respuesta || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Datos enviados a la API de Planner.</strong></h3> </p>
 
                 <ul style="font-size: 15px;  margin: 10px 0">
-                  <li><strong> Body enviado: </strong> ${data.body_send || notFounf } </li>
+                  <li><p style="margin: 2px; font-size: 15px"><strong>Method: </strong> ${data.config_method} </p> </li>
+                  <li><strong> Body enviado: (${data.timezone}): </strong> ${data.body_send || notFounf } </li>
+                  <li> <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p> </li>
                   <li><strong> URL API Planner: </strong> ${data.urlplanner || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta de petición a Planner.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
-
                   <li><strong> retCode: </strong> ${ret.retCode || notFounf } </li>
                   <li><strong> retMessage: </strong> ${ret.retMessage || notFounf } </li>
                   <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject) || notFounf } </li>
                 </ul>
 
-                <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p>
-                <p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> +${data.phone_number} </p>
-                <p style="margin: 2px; font-size: 15px"><strong>Method: </strong> ${data.config_method} </p>
-                <p style="margin: 2px; font-size: 15px"><strong>Date (${data.timezone}): </strong> ${JSON.parse(data.config_data).date} </p>
                 <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws &copy; ${anho}</p>
               </div>
             </td>
