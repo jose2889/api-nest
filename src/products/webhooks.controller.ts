@@ -14,9 +14,9 @@ export class Webhookontroller {
 
     console.log("📜📜📜📜📜 Objeto recibido de Facebook de la API de WhatsApp 📜📜📜 ",JSON.stringify(data));
     let response_api={
-      'response_msg': '',
+      'response_msg': null,
       'status_response_api':null,
-      'body_request': '',
+      'body_request': null,
     };
     let createProductDto = new CreateChatDto();
     if (data.object) {
