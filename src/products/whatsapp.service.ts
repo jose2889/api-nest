@@ -420,7 +420,7 @@ export class WhatsappService {
       "to": to,
       "type": "text",
       "text": {
-          "body": "Estimado cliente este mensaje es generado por un sistema automatizado. Dudas o consultas contacte por favor en el sitio web"
+          "body": "Estimado cliente este mensaje es generado por un sistema automatizado. Dudas o consultas contacte por favor contacte con su prestador de servicios o profesional"
       }
     }
 

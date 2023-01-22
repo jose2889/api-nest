@@ -65,6 +65,7 @@ export class Webhookontroller {
             createProductDto.status_response_api = response_api.status_response_api;
             console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Respuesta de la funcion: ",createProductDto.status_response_api = response_api.status_response_api);
             createProductDto.response_msg = response_api.response_msg;
+            createProductDto.body_request = response_api.body_request;
 
           };
 
@@ -75,7 +76,6 @@ export class Webhookontroller {
           createProductDto.timestamp = timestamp; 
           createProductDto.watsapp_id = whatsapp_id;
           createProductDto.answered_message = true;
-          createProductDto.body_request = response_api.body_request;
           
           console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = response_api.status_response_api);
           console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));
