@@ -420,17 +420,19 @@ export class WhatsappService {
       "to": to,
       "type": "text",
       "text": {
-          "body": "Estimado cliente esta es un número para envíos de mensajes automáticos de KeoPlanner.com"
+          "body": "Estimado cliente este mensaje es generado por un sistema automatizado. Dudas o consultas contacte por favor en el sitio web"
       }
     }
 
-    const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, requestMsgDefault));
+    await firstValueFrom(this.httpService.post(this.baseUrl, requestMsgDefault)).then(res =>{
+      Logger.log(res.data,'Datos de la respuesta de Facebook');
+    }).catch(er=>{
+      Logger.error(er.response, 'Datos del error a petición HTTP a facebok');
+      requestMsgDefault.text.body ='Falló envío de mensaje de WhatsApp';
+    });
+
+    return requestMsgDefault.text.body;
    
-
-    Logger.log(data,'Datos de la respuesta de Facebook');
-
-    return response
-
   }
 
     /* ##################################################################################################################################
