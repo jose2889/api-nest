@@ -204,12 +204,12 @@ export class WhatsappService {
     const urlAPIplanner = `${this.urlPlanner}${token}`;
     // console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
 
-      
-      await axios({
+      try {
+      const data = await axios({
           method: 'put',
           url:`${this.urlPlanner}${token}`,
           data: body
-      }).then( data =>{
+      });
 
         // console.log('✅✅✅RESPONSE: ',data);
         // console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
@@ -252,26 +252,25 @@ export class WhatsappService {
           console.log("⭕⭕⭕⭕ Respuesta de planner Bad Request: Cancel => ",token);
         }
         
-        response_api={
-          'response_msg': this.request.text.body,
-          'status_response_api': data.statusText,
-          'body_request': body.date.toString(),
-        };
+        response_api.response_msg = this.request.text.body;
+        response_api.status_response_api = data.statusText;
+        response_api.body_request = body.date.toString();
+
         console.log("✅✅✅✅✅✅ Estado de la respuesta de planner:",response_api);
   
   
-        this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-          console.log("✅✅ Respuesta exitosa del whatsapp", res.statusText);
-          console.log("✅✅ Mensaje enviado al usuario po Whatsapp", this.request.text.body);
-        },
-        (error) => {
-          console.log("🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp ", error);
-        }); 
+        // this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+        //   console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText);
+        //   console.log("✅✅ Mensaje enviado al usuario por Whatsapp", this.request.text.body);
+        // },
+        // (error) => {
+        //   console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
+        // }); 
   
         // ############ Si se recibe respuesta se devuelve el estado de la peticion
         console.log("✅✅✅ SUCCESS PUT ✅✅✅ ");
         // return status_response_api;
-      }). catch ( err => {
+      } catch ( err ) {
       
 
         // console.log("❌❌❌ESTE ES EL ERRROR ", err);
@@ -357,12 +356,10 @@ export class WhatsappService {
           this.request.text.body = "Su solicitud no ha sido procesada. Verifique la fecha de su sistema";
         }
 
-        
-          response_api={          
-          'response_msg':this.request.text.body,
-          'status_response_api': errorResponse.statusText,
-          'body_request': body.date.toString(),
-        };
+        response_api.response_msg =this.request.text.body;
+        response_api.status_response_api = errorResponse.statusText;
+        response_api.body_request = body.date.toString();
+
         console.log("❌❌❌❌❌❌ Estado de la respuesta de planner:",response_api);
 
         // **************************************************************************************************
@@ -393,17 +390,25 @@ export class WhatsappService {
         // **************************************************************************************************
 
         // this.request.text.body = "Gracias por su respuesta, a la brevedad pronto sera contactado."
-        this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-          console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText); 
-          console.log("✅✅ Mensaje enviado al usuario po Whatsapp", this.request.text.body);
-        },
-        (error) => {
-          console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
-        }); 
+        // this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+        //   console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText); 
+        //   console.log("✅✅ Mensaje enviado al usuario por Whatsapp", this.request.text.body);
+        // },
+        // (error) => {
+        //   console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
+        // }); 
 
-        console.log("❌❌❌ SUCCESS PUT ❌❌❌");
+        console.log("❌❌❌ FAIL PUT ❌❌❌");
         // return status_response_api;
 
+      };
+
+      this.httpService.post(this.baseUrl, this.request).subscribe(res => {
+        console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText);
+        console.log("✅✅ Mensaje enviado al usuario por Whatsapp", this.request.text.body);
+      },
+      (error) => {
+        console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
       });
 
 
