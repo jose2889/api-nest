@@ -125,7 +125,7 @@ export class WhatsappService {
     return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
   }  
 
-  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, watsapp_id: string, acount_business?:any) {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, whatsapp_id: string, acount_business?:any) {
     console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
     console.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
@@ -203,6 +203,10 @@ export class WhatsappService {
 
     const urlAPIplanner = `${this.urlPlanner}${token}`;
     // console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
+
+    let coincidencia = await this.validateIDwatsappMessage(whatsapp_id);
+
+    if (coincidencia===false){
 
       try {
       const data = await axios({
@@ -377,7 +381,7 @@ export class WhatsappService {
           "body_send":JSON.stringify(body),
           "respuesta":  this.request.text.body,
           "timestamp_message": timestamp_message,
-          "watsapp_id": watsapp_id,
+          "whatsapp_id": whatsapp_id,
           "timezone": timezone,
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
@@ -411,6 +415,7 @@ export class WhatsappService {
         console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
       });
 
+    }
 
       return response_api;
     
@@ -489,7 +494,7 @@ export class WhatsappService {
                   <li><strong> Texto recibido: </strong> ${data.text_message || notFounf } </li>
                   <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
                   <li><strong>Timestamp del mensaje: </strong> ${data.timestamp_message || notFounf } </li>
-                  <li><strong>Id del mensaje de WhatsApp: </strong> ${data.watsapp_id || notFounf } </li>
+                  <li><strong>Id del mensaje de WhatsApp: </strong> ${data.whatsapp_id || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Repuesta enviada al usuario.</strong></h3> </p>
