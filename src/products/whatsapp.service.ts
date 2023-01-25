@@ -206,7 +206,7 @@ export class WhatsappService {
 
     let coincidencia = await this.validateIDwatsappMessage(whatsapp_id);
 
-    if (coincidencia===false){
+    if (!coincidencia){
 
       try {
       const data = await axios({
@@ -829,35 +829,64 @@ export class WhatsappService {
     console.log('⌚⌚⌚ Cantidad de mensajes en un tiempo determinado (',tiempo,'): ',statisticsChat.length); // , ' ⌚ ',Date.now(),' ⌚ ',Date.now() - (3600000 * tiempo),' ⌚');
     
     let lengthOK=0;
-    let lengthError=0;
+    let lengthErrorBadRequest=0;
+    let lengthErrorNotAcceptable=0;
+    let lengthErrorNotFound=0;
+    let lengthErrorOther=0;
     let msg_ok=[];
-    let msg_error=[];
+    let msg_error_bag_request=[];
+    let msg_error_not_acceptable=[];
+    let msg_error_not_found=[];
+    let msg_error_other=[];
 
     if(statisticsChat){
       statisticsChat.forEach(element => {
         if (element.type === 'button'){
-          if (element.status_response_api === 'OK'){
-            // console.log(element)
+          if (element.status_response_api != null){ 
+            console.log(element);
+          } else if (element.status_response_api === 'OK'){
+            // console.log(element);
             ++lengthOK;
             msg_ok.push(element);
-          }else if (element.status_response_api != null){ 
-            // console.log(element)
-            ++lengthError;
-            msg_error.push(element);
+          }else if (element.status_response_api === 'Bad Request'){
+            // console.log(element);
+            ++lengthErrorBadRequest;
+            msg_error_bag_request.push(element);
+          }else if (element.status_response_api === 'Not Acceptable'){
+            // console.log(element);  
+            ++lengthErrorNotAcceptable;
+            msg_error_not_acceptable.push(element);
+          }else if (element.status_response_api === 'Not Found'){
+            // console.log(element);  Not Found
+            ++lengthErrorNotFound;
+            msg_error_not_found.push(element);
+          }else {
+            // console.log(element);  Not Found
+            ++lengthErrorOther;
+            msg_error_other.push(element);
           }
         }
       });
     }
 
     console.log('Cantidad de respuesta de planner exitosas: ',lengthOK);
-    console.log('Cantidad de respuesta de planner on error: ',lengthError);
+    console.log('Cantidad de respuesta de planner on error (Type => BadRequest) : ',lengthErrorBadRequest);
+    console.log('Cantidad de respuesta de planner on error (Type => NotAcceptable) : ',lengthErrorNotAcceptable);
+    console.log('Cantidad de respuesta de planner on error (Type => NotFound) : ',lengthErrorNotFound);
+    console.log('Cantidad de respuesta de planner on error (Type => Other) : ',lengthErrorOther);
 
     const statistics = {
       'countSuccess':lengthOK,
-      'countFail':lengthError,
+      'countFailBarRequest':lengthErrorBadRequest,
+      'countFailNotAcceptable':lengthErrorNotAcceptable,
+      'countFailNotFound':lengthErrorNotFound,
+      'countFailOther':lengthErrorOther,
       'time':tiempo,
       'msg_success':msg_ok,
-      'msg_error':msg_error,
+      'msg_error_bag_request':msg_error_bag_request,
+      'msg_error_not_acceptable':msg_error_not_acceptable,
+      'msg_error_not_found':msg_error_not_found,
+      'msg_error_other':msg_error_other,
     }
 
     return statistics;
