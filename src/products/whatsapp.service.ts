@@ -206,7 +206,7 @@ export class WhatsappService {
 
     let coincidencia = await this.validateIDwatsappMessage(whatsapp_id);
 
-    if (!coincidencia){
+    // if (!coincidencia){
 
       try {
       const data = await axios({
@@ -415,7 +415,7 @@ export class WhatsappService {
         console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
       });
 
-    }
+    // }
 
       return response_api;
     
