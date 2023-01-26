@@ -846,7 +846,7 @@ export class WhatsappService {
     if(statisticsChat){
       statisticsChat.forEach(element => {
         if (element.type === 'button'){
-          if (element.status_response_api != null){ 
+          if (element.status_response_api === null){ 
             console.log(element);
           } else if (element.status_response_api === 'OK'){
             // console.log(element);
