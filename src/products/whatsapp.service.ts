@@ -881,6 +881,7 @@ export class WhatsappService {
       });
     }
 
+    console.log('Periodo de tiempo de la metrica: ',tiempo, tiempo>1?' horas':'hora');
     console.log('Cantidad de respuesta de planner exitosas: ',lengthOK);
     console.log('Cantidad de respuesta de planner on error (Type => BadRequest) : ',lengthErrorBadRequest);
     console.log('Cantidad de respuesta de planner on error (Type => NotAcceptable) : ',lengthErrorNotAcceptable);
