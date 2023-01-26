@@ -885,6 +885,8 @@ export class WhatsappService {
     console.log('Cantidad de respuesta de planner on error (Type => BadRequest) : ',lengthErrorBadRequest);
     console.log('Cantidad de respuesta de planner on error (Type => NotAcceptable) : ',lengthErrorNotAcceptable);
     console.log('Cantidad de respuesta de planner on error (Type => NotFound) : ',lengthErrorNotFound);
+    console.log('Cantidad de respuesta de planner on error (Type => Unauthorized) : ',lengthErrorUnauthorized);
+    console.log('Cantidad de respuesta de planner on error (Type => Conflict) : ',lengthErrorConflict);
     console.log('Cantidad de respuesta de planner on error (Type => Other) : ',lengthErrorOther);
 
     const statistics = {
@@ -892,12 +894,16 @@ export class WhatsappService {
       'countFailBarRequest':lengthErrorBadRequest,
       'countFailNotAcceptable':lengthErrorNotAcceptable,
       'countFailNotFound':lengthErrorNotFound,
+      'countFailUnauthorized':lengthErrorUnauthorized,
+      'countFailConflict':lengthErrorConflict,      
       'countFailOther':lengthErrorOther,
       'time':tiempo,
       'msg_success':msg_ok,
       'msg_error_bag_request':msg_error_bag_request,
       'msg_error_not_acceptable':msg_error_not_acceptable,
       'msg_error_not_found':msg_error_not_found,
+      'msg_error_unauthorized':msg_error_unauthorized,
+      'msg_error_conflict':msg_error_conflict,
       'msg_error_other':msg_error_other,
     }
 
