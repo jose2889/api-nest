@@ -832,11 +832,15 @@ export class WhatsappService {
     let lengthErrorBadRequest=0;
     let lengthErrorNotAcceptable=0;
     let lengthErrorNotFound=0;
+    let lengthErrorUnauthorized=0;
+    let lengthErrorConflict=0;
     let lengthErrorOther=0;
     let msg_ok=[];
     let msg_error_bag_request=[];
     let msg_error_not_acceptable=[];
     let msg_error_not_found=[];
+    let msg_error_unauthorized=[];
+    let msg_error_conflict=[];
     let msg_error_other=[];
 
     if(statisticsChat){
@@ -860,6 +864,14 @@ export class WhatsappService {
             // console.log(element);  Not Found
             ++lengthErrorNotFound;
             msg_error_not_found.push(element);
+          }else if (element.status_response_api === 'Unauthorized'){
+            // console.log(element);  Not Found
+            ++lengthErrorUnauthorized;
+            msg_error_unauthorized.push(element);
+          }else if (element.status_response_api === 'Conflict'){
+            // console.log(element);  Not Found
+            ++lengthErrorConflict;
+            msg_error_conflict.push(element);
           }else {
             // console.log(element);  Not Found
             ++lengthErrorOther;
