@@ -42,6 +42,7 @@ export class WhatsappService {
   private readonly logger = new Logger('WhatsappService');
   baseUrl = process.env.BASE_URL_PROD; //BASEURL.baseUrlWhatsappCloudApiProd;
   urlPlanner = process.env.URLPLANNER; 
+  origin = '&origin=ws';
   
   request = {
     "messaging_product": "whatsapp",
@@ -201,7 +202,7 @@ export class WhatsappService {
     // let data; 
 
 
-    const urlAPIplanner = `${this.urlPlanner}${token}`;
+    const urlAPIplanner = `${this.urlPlanner}${token}${origin}`;
     // console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
 
     let coincidencia = await this.validateIDwatsappMessage(whatsapp_id);
@@ -211,7 +212,7 @@ export class WhatsappService {
       try {
       const data = await axios({
           method: 'put',
-          url:`${this.urlPlanner}${token}`,
+          url:`${this.urlPlanner}${token}${this.origin}`,
           data: body
       });
 
