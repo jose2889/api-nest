@@ -216,6 +216,7 @@ export class WhatsappService {
           data: body
       });
 
+        Logger.log(`${this.urlPlanner}${token}${this.origin}`,'URL Planner Token')
         // console.log('✅✅✅RESPONSE: ',data);
         // console.log("✅✅✅✅✅✅ Respuesta exitosa de planner ✅✅✅✅✅✅");
         // console.log("⏩⏩⏩⏩⏩⏩⏩⏩ Data de la respuesta: ", data.data);
