@@ -205,7 +205,7 @@ export class WhatsappService {
     const urlAPIplanner = `${this.urlPlanner}${token}${origin}`;
     // console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
 
-    let coincidencia = await this.validateIDwatsappMessage(whatsapp_id);
+    // let coincidencia = await this.validateIDwatsappMessage(whatsapp_id);
 
     // if (!coincidencia){
 
