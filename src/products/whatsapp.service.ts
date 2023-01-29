@@ -127,7 +127,7 @@ export class WhatsappService {
   }  
 
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, whatsapp_id: string, acount_business?:any) {
-    console.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄");
+    Logger.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄", 'UPDATE RESERVATION');
     console.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
     // console.log("⏩⏩ Datos del negocio recibido: ", acount_business);
@@ -203,7 +203,7 @@ export class WhatsappService {
 
 
     const urlAPIplanner = `${this.urlPlanner}${token}${this.origin}`;
-    console.log("⏩⏩ urlAPIplanner: ", urlAPIplanner);
+    Logger.log(urlAPIplanner,"⏩⏩ urlAPIplanner: ");
 
     // let coincidencia = await this.validateIDwatsappMessage(whatsapp_id);
 
