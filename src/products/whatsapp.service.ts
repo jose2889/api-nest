@@ -838,6 +838,7 @@ export class WhatsappService {
     let lengthErrorConflict=0;
     let lengthErrorUnprocessableEntity=0;
     let lengthErrorOther=0;
+    let lengthMsgText=0;
     let msg_ok=[];
     let msg_error_bag_request=[];
     let msg_error_not_acceptable=[];
@@ -846,6 +847,7 @@ export class WhatsappService {
     let msg_error_conflict=[];
     let msg_error_unprocessable_entity=[];
     let msg_error_other=[];
+    let msg_type_text=[];
 
     if(statisticsChat){
       statisticsChat.forEach(element => {
@@ -885,6 +887,9 @@ export class WhatsappService {
             ++lengthErrorOther;
             msg_error_other.push(element);
           }
+        }else if (element.type==='text'){
+          ++lengthMsgText;
+          msg_type_text.push(element);
         }
       });
     }
@@ -907,6 +912,7 @@ export class WhatsappService {
       'countFailConflict':lengthErrorConflict,      
       'countFailUnprocessableEntity':lengthErrorUnprocessableEntity,      
       'countFailOther':lengthErrorOther,
+      'countMsgText':lengthMsgText,
       'time':tiempo,
       'msg_success':msg_ok,
       'msg_error_bag_request':msg_error_bag_request,
@@ -916,6 +922,7 @@ export class WhatsappService {
       'msg_error_conflict':msg_error_conflict,
       'msg_error_unprocessable_entity':msg_error_unprocessable_entity,
       'msg_error_other':msg_error_other,
+      'msg_type_text':msg_type_text,
     }
 
     return statistics;
