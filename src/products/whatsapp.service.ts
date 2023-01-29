@@ -836,6 +836,7 @@ export class WhatsappService {
     let lengthErrorNotFound=0;
     let lengthErrorUnauthorized=0;
     let lengthErrorConflict=0;
+    let lengthErrorUnprocessableEntity=0;
     let lengthErrorOther=0;
     let msg_ok=[];
     let msg_error_bag_request=[];
@@ -843,6 +844,7 @@ export class WhatsappService {
     let msg_error_not_found=[];
     let msg_error_unauthorized=[];
     let msg_error_conflict=[];
+    let msg_error_unprocessable_entity=[];
     let msg_error_other=[];
 
     if(statisticsChat){
@@ -874,6 +876,10 @@ export class WhatsappService {
             // console.log(element);  Not Found
             ++lengthErrorConflict;
             msg_error_conflict.push(element);
+          }else if (element.status_response_api === 'Unprocessable Entity'){
+            // console.log(element);  Not Found
+            ++lengthErrorUnprocessableEntity;
+            msg_error_unprocessable_entity.push(element);
           }else {
             // console.log(element);  Not Found
             ++lengthErrorOther;
@@ -899,6 +905,7 @@ export class WhatsappService {
       'countFailNotFound':lengthErrorNotFound,
       'countFailUnauthorized':lengthErrorUnauthorized,
       'countFailConflict':lengthErrorConflict,      
+      'countFailUnprocessableEntity':lengthErrorUnprocessableEntity,      
       'countFailOther':lengthErrorOther,
       'time':tiempo,
       'msg_success':msg_ok,
@@ -907,6 +914,7 @@ export class WhatsappService {
       'msg_error_not_found':msg_error_not_found,
       'msg_error_unauthorized':msg_error_unauthorized,
       'msg_error_conflict':msg_error_conflict,
+      'msg_error_unprocessable_entity':msg_error_unprocessable_entity,
       'msg_error_other':msg_error_other,
     }
 
