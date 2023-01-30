@@ -824,7 +824,7 @@ export class WhatsappService {
 
   async findStatisticsMsgBotonPeriodo(startTime: number, endTime:number){
     const queryBuilder = this.chatRepository.createQueryBuilder();
-    console.log(`Ingresa a buscar datos entre periodo entre ${Date(startTime).format('YYY-MM-DD HH:MM')} y ${Date(endTime).format('YYY-MM-DD HH:MM')}`);
+    console.log(`Ingresa a buscar datos entre periodo`);
     if (!endTime) endTime = Date.now();
     let aux:number;
     if (endTime<startTime){
@@ -837,11 +837,65 @@ export class WhatsappService {
         startTime: ( startTime),
         endTime: ( endTime),
       }).getMany(); 
-    console.log('Datos entre : ',startTime, ' y ',endTime, ' :',statisticsChat);
+    console.log('Datos entre : ',startTime, ' y ',endTime);
+
+    let lengtOkAsistir=0;
+    let lengtErrorAsistir=0;
+    let lengtOkAnular=0;
+    let lengtErrorAnular=0;
+    let mgs_OkAsistir=[];
+    let mgs_ErrorAsistir=[];
+    let mgs_OkAnular=[];
+    let mgs_ErrorAnular=[];
+
+    if(statisticsChat){
+      statisticsChat.forEach(element => {
+        if (element.type === 'button'){
+          if (element.status_response_api === null){ 
+            console.log(element);
+          } else if (element.status_response_api === 'OK'){
+            if (element.text==='Asistiré'){
+              // console.log(element);
+              ++lengtOkAsistir;
+              mgs_OkAsistir.push(element);
+            }else if (element.text==='Anular cita'){
+              // console.log(element);
+              ++lengtOkAnular;
+              mgs_OkAnular.push(element);
+            }          
+          }else {
+            if (element.text==='Asistiré'){
+              // console.log(element);
+              ++lengtErrorAsistir;
+              mgs_ErrorAsistir.push(element);
+            }else if (element.text==='Anular cita'){
+              // console.log(element);
+              ++lengtErrorAnular;
+              mgs_ErrorAnular.push(element);
+            }
+          }
+        }
+      })
+    };
+
+    const statistics = {
+      'countSuccessAsistir':lengtOkAsistir,
+      'countSuccessAnular':lengtOkAnular,
+      'countFailAsistir':lengtErrorAsistir,
+      'countFailAnular':lengtErrorAnular,
+      'starTime':startTime,
+      'endTime':endTime,
+      'msg_success_asistir':mgs_OkAsistir,
+      'msg_success_anular':mgs_OkAnular,
+      'msg_error_asistir':mgs_ErrorAsistir,
+      'msg_error_anular':mgs_ErrorAnular,
+    }
+
+    return statistics;
   }
 
-  async findStatisticsBotonPeriodo(startTime: number,endTime:number){
-    console.log(`Ingresa a buscar datos entre periodo entre ${Date(startTime).format('YYY-MM-DD HH:MM')} y ${Date(endTime).format('YYY-MM-DD HH:MM')}`);
+  async findStatisticsBotonPeriodo(startTime:number,endTime:number){
+    console.log(`Ingresa a buscar datos entre periodo`);
     const queryBuilder = this.chatRepository.createQueryBuilder();
     if (!endTime) endTime = Date.now();
     let aux:number;
@@ -855,7 +909,108 @@ export class WhatsappService {
         startTime: (startTime),
         endTime: ( endTime),
       }).getMany(); 
-    console.log('Datos entre : ',startTime, ' y ',endTime, ' :',statisticsChat);
+    console.log('Datos entre : ',startTime, ' y ',endTime);
+
+    let lengthOK=0;
+    let lengthErrorBadRequest=0;
+    let lengthErrorNotAcceptable=0;
+    let lengthErrorNotFound=0;
+    let lengthErrorUnauthorized=0;
+    let lengthErrorConflict=0;
+    let lengthErrorUnprocessableEntity=0;
+    let lengthErrorOther=0;
+    let lengthMsgText=0;
+    let msg_ok=[];
+    let msg_error_bag_request=[];
+    let msg_error_not_acceptable=[];
+    let msg_error_not_found=[];
+    let msg_error_unauthorized=[];
+    let msg_error_conflict=[];
+    let msg_error_unprocessable_entity=[];
+    let msg_error_other=[];
+    let msg_type_text=[];
+
+  
+
+    if(statisticsChat){
+      statisticsChat.forEach(element => {
+        if (element.type === 'button'){
+          if (element.status_response_api === null){ 
+            console.log(element);
+          } else if (element.status_response_api === 'OK'){
+            // console.log(element);
+            ++lengthOK;
+            msg_ok.push(element);
+          }else if (element.status_response_api === 'Bad Request'){
+            // console.log(element);
+            ++lengthErrorBadRequest;
+            msg_error_bag_request.push(element);
+          }else if (element.status_response_api === 'Not Acceptable'){
+            // console.log(element);  
+            ++lengthErrorNotAcceptable;
+            msg_error_not_acceptable.push(element);
+          }else if (element.status_response_api === 'Not Found'){
+            // console.log(element);  Not Found
+            ++lengthErrorNotFound;
+            msg_error_not_found.push(element);
+          }else if (element.status_response_api === 'Unauthorized'){
+            // console.log(element);  Not Found
+            ++lengthErrorUnauthorized;
+            msg_error_unauthorized.push(element);
+          }else if (element.status_response_api === 'Conflict'){
+            // console.log(element);  Not Found
+            ++lengthErrorConflict;
+            msg_error_conflict.push(element);
+          }else if (element.status_response_api === 'Unprocessable Entity'){
+            // console.log(element);  Not Found
+            ++lengthErrorUnprocessableEntity;
+            msg_error_unprocessable_entity.push(element);
+          }else {
+            // console.log(element);  Not Found
+            ++lengthErrorOther;
+            msg_error_other.push(element);
+          }
+        }else if (element.type==='text'){
+          ++lengthMsgText;
+          msg_type_text.push(element);
+        }
+      });
+    }
+
+    console.log('Periodo de tiempo de la metrica');
+    console.log('Cantidad de respuesta de planner exitosas: ',lengthOK);
+    console.log('Cantidad de respuesta de planner on error (Type => BadRequest) : ',lengthErrorBadRequest);
+    console.log('Cantidad de respuesta de planner on error (Type => NotAcceptable) : ',lengthErrorNotAcceptable);
+    console.log('Cantidad de respuesta de planner on error (Type => NotFound) : ',lengthErrorNotFound);
+    console.log('Cantidad de respuesta de planner on error (Type => Unauthorized) : ',lengthErrorUnauthorized);
+    console.log('Cantidad de respuesta de planner on error (Type => Conflict) : ',lengthErrorConflict);
+    console.log('Cantidad de respuesta de planner on error (Type => Other) : ',lengthErrorOther);
+
+    const statistics = {
+      'countSuccess':lengthOK,
+      'countFailBadRequest':lengthErrorBadRequest,
+      'countFailNotAcceptable':lengthErrorNotAcceptable,
+      'countFailNotFound':lengthErrorNotFound,
+      'countFailUnauthorized':lengthErrorUnauthorized,
+      'countFailConflict':lengthErrorConflict,      
+      'countFailUnprocessableEntity':lengthErrorUnprocessableEntity,      
+      'countFailOther':lengthErrorOther,
+      'countMsgText':lengthMsgText,
+      'starTime':startTime,
+      'endTime':endTime,
+      'msg_success':msg_ok,
+      'msg_error_bag_request':msg_error_bag_request,
+      'msg_error_not_acceptable':msg_error_not_acceptable,
+      'msg_error_not_found':msg_error_not_found,
+      'msg_error_unauthorized':msg_error_unauthorized,
+      'msg_error_conflict':msg_error_conflict,
+      'msg_error_unprocessable_entity':msg_error_unprocessable_entity,
+      'msg_error_other':msg_error_other,
+      'msg_type_text':msg_type_text,
+    }
+
+    return statistics;
+
   }
 
 

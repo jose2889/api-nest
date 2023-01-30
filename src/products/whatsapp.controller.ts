@@ -147,7 +147,7 @@ export class WhatsappController {
   findStatisticsBotonPeriodo(@Query('start-time') startTime: number, @Query('end-time') endTime:number=null) {
     if(!endTime) endTime = Date.now();
     console.log('⌚⌚ Se mostrara las estadisticas entre "', startTime, '" y "',endTime,'".');
-    return this.chatService.findStatisticsMsgBotonPeriodo(startTime,endTime);
+    return this.chatService.findStatisticsBotonPeriodo(startTime,endTime);
   }
   
   // ########################################### Creacion de  los endpoint paa mostrar los egistro de envios de plantillas ######################################
