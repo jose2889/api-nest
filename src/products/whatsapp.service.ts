@@ -824,6 +824,7 @@ export class WhatsappService {
 
   async findStatisticsMsgBotonPeriodo(startTime: number, endTime:number){
     const queryBuilder = this.chatRepository.createQueryBuilder();
+    console.log(`Ingresa a buscar datos entre periodo entre ${Date(startTime).format('YYY-MM-DD HH:MM')} y ${Date(endTime).format('YYY-MM-DD HH:MM')}`);
     if (!endTime) endTime = Date.now();
     let aux:number;
     if (endTime<startTime){
@@ -833,13 +834,14 @@ export class WhatsappService {
     }
     const statisticsChat = await queryBuilder
       .where('timestamp >=:startTime AND timestamp <=:endTime', {
-        startTime: ((3600000 * startTime)),
-        endTime: ((3600000 * endTime)),
+        startTime: ( startTime),
+        endTime: ( endTime),
       }).getMany(); 
     console.log('Datos entre : ',startTime, ' y ',endTime, ' :',statisticsChat);
   }
 
   async findStatisticsBotonPeriodo(startTime: number,endTime:number){
+    console.log(`Ingresa a buscar datos entre periodo entre ${Date(startTime).format('YYY-MM-DD HH:MM')} y ${Date(endTime).format('YYY-MM-DD HH:MM')}`);
     const queryBuilder = this.chatRepository.createQueryBuilder();
     if (!endTime) endTime = Date.now();
     let aux:number;
@@ -850,8 +852,8 @@ export class WhatsappService {
     }
     const statisticsChat = await queryBuilder
       .where('timestamp >=:startTime AND timestamp <=:endTime', {
-        startTime: ((3600000 * startTime)),
-        endTime: ((3600000 * endTime)),
+        startTime: (startTime),
+        endTime: ( endTime),
       }).getMany(); 
     console.log('Datos entre : ',startTime, ' y ',endTime, ' :',statisticsChat);
   }
