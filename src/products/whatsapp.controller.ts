@@ -137,14 +137,14 @@ export class WhatsappController {
   }
 
   @Get('statistics-periodo/')
-  findStatisticsPeriodo(@Query('start-time') startTime: number, @Query('end') endTime:number=null) {
+  findStatisticsPeriodo(@Query('start-time') startTime: number, @Query('end-time') endTime:number=null) {
     if(!endTime) endTime = Date.now();
     console.log('⌚⌚ Se mostrara las estadisticas entre "', startTime, '" y "',endTime,'".');
     return this.chatService.findStatisticsMsgBotonPeriodo(startTime,endTime);
   }
 
-  @Get('statistics-button_periodo/')
-  findStatisticsBotonPeriodo(@Query('start-time') startTime: number, @Query('end') endTime:number=null) {
+  @Get('statistics-button-periodo/')
+  findStatisticsBotonPeriodo(@Query('start-time') startTime: number, @Query('end-time') endTime:number=null) {
     if(!endTime) endTime = Date.now();
     console.log('⌚⌚ Se mostrara las estadisticas entre "', startTime, '" y "',endTime,'".');
     return this.chatService.findStatisticsMsgBotonPeriodo(startTime,endTime);
