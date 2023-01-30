@@ -352,7 +352,7 @@ export class WhatsappService {
         // Si el status es 400 con Bad Request y retMessage es 1 
         if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") && ((errorResponse.data.retMessage === "1") || (errorResponse.data.retMessage === 1) ) && ((errorResponse.data.retCode === "1") || (errorResponse.data.retCode === 1))){
           console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
-          this.request.text.body = "Su solicitud no ha sido procesada. La reservaba ya había sido confimada";
+          this.request.text.body = "Su solicitud no ha sido procesada. La reservaba ya había sido confirmada";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
         }
 
@@ -821,6 +821,27 @@ export class WhatsappService {
   
 
   //######################################################################################################################################
+
+  async findStatisticsMsgBotonPeriodo(startTime: number, endTime:number){
+    const queryBuilder = this.chatRepository.createQueryBuilder();
+    const statisticsChat = await queryBuilder
+      .where('timestamp >=:startTime AND timestamp <=:endTime', {
+        startTime: ((3600000 * startTime)),
+        endTime: ((3600000 * endTime)),
+      }).getMany(); 
+    console.log('Datos entre : ',startTime, ' y ',endTime, ' :',statisticsChat);
+  }
+
+  async findStatisticsBotonPeriodo(startTime: number,endTime:number){
+    const queryBuilder = this.chatRepository.createQueryBuilder();
+    const statisticsChat = await queryBuilder
+      .where('timestamp >=:startTime AND timestamp <=:endTime', {
+        startTime: ((3600000 * startTime)),
+        endTime: ((3600000 * endTime)),
+      }).getMany(); 
+    console.log('Datos entre : ',startTime, ' y ',endTime, ' :',statisticsChat);
+  }
+
 
   async findStatisticsMsgBoton(tiempo: number){
     const queryBuilder = this.chatRepository.createQueryBuilder();

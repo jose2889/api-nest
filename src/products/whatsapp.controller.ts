@@ -135,6 +135,20 @@ export class WhatsappController {
     console.log('⌚⌚ Se mostrara las estadisticas de las ultimas "', time, '" horas');
     return this.chatService.findStatisticsMsgBoton(time);
   }
+
+  @Get('statistics-periodo/')
+  findStatisticsPeriodo(@Query('start-time') startTime: number, @Query('end') endTime:number=null) {
+    if(!endTime) endTime = Date.now();
+    console.log('⌚⌚ Se mostrara las estadisticas entre "', startTime, '" y "',endTime,'".');
+    return this.chatService.findStatisticsMsgBotonPeriodo(startTime,endTime);
+  }
+
+  @Get('statistics-button_periodo/')
+  findStatisticsBotonPeriodo(@Query('start-time') startTime: number, @Query('end') endTime:number=null) {
+    if(!endTime) endTime = Date.now();
+    console.log('⌚⌚ Se mostrara las estadisticas entre "', startTime, '" y "',endTime,'".');
+    return this.chatService.findStatisticsMsgBotonPeriodo(startTime,endTime);
+  }
   
   // ########################################### Creacion de  los endpoint paa mostrar los egistro de envios de plantillas ######################################
 
