@@ -822,6 +822,70 @@ export class WhatsappService {
 
   //######################################################################################################################################
 
+  async findStatisticsMsgBoton(tiempo: number){
+    const queryBuilder = this.chatRepository.createQueryBuilder();
+    const statisticsChat = await queryBuilder
+      .where('timestamp >=:timestamp', {
+        timestamp: (Date.now() - (3600000 * tiempo)),
+      }).getMany(); 
+
+    let lengtOkAsistir=0;
+    let lengtErrorAsistir=0;
+    let lengtOkAnular=0;
+    let lengtErrorAnular=0;
+    let mgs_OkAsistir=[];
+    let mgs_ErrorAsistir=[];
+    let mgs_OkAnular=[];
+    let mgs_ErrorAnular=[];
+
+    if(statisticsChat){
+      statisticsChat.forEach(element => {
+        if (element.type === 'button'){
+          if (element.status_response_api === null){ 
+            console.log(element);
+          } else if (element.status_response_api === 'OK'){
+            if (element.text==='Asistiré'){
+              // console.log(element);
+              ++lengtOkAsistir;
+              mgs_OkAsistir.push(element);
+            }else if (element.text==='Anular cita'){
+              // console.log(element);
+              ++lengtOkAnular;
+              mgs_OkAnular.push(element);
+            }          
+          }else {
+            if (element.text==='Asistiré'){
+              // console.log(element);
+              ++lengtErrorAsistir;
+              mgs_ErrorAsistir.push(element);
+            }else if (element.text==='Anular cita'){
+              // console.log(element);
+              ++lengtErrorAnular;
+              mgs_ErrorAnular.push(element);
+            }
+          }
+        }
+      })
+    };
+
+    const statistics = {
+      'countSuccessAsistir':lengtOkAsistir,
+      'countSuccessAnular':lengtOkAnular,
+      'countFailAsistir':lengtErrorAsistir,
+      'countFailAnular':lengtErrorAnular,
+      'time':tiempo,
+      'msg_success_asistir':mgs_OkAsistir,
+      'msg_success_anular':mgs_OkAnular,
+      'msg_error_asistir':mgs_ErrorAsistir,
+      'msg_error_anular':mgs_ErrorAnular,
+    }
+
+    return statistics;
+
+
+  }
+
+
   async findStatistics24(tiempo: number){
     const queryBuilder = this.chatRepository.createQueryBuilder();
     const statisticsChat = await queryBuilder
@@ -848,6 +912,8 @@ export class WhatsappService {
     let msg_error_unprocessable_entity=[];
     let msg_error_other=[];
     let msg_type_text=[];
+
+  
 
     if(statisticsChat){
       statisticsChat.forEach(element => {
@@ -905,7 +971,7 @@ export class WhatsappService {
 
     const statistics = {
       'countSuccess':lengthOK,
-      'countFailBarRequest':lengthErrorBadRequest,
+      'countFailBadRequest':lengthErrorBadRequest,
       'countFailNotAcceptable':lengthErrorNotAcceptable,
       'countFailNotFound':lengthErrorNotFound,
       'countFailUnauthorized':lengthErrorUnauthorized,
