@@ -824,6 +824,13 @@ export class WhatsappService {
 
   async findStatisticsMsgBotonPeriodo(startTime: number, endTime:number){
     const queryBuilder = this.chatRepository.createQueryBuilder();
+    if (!endTime) endTime = Date.now();
+    let aux:number;
+    if (endTime<startTime){
+      aux=endTime;
+      endTime=startTime;
+      startTime=aux;
+    }
     const statisticsChat = await queryBuilder
       .where('timestamp >=:startTime AND timestamp <=:endTime', {
         startTime: ((3600000 * startTime)),
@@ -834,6 +841,13 @@ export class WhatsappService {
 
   async findStatisticsBotonPeriodo(startTime: number,endTime:number){
     const queryBuilder = this.chatRepository.createQueryBuilder();
+    if (!endTime) endTime = Date.now();
+    let aux:number;
+    if (endTime<startTime){
+      aux=endTime;
+      endTime=startTime;
+      startTime=aux;
+    }
     const statisticsChat = await queryBuilder
       .where('timestamp >=:startTime AND timestamp <=:endTime', {
         startTime: ((3600000 * startTime)),
