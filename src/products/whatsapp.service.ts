@@ -977,15 +977,6 @@ export class WhatsappService {
       });
     }
 
-    console.log('Periodo de tiempo de la metrica');
-    console.log('Cantidad de respuesta de planner exitosas: ',lengthOK);
-    console.log('Cantidad de respuesta de planner on error (Type => BadRequest) : ',lengthErrorBadRequest);
-    console.log('Cantidad de respuesta de planner on error (Type => NotAcceptable) : ',lengthErrorNotAcceptable);
-    console.log('Cantidad de respuesta de planner on error (Type => NotFound) : ',lengthErrorNotFound);
-    console.log('Cantidad de respuesta de planner on error (Type => Unauthorized) : ',lengthErrorUnauthorized);
-    console.log('Cantidad de respuesta de planner on error (Type => Conflict) : ',lengthErrorConflict);
-    console.log('Cantidad de respuesta de planner on error (Type => Other) : ',lengthErrorOther);
-
     const statistics = {
       'countSuccess':lengthOK,
       'countFailBadRequest':lengthErrorBadRequest,
@@ -1151,15 +1142,6 @@ export class WhatsappService {
         }
       });
     }
-
-    console.log('Periodo de tiempo de la metrica: ',tiempo, tiempo>1?' horas':'hora');
-    console.log('Cantidad de respuesta de planner exitosas: ',lengthOK);
-    console.log('Cantidad de respuesta de planner on error (Type => BadRequest) : ',lengthErrorBadRequest);
-    console.log('Cantidad de respuesta de planner on error (Type => NotAcceptable) : ',lengthErrorNotAcceptable);
-    console.log('Cantidad de respuesta de planner on error (Type => NotFound) : ',lengthErrorNotFound);
-    console.log('Cantidad de respuesta de planner on error (Type => Unauthorized) : ',lengthErrorUnauthorized);
-    console.log('Cantidad de respuesta de planner on error (Type => Conflict) : ',lengthErrorConflict);
-    console.log('Cantidad de respuesta de planner on error (Type => Other) : ',lengthErrorOther);
 
     const statistics = {
       'countSuccess':lengthOK,
