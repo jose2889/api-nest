@@ -884,7 +884,7 @@ export class WhatsappService {
       'countSuccessAnular':lengtOkAnular,
       'countFailAsistir':lengtErrorAsistir,
       'countFailAnular':lengtErrorAnular,
-      'starTime':startTime,
+      'startTime':startTime,
       'endTime':endTime,
       'msg_success_asistir':mgs_OkAsistir,
       'msg_success_anular':mgs_OkAnular,
@@ -988,7 +988,7 @@ export class WhatsappService {
       'countFailUnprocessableEntity':lengthErrorUnprocessableEntity,      
       'countFailOther':lengthErrorOther,
       'countMsgText':lengthMsgText,
-      'starTime':startTime,
+      'startTime':startTime,
       'endTime':endTime,
       'msg_success':msg_ok,
       'msg_error_bag_request':msg_error_bag_request,
@@ -1175,15 +1175,16 @@ export class WhatsappService {
 
   // ############################ Gestión de los datos en la tabla de los envios de plantillas #############
 
-  async statisticsTemplateResponse(startTime?:number, endTime?:number){
+  async statisticsTemplateResponse(startTime?:number, endTime?:number){ 
     let statisticsButtonPressed ={
       countAsistir: 0,
       countAnular: 0,
       countAmbos: 0,
       countConfirmar: 0,
       templateConfirmar:[],
+      startTime,
+      endTime,
     }
-
     let findTemplateConfirmar = await this.findManyTemplate('confirmacion', startTime, endTime);
     // findTemplateConfirmar.forEach(async (element)=>{
     for(let element of findTemplateConfirmar){
@@ -1197,7 +1198,7 @@ export class WhatsappService {
 
       findButtonPressedTempalteAsistir = await this.findChatButtonByContext(element.watsapp_id, 'Asistiré');
       // console.log(findButtonPressedTempalteAsistir);
-      console.log(element.watsapp_id);
+      // console.log(element.watsapp_id);
       if (findButtonPressedTempalteAsistir){
         // console.log('asistir');
         auxAsistir=true;
@@ -1227,9 +1228,7 @@ export class WhatsappService {
       }
       element.buttonPressed=contextButtonPressd;
       statisticsButtonPressed.templateConfirmar.push(element);
-
     }//)
-
     return statisticsButtonPressed;
   }
 
@@ -1245,7 +1244,6 @@ export class WhatsappService {
       }).getMany();
       // console.log(sendTemplateMany)
       return sendTemplateMany;
-
   }
 
   async findChatButtonByContext(context: string, buttonPressed:string ):Promise<Chat>{
