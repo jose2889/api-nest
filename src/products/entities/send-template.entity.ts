@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
+
 export class SendTemplate {
 
     @ApiProperty()
@@ -73,5 +74,6 @@ export class SendTemplate {
         nullable: true
     })
     token_cancel: string;
+
 }
 

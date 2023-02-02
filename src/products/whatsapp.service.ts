@@ -16,6 +16,7 @@ import { AxiosResponse } from 'axios'
 import { ApiWs } from './entities/api-ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
+import { DateTime } from "luxon";
 import axios from 'axios';
 
 // ############### Importaciones para el manejo de fechas ###############
@@ -1164,16 +1165,103 @@ export class WhatsappService {
       'msg_error_other':msg_error_other,
       'msg_type_text':msg_type_text,
     }
-
+    
     return statistics;
   }
 
-  
+  async findStatisticsResponseTemplate(){
+
+  }
 
   // ############################ Gestión de los datos en la tabla de los envios de plantillas #############
 
+  async statisticsTemplateResponse(startTime?:number, endTime?:number){
+    let statisticsButtonPressed ={
+      countAsistir: 0,
+      countAnular: 0,
+      countAmbos: 0,
+      countConfirmar: 0,
+      templateConfirmar:[],
+    }
+
+    let findTemplateConfirmar = await this.findManyTemplate('confirmacion', startTime, endTime);
+    // findTemplateConfirmar.forEach(async (element)=>{
+    for(let element of findTemplateConfirmar){
+      let findButtonPressedTempalteAsistir:Chat = null;
+      let findButtonPressedTempalteAnular:Chat = null;
+      let contextButtonPressd=[];
+      let auxAsistir=false;
+      let auxAnula=false;
+
+      statisticsButtonPressed.countConfirmar++;
+
+      findButtonPressedTempalteAsistir = await this.findChatButtonByContext(element.watsapp_id, 'Asistiré');
+      // console.log(findButtonPressedTempalteAsistir);
+      console.log(element.watsapp_id);
+      if (findButtonPressedTempalteAsistir){
+        // console.log('asistir');
+        auxAsistir=true;
+        contextButtonPressd.push(findButtonPressedTempalteAsistir)
+      }
+      
+      findButtonPressedTempalteAnular = await this.findChatButtonByContext(element.watsapp_id, 'Anular cita');
+      // console.log(findButtonPressedTempalteAnular);
+       if (findButtonPressedTempalteAnular){
+        // console.log('anular');
+        auxAnula=true;
+        contextButtonPressd.push(findButtonPressedTempalteAnular)
+      }
+
+      if (auxAnula && auxAsistir){
+        // console.log('conteo asistir y anular');
+        statisticsButtonPressed.countAmbos++;
+      }else{ 
+        if (auxAnula) {
+        // console.log('conteo  anular', auxAnula);
+          statisticsButtonPressed.countAnular++;
+        }
+        if (auxAsistir) {
+        // console.log('conteo asistir', auxAsistir);
+          statisticsButtonPressed.countAsistir++;
+        }
+      }
+      element.buttonPressed=contextButtonPressd;
+      statisticsButtonPressed.templateConfirmar.push(element);
+
+    }//)
+
+    return statisticsButtonPressed;
+  }
+
+  async findManyTemplate(template: string , startTime:number = 1577851200000, endTime?:number):Promise<any[]>{
+    if (!endTime) endTime = DateTime.now().toUnixInteger()*1000;
+    // console.log('findManyTemplate');
+    const queryBuilder = this.sendTemplateRepository.createQueryBuilder();
+    const sendTemplateMany = await queryBuilder
+      .where('type =:template AND timestamp >=:startTime AND timestamp <=:endTime', {
+        template: template,
+        startTime:startTime,
+        endTime:endTime
+      }).getMany();
+      // console.log(sendTemplateMany)
+      return sendTemplateMany;
+
+  }
+
+  async findChatButtonByContext(context: string, buttonPressed:string ):Promise<Chat>{
+    const queryBuilder = this.chatRepository.createQueryBuilder();
+    // console.log('findChatButtonByContext');
+    const TemplateContext = await queryBuilder
+      .where('context_id_wa_msg =:context_id_wa_msg AND text =:text AND type =:type', {
+        context_id_wa_msg: context,
+        text:buttonPressed,
+        type:'button'
+      }).getOne();
+      return TemplateContext;
+  }
+
  
-   async findAllTemplate( paginationDto: PaginationDto ) {
+  async findAllTemplate( paginationDto: PaginationDto ) {
 
     const { limit , offset } = paginationDto;
 

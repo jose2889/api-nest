@@ -149,6 +149,13 @@ export class WhatsappController {
     console.log('⌚⌚ Se mostrara las estadisticas entre "', startTime, '" y "',endTime,'".');
     return this.chatService.findStatisticsBotonPeriodo(startTime,endTime);
   }
+
+  @Get('statistics-button-pressed/')
+  findStatisticsBotonPressed(@Query('start-time') startTime?: number, @Query('end-time') endTime?:number) {
+    console.log('⌚⌚ Se mostrara las estadisticas entre "', startTime ||'No definido' , '" y "', endTime ||'No definido' ,'".');
+    return this.chatService.statisticsTemplateResponse(startTime,endTime);
+  }
+
   
   // ########################################### Creacion de  los endpoint paa mostrar los egistro de envios de plantillas ######################################
 
