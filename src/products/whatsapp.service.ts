@@ -1379,7 +1379,7 @@ export class WhatsappService {
         
         element.created_at = aaa; // luxon.DateTime.fromMillis(Number(element.timestamp)*1000).toFormat('yyyy-MM-dd hh:mm:ss');
         
-        const business = await this.chatRepository.preload({
+        const aux2 = await this.chatRepository.preload({
           id:element.id,
           ...element,
         });
@@ -1392,7 +1392,32 @@ export class WhatsappService {
         }
       });
     }
-    return datos;
+
+    let template = await this.cambiarCampo();
+    if(template){
+      template.forEach(async element => {
+        Logger.log (element,'Elemento');
+        Logger.log (Number(element.timestamp)*1000,'Elemento TimeStamp');
+        let aux = new Date(Number(element.timestamp)*1000).toISOString();
+
+        Logger.log (aux,'Fecha a guardar');
+        
+        element.created_at = aux; // luxon.DateTime.fromMillis(Number(element.timestamp)*1000).toFormat('yyyy-MM-dd hh:mm:ss');
+        
+        // const aux2 = await this.sendTemplateRepository.preload({
+        //   id:element.id,
+        //   ...element,
+        // });
+
+        try {
+          await this.chatRepository.save( element );
+          console.log('♻︎♻︎💼💼 Se actulizaron ');          
+        } catch (error) {
+          this.handleDBExceptions(error);
+        }
+      });
+    }
+    return 'exito';
   }
 
 }
