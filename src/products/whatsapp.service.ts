@@ -85,7 +85,8 @@ export class WhatsappService {
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
     // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
-    const createdData = new Date(Number(data.messages[0].timestamp)*1000);
+    const ahora = Date.now();
+    const createdData = new Date(ahora);
     Logger.log(createdData,'Fechas')
 
 
@@ -97,7 +98,7 @@ export class WhatsappService {
       type: template,
       template: request.template.name,
       date: "",
-      timestamp: Date.now(),
+      timestamp: ahora,
       slug: "",
       token_confirm: "",
       token_cancel: "",
