@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Chat {
@@ -90,5 +90,11 @@ export class Chat {
         nullable: true
     })
     answered_message: boolean;
+
+    @Column({
+        type: 'timestamp',
+        nullable: true,
+    })
+    created_at: string;
     
 }

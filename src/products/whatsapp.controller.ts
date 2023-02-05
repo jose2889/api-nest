@@ -221,6 +221,11 @@ export class WhatsappController {
 
   // ###################################################################################################################################
 
+  @Get('cambio-tipo-campo')
+  findAllChat() {
+    return this.chatService.cambioDato();
+  }
+
   // @Get(':term')
   // findOne(@Param( 'term' ) term: string) {
   //   return this.chatService.findOne( term );

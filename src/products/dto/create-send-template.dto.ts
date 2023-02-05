@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsIn, IsInt, IsNumber, IsOptional, 
+import { IsArray, IsBoolean, IsDate, IsIn, IsInt, IsNumber, IsOptional, 
          IsPositive, IsString, MinLength 
 } from 'class-validator';
 
@@ -48,5 +48,9 @@ export class CreateSendTemplateDto {
     @IsString()
     @IsOptional()
     token_cancel?: string;
+
+    @IsDate()
+    @IsOptional()
+    created_at: Date;
 
 }

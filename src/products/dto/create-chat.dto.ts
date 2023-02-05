@@ -56,5 +56,6 @@ export class CreateChatDto {
     @IsBoolean()
     @IsOptional()
     answered_message?: boolean;
+  created_at: string;
 
 }

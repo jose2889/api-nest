@@ -75,5 +75,11 @@ export class SendTemplate {
     })
     token_cancel: string;
 
+    @Column({
+        type: 'timestamp',
+        nullable: true,
+    })
+    created_at: Date;
+
 }
 

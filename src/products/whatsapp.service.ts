@@ -16,7 +16,7 @@ import { AxiosResponse } from 'axios'
 import { ApiWs } from './entities/api-ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
-import { DateTime } from "luxon";
+import luxon, { DateTime } from "luxon";
 import axios from 'axios';
 
 // ############### Importaciones para el manejo de fechas ###############
@@ -34,6 +34,7 @@ import { countrytimezone } from './data/country-timezone';
 import { CreateSendTemplateDto } from './dto/create-send-template.dto';
 import { SendTemplate } from './entities/send-template.entity';
 import { response } from 'express';
+import moment from 'moment';
 
 
 
@@ -84,6 +85,8 @@ export class WhatsappService {
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
     // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
+    const createdData = new Date(Number(data.messages[0].timestamp)*1000);
+
 
     let dataRes = {
       to_phone: data.contacts[0].wa_id,
@@ -97,6 +100,7 @@ export class WhatsappService {
       slug: "",
       token_confirm: "",
       token_cancel: "",
+      created_at: createdData,
     }
 
     if (template === "notificacion"){
@@ -589,9 +593,7 @@ export class WhatsappService {
   }
 
   async createSendTemplate(createSendTemplateDto: CreateSendTemplateDto) {
-    
     try {
-
       const sendTemaplate = this.sendTemplateRepository.create(createSendTemplateDto);
       await this.sendTemplateRepository.save( sendTemaplate );
       console.log('🌌🌌🌌Se registro el envio de mensjae de plantilla de ',createSendTemplateDto.type);
@@ -1169,9 +1171,6 @@ export class WhatsappService {
     return statistics;
   }
 
-  async findStatisticsResponseTemplate(){
-
-  }
 
   // ############################ Gestión de los datos en la tabla de los envios de plantillas #############
 
@@ -1354,6 +1353,43 @@ export class WhatsappService {
     // console.log(error)
     throw new InternalServerErrorException('Unexpected error, check server logs');
 
+  }
+
+  private async cambiarCampo(){
+
+    const chatAllList = await this.chatRepository.find()
+
+     return ( chatAllList ).map ( errorMessges => ({
+      ...errorMessges,
+    }) )
+
+  }
+
+  public async cambioDato(){
+    let datos:Chat[] = await this.cambiarCampo();
+    if(datos){
+      datos.forEach(async element => {
+        Logger.log (element,'Elemento');
+        Logger.log (Number(element.timestamp)*1000,'Elemento TimeStamp');
+        let aaa = new Date(Number(element.timestamp)*1000).toISOString();
+        Logger.log (aaa,'Fecha a guardar');
+        
+        element.created_at = aaa; // luxon.DateTime.fromMillis(Number(element.timestamp)*1000).toFormat('yyyy-MM-dd hh:mm:ss');
+        
+        const business = await this.chatRepository.preload({
+          id:element.id,
+          ...element,
+        });
+
+        try {
+          await this.chatRepository.save( element );
+          console.log('♻︎♻︎💼💼 Se actulizaron ');          
+        } catch (error) {
+          this.handleDBExceptions(error);
+        }
+      });
+    }
+    return datos;
   }
 
 }

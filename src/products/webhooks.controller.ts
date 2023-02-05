@@ -76,6 +76,8 @@ export class Webhookontroller {
           createProductDto.timestamp = timestamp; 
           createProductDto.watsapp_id = whatsapp_id;
           createProductDto.answered_message = true;
+          let aux = new Date(Number(timestamp)*1000).toISOString();
+          createProductDto.created_at = aux;
           
           console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Estado de la respuesta de planner: ",createProductDto.status_response_api = response_api.status_response_api);
           console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Se guarada el objeto en la tabla para los mensajes del chat: ", JSON.stringify(createProductDto));

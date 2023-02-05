@@ -6,6 +6,8 @@ import { CommonModule } from './common/common.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { SystemApiModule } from './config/system-api/system-api.module';
 import { SystemEmailModule } from './config/system-email/system-email.module';
+import { BusinessModule } from './business/business.module';
+import { ConfiguModule } from './config/configu.module';
 
 @Module({
   imports: [
@@ -46,6 +48,10 @@ import { SystemEmailModule } from './config/system-email/system-email.module';
     SystemApiModule,
 
     SystemEmailModule,
+
+    BusinessModule,
+
+    ConfiguModule,
   ],
   providers: [],
 })
