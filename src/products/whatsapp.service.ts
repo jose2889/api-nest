@@ -86,6 +86,7 @@ export class WhatsappService {
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
     // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
     const createdData = new Date(Number(data.messages[0].timestamp)*1000);
+    Logger.log(createdData,'Fechas')
 
 
     let dataRes = {
@@ -102,6 +103,7 @@ export class WhatsappService {
       token_cancel: "",
       created_at: createdData,
     }
+
 
     if (template === "notificacion"){
       const { phoneNumber, slug, date, businessName} = request_planner;
@@ -121,7 +123,7 @@ export class WhatsappService {
       dataRes.token_confirm = confirmToken;
       dataRes.token_cancel = cancelToken;
     }
-    // console.log("⏩⏩ Datos del envio de plantilla a guadar: ", dataRes)
+    Logger.log(dataRes,"⏩⏩ Datos del envio de plantilla a guadar" )
     this.createSendTemplate(dataRes);    
      
     return data;
