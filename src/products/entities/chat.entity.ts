@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
+import { DateTime } from '../../../dist/common/whatsapp-cloud-api-request.dto';
 
 @Entity()
 export class Chat {

@@ -86,7 +86,7 @@ export class WhatsappService {
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
     // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
     const ahora = Date.now();
-    const createdData = new Date(ahora);
+    const createdData = new Date(ahora).toISOString();
     Logger.log(createdData,'Fechas')
 
 
@@ -1358,7 +1358,7 @@ export class WhatsappService {
 
   }
 
-  private async cambiarCampo(){
+  private async cambiarCampoChat(){
 
     const chatAllList = await this.chatRepository.find()
 
@@ -1368,8 +1368,18 @@ export class WhatsappService {
 
   }
 
+  private async cambiarCampoTemplate(){
+
+    const chatAllList = await this.sendTemplateRepository.find()
+
+     return ( chatAllList ).map ( errorMessges => ({
+      ...errorMessges,
+    }) )
+
+  }
+
   public async cambioDato(){
-    let datos:Chat[] = await this.cambiarCampo();
+    let datos = await this.cambiarCampoChat();
     if(datos){
       datos.forEach(async element => {
         Logger.log (element,'Elemento');
@@ -1393,12 +1403,12 @@ export class WhatsappService {
       });
     }
 
-    let template = await this.cambiarCampo();
+    let template = await this.cambiarCampoTemplate();
     if(template){
       template.forEach(async element => {
         Logger.log (element,'Elemento');
-        Logger.log (Number(element.timestamp)*1000,'Elemento TimeStamp');
-        let aux = new Date(Number(element.timestamp)*1000).toISOString();
+        Logger.log (Number(element.timestamp),'Elemento TimeStamp');
+        let aux = new Date(Number(element.timestamp)).toISOString();
 
         Logger.log (aux,'Fecha a guardar');
         
@@ -1410,7 +1420,7 @@ export class WhatsappService {
         // });
 
         try {
-          await this.chatRepository.save( element );
+          await this.sendTemplateRepository.save( element );
           console.log('♻︎♻︎💼💼 Se actulizaron ');          
         } catch (error) {
           this.handleDBExceptions(error);
