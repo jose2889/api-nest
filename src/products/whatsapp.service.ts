@@ -83,7 +83,7 @@ export class WhatsappService {
     console.log("📩📩📩 Se envio la plantilla de ",template," de reserva de la empresa '", request_planner.businessName ,"' al +", request_planner.phoneNumber, );
     
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
-    // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
+    console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
     console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
     // const ahora = Date.now();
     // const createdData = new Date(ahora).toISOString();
