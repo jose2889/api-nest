@@ -1,5 +1,5 @@
 import { Timestamp } from 'typeorm';
-import { IsArray, IsBoolean, IsDate, IsIn, IsInt, IsNumber, IsOptional, 
+import { IsArray, IsBoolean, IsOptional, 
          IsPositive, IsString, MinLength 
 } from 'class-validator';
 
@@ -58,8 +58,7 @@ export class CreateChatDto {
     @IsOptional()
     answered_message?: boolean;
 
-    @IsString()
+    // @IsString()
     @IsOptional()
-    created_at: string;
-
+    created_at:any;
 }

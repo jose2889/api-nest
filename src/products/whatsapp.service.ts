@@ -1237,7 +1237,7 @@ export class WhatsappService {
   }
 
   async findManyTemplate(template: string , startTime:number = 1577851200000, endTime?:number):Promise<any[]>{
-    if (!endTime) endTime = DateTime.now().toUnixInteger()*1000;
+    if (!endTime) endTime = luxon.DateTime.now().toUnixInteger()*1000;
     // console.log('findManyTemplate');
     const queryBuilder = this.sendTemplateRepository.createQueryBuilder();
     const sendTemplateMany = await queryBuilder

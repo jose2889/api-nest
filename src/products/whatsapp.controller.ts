@@ -6,9 +6,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateConfirmationDto } from './dto/confirmation.dto';
 import { CreateNotificationDto } from './dto/notification.dto';
 import { CreateApiWSDto } from './dto/create-api-ws.dto';
-import { response } from 'express';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
-import { ApiWs } from './entities/api-ws.entity';
 
 
 @ApiTags('Chats')

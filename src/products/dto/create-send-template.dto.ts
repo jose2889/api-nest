@@ -1,5 +1,5 @@
 import { Timestamp } from 'typeorm';
-import { IsArray, IsBoolean, IsDate, IsIn, IsInt, IsNumber, IsOptional, 
+import { IsArray, IsBoolean, IsNumber, IsOptional, 
          IsPositive, IsString, MinLength 
 } from 'class-validator';
 
@@ -46,12 +46,12 @@ export class CreateSendTemplateDto {
     @IsOptional()
     token_confirm?: string; 
 
-    @IsString()
+    // @IsString()
     @IsOptional()
     token_cancel?: string;
 
     @IsString()
     @IsOptional()
-    created_at: string;
+    created_at:any;
 
 }

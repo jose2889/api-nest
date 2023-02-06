@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
-import { DateTime } from '../../../dist/common/whatsapp-cloud-api-request.dto';
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 
 @Entity()
 export class Chat {
@@ -41,6 +40,7 @@ export class Chat {
         type: 'text',
         nullable: true
     })
+    @Index()
     timestamp: string;
 
     @Column({
@@ -96,6 +96,6 @@ export class Chat {
         type: 'timestamp',
         nullable: true,
     })
-    created_at: string;
-    
+    @Index()
+    created_at:string;   
 }
