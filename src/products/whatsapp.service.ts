@@ -84,10 +84,12 @@ export class WhatsappService {
     
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     // console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
-    // console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
+    console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
     // const ahora = Date.now();
     // const createdData = new Date(ahora).toISOString();
-    let aux = new Date(Number(data.messages[0].timestamp)*1000).toISOString();
+    let aux = new Date(Number(data.messages[0].timestamp)*1000).toUTCString();
+    // let aux = new Date(Number(timestamp)*1000).toISOString();
+
 
     Logger.log(aux,'Fechas')
 
