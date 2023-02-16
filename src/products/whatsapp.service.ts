@@ -345,14 +345,14 @@ export class WhatsappService {
         // Si el token no es válido en planner, el token no ya no se puede usar
         if ((errorResponse.statusText === "Not Found") && (errorResponse.status === 404)){
           console.log("👎👎👎👎 Error de solicitud! Not Found Token => ", token);
-          this.request.text.body = "Lo sentimos esta accion ya no valida."
+          this.request.text.body = "Lo sentimos pero no logramos procesar su reserva debido a que ya no se encuentra registrada en nuestro sistema."
         }
         
         // Si el token es válido en planner, pero ya no se puede cancelar la reverva
         if ((errorResponse.status === 400) && ((errorResponse.data.retMessage === "9") || (errorResponse.data.retMessage === 9) )) { // errorResponse.statusText === "Bad Request" && 
           console.log("👎👎👎👎 Respuesta de planner Status 400: Cancel => ",token);
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
-          this.request.text.body = 'Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.';
+          this.request.text.body = 'Lo sentimos, ya no podemos cancelar esta reserva debido a que se encuentra fuera el tiempo límite permitido para realizar esa acción.';
         }
         
         // Si el tiempo para cancelar ha pasado 
@@ -365,7 +365,8 @@ export class WhatsappService {
         // Si el status es 400 con Bad Request y retMessage es 1 
         if ((errorResponse.status === 400) && (errorResponse.statusText === "Bad Request") && ((errorResponse.data.retMessage === "1") || (errorResponse.data.retMessage === 1) ) && ((errorResponse.data.retCode === "1") || (errorResponse.data.retCode === 1))){
           console.log("👎👎👎👎 Error de solicitud! Bad Request: Token => ", token);
-          this.request.text.body = "Su solicitud no ha sido procesada. La reservaba ya había sido confirmada";
+          this.request.text.body = "Su reserva ya se encuentra confirmada exitosamente vía correo electrónico por lo que ya no es necesario realizar esta acción.";
+          // this.request.text.body = "Su solicitud no ha sido procesada. La reservaba ya había sido confirmada";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
         }
 
