@@ -7,6 +7,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { SystemApiModule } from './config/system-api/system-api.module';
 import { SystemEmailModule } from './config/system-email/system-email.module';
 import { BusinessModule } from './business/business.module';
+import { CalendarApiModule } from './calendar-api/calendar-api.module';
 
 
 @Module({
@@ -50,6 +51,8 @@ import { BusinessModule } from './business/business.module';
     SystemEmailModule,
 
     BusinessModule,
+
+    CalendarApiModule,
   ],
   providers: [],
 })
