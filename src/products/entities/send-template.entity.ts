@@ -37,12 +37,6 @@ export class SendTemplate {
         type: 'text',
         nullable: true
     })
-    date: string;
-
-    @Column({
-        type: 'text',
-        nullable: true
-    })
     template?: string;
 
     @Column({
@@ -75,6 +69,12 @@ export class SendTemplate {
         nullable: true
     })
     token_cancel: string;
+
+    @Column({
+        type: 'text',
+        nullable: true
+    })
+    date: string;
 
     @Column({
         type: 'timestamp',
