@@ -80,11 +80,11 @@ export class WhatsappService {
 
   async sendMessage(request: WhatsappCloudApiRequest, template:string, request_planner:any): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
 
-    console.log("📩📩📩 Se envio la plantilla de ",template," de reserva de la empresa '", request_planner.businessName ,"' al +", request_planner.phoneNumber, );
+    Logger.verbose("📩📩📩 Se envio la plantilla de ",template," de reserva de la empresa '", request_planner.businessName ,"' al +", request_planner.phoneNumber, );
     
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
-    console.log("📩📩📩 Objeto enviado a Facebook 📩 ⋙ ", request);
-    console.log("📩📩📩 Objeto recibido como respuesta 📩 ⋘ ", data);
+    Logger.log(request, "📩📩📩 Objeto enviado a Facebook 📩 ⋙ " );
+    Logger.log(data, "📩📩📩 Objeto recibido como respuesta 📩 ⋘ " );
     const ahora = Date.now();
     const createdData = new Date(ahora).toISOString();
     // let aux = new Date(Number(data.messages[0].timestamp)*1000).toUTCString();
@@ -141,7 +141,7 @@ export class WhatsappService {
 
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, whatsapp_id: string, acount_business?:any) {
     Logger.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄", 'UPDATE RESERVATION');
-    console.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
+    Logger.verbose("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
     // console.log("⏩⏩ Datos del negocio recibido: ", acount_business);
     
@@ -207,16 +207,16 @@ export class WhatsappService {
 
     let body = bodyChangeTimezone;
 
-    console.log("⏩⏩⏩ TimeZome: ", timezone);
+    Logger.log(timezone, "⏩⏩⏩ TimeZome: " );
     // console.log("⏩⏩⏩ Country: ", country);
-    console.log("⏩⏩⏩ body: ", body);
+    Logger.log(body, "⏩⏩⏩ body: " );
     // console.log("⏩⏩⏩ code phone: ", codePhoneContry);
 
     // let data; 
 
 
     const urlAPIplanner = `${this.urlPlanner}${token}${this.origin}`;
-    Logger.log(urlAPIplanner,"⏩⏩ urlAPIplanner: ");
+    Logger.log(urlAPIplanner, "⏩⏩ urlAPIplanner: ");
 
     // let coincidencia = await this.validateIDwatsappMessage(whatsapp_id);
 
@@ -301,7 +301,7 @@ export class WhatsappService {
         //     console.log('Error Response statusText',err.response.statusText);
         // }
 
-        console.log("❌❌❌❌❌❌ Respuesta de error de planner ❌❌❌❌❌❌ ");
+        Logger.error("❌❌❌❌❌❌ Respuesta de error de planner ❌❌❌❌❌❌ ");
 
         let errorResponse = err.response;
 
@@ -311,13 +311,13 @@ export class WhatsappService {
         let retCode = errorResponse.data.retCode;
         let retObject = errorResponse.data.retObject;
         
-        console.log("⏩⏩ Status: ", errorResponse.status.toString());
-        console.log("⏩⏩ Data: ", JSON.stringify(errorResponse.data));
-        console.log("⏩⏩ Status Text: ",errorResponse.statusText);
+        Logger.error(errorResponse.status.toString(), "⏩⏩ Status: " );
+        Logger.error(JSON.stringify(errorResponse.data), "⏩⏩ Data: " );
+        Logger.error(errorResponse.statusText, "⏩⏩ Status Text: ");
 
-        console.log("⏩⏩ retMessage: ", retMessage);
-        console.log("⏩⏩ retCode: ", retCode);
-        console.log("⏩⏩ retObject: ", retObject);
+        Logger.error(retMessage, "⏩⏩ retMessage: " );
+        Logger.error(retCode, "⏩⏩ retCode: " );
+        Logger.error(retObject, "⏩⏩ retObject: " );
         // console.log("⏩⏩ ConfigMethod: ",errorResponse.config.method);
         // console.log("⏩⏩ ConfigURL: ",errorResponse.config.url);
         // console.log("⏩⏩ ConfigData: (body date) ", JSON.stringify(errorResponse.config.data));
@@ -380,7 +380,7 @@ export class WhatsappService {
         response_api.status_response_api = errorResponse.statusText;
         response_api.body_request = body.date.toString();
 
-        console.log("❌❌❌❌❌❌ Estado de la respuesta de planner:",response_api);
+        Logger.verbose("❌❌❌❌❌❌ Estado de la respuesta de planner:",response_api);
 
         // **************************************************************************************************
 
@@ -424,11 +424,11 @@ export class WhatsappService {
       };
 
       this.httpService.post(this.baseUrl, this.request).subscribe(res => {
-        console.log("✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", res.statusText);
-        console.log("✅✅ Mensaje enviado al usuario por Whatsapp", this.request.text.body);
+        Logger.log(res.statusText, "✅✅✅ Respuesta exitosa de la API whatsApp de Facebook ✅✅✅", );
+        Logger.log(this.request.text.body, "✅✅ Mensaje enviado al usuario por Whatsapp", );
       },
       (error) => {
-        console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
+        Logger.error(error, "🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫" );
       });
 
     // }
@@ -577,11 +577,11 @@ export class WhatsappService {
         ...emailRemitente
       })
       .then(() => {
-        console.log(" 📧📧 Se envio el correo de error: ", emailRemitente.to);
+        Logger.log(emailRemitente.to, " 📧📧 Se envio el correo de error: " );
       })
       .catch (error => {
-        console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", emailRemitente.to);
-        console.log(" ⛔⛔ Mesaje de error: ",error.message);
+        Logger.error(emailRemitente.to, " ⛔⛔ Ocurrio un error con la peticion a la Api email: " );
+        Logger.error(error.message, " ⛔⛔ Mesaje de error: " );
       });    
   }
 
@@ -605,7 +605,7 @@ export class WhatsappService {
     try {
       const sendTemaplate = this.sendTemplateRepository.create(createSendTemplateDto);
       await this.sendTemplateRepository.save( sendTemaplate );
-      console.log('🌌🌌🌌Se registro el envio de mensjae de plantilla de ',createSendTemplateDto.type);
+      Logger.log(createSendTemplateDto.type, '🌌🌌🌌Se registro el envio de mensjae de plantilla de ' );
       return sendTemaplate;
       
     } catch (error) {

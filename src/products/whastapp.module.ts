@@ -24,6 +24,5 @@ import { ApiWs } from './entities/api-ws.entity';
   }),
     TypeOrmModule.forFeature([ Chat, ApiWs, LogFail, SendTemplate, SystemConfigEntity, EmailConfigEntity ])
   ],
-
 })
 export class ProductsModule {}
