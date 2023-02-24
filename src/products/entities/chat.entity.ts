@@ -60,12 +60,25 @@ export class Chat {
         nullable: true
     })
     phone_number_id: string;
+    
+    @Column({
+        type: 'bool',
+        default: false,
+        nullable: true
+    })
+    answered_message: boolean;
 
     @Column({
         type: 'text',
         nullable: true
     })
     status_response_api: string;
+
+    @Column({
+        type: 'text',
+        nullable: true
+    })
+    context_id_wa_msg: string;
 
     @Column({
         type: 'text',
@@ -78,19 +91,6 @@ export class Chat {
         nullable: true
     })
     body_request: string;
-
-    @Column({
-        type: 'text',
-        nullable: true
-    })
-    context_id_wa_msg: string;
-    
-    @Column({
-        type: 'bool',
-        default: false,
-        nullable: true
-    })
-    answered_message: boolean;
 
     @Column({
         type: 'timestamp',
