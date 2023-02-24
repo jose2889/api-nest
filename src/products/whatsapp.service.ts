@@ -345,7 +345,7 @@ export class WhatsappService {
         // Si el token no es válido en planner, el token no ya no se puede usar
         if ((errorResponse.statusText === "Not Found") && (errorResponse.status === 404)){
           console.log("👎👎👎👎 Error de solicitud! Not Found Token => ", token);
-          this.request.text.body = "Lo sentimos pero no logramos procesar su reserva debido a que ya no se encuentra registrada en nuestro sistema."
+          this.request.text.body = "Lo sentimos, pero no logramos procesar su reserva debido a que ya no se encuentra registrada en nuestro sistema."
         }
         
         // Si el token es válido en planner, pero ya no se puede cancelar la reverva
@@ -358,7 +358,7 @@ export class WhatsappService {
         // Si el tiempo para cancelar ha pasado 
         if ((errorResponse.status === 406) && (errorResponse.statusText === "Not Acceptable") && ((errorResponse.data.retCode === "1") || (errorResponse.data.retCode === 1))){
           console.log("👎👎👎👎 Error de solicitud! Not Acceptable: Token => ", token);
-          this.request.text.body = "Su solicitud no ha sido procesada. El tiempo para cancelar ha pasado.";
+          this.request.text.body = "Lo sentimos, ya no podemos cancelar esta reserva debido a que se encuentra fuera el tiempo límite permitido para realizar esa acción.";
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + JSON.stringify(errorResponse.data.retObject.time) + ' horas antes.';
         }
         
