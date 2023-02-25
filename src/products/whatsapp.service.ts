@@ -529,8 +529,8 @@ export class WhatsappService {
                   <li><strong> Nmbre del negocio: </strong> ${data.business || notFounf } </li>
                   <li><strong> Slug del negocio:  </strong> ${data.slug || notFounf } </li>
                   <li><strong> Nombre del usuario:  </strong> ${data.user || notFounf } </li>
-                  <li><strong> Id WhatsApp del Contexto:</strong> ${data.context_msg || notFounf } </li>
-                  <li><strong> Fecha de la recervación: </strong> ${data.date_reservation || notFounf } </li>
+                  <li><strong> Id WhatsApp del contexto de la plantilla:</strong> ${data.context_msg || notFounf } </li>
+                  <li><strong> Fecha de la reservación : </strong> ${data.date_reservation || notFounf } </li>
                   <!-- <li><strong> País: </strong> ${data.country || notFounf } </li>
                   <li><strong> Zona hoaria: </strong> ${data.timeZone || notFounf } </li> -->
                 </ul>
