@@ -406,6 +406,8 @@ export class WhatsappService {
           "business": msgSednTemplate.name_business || '',
           "context_msg": msgSednTemplate.watsapp_id || '',
           "date_reservation": msgSednTemplate.date || '',
+          // "date_reservation": msgSednTemplate.timeZone || '',
+          // "date_reservation": msgSednTemplate.county || '',
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
         // ############# Guardado de los datos en la tabla para Error Response#############
@@ -425,7 +427,7 @@ export class WhatsappService {
         //   console.log("🚫🚫🚫 Ocurrio un error al enviar el mensaje por whatsapp 🚫🚫🚫", error);
         // }); 
 
-        console.log("❌❌❌ FAIL PUT ❌❌❌");
+        Logger.error("❌❌❌ FAIL PUT ❌❌❌");
         // return status_response_api;
 
       };
@@ -520,7 +522,7 @@ export class WhatsappService {
                   <li><strong>Id del mensaje de WhatsApp: </strong> ${data.whatsapp_id || notFounf } </li>
                 </ul>
 
-                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Datos de la reserva.</strong></h3> </p>
 
                 <ul style="font-size: 15px;  margin: 10px 0">                
                   <li><strong> Nmbre del negocio: </strong> ${data.business || notFounf } </li>
@@ -528,6 +530,8 @@ export class WhatsappService {
                   <li><strong> Nombre del usuario:  </strong> ${data.user || notFounf } </li>
                   <li><strong> Id WhatsApp del Contexto:</strong> ${data.context_msg || notFounf } </li>
                   <li><strong> Fecha de la recervación: </strong> ${data.date_reservation || notFounf } </li>
+                  <li><strong> País: </strong> ${data.country || notFounf } </li>
+                  <li><strong> Zona hoaria: </strong> ${data.timeZone || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Repuesta enviada al usuario.</strong></h3> </p>

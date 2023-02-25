@@ -14,8 +14,8 @@ export class CalendarApiService implements OnModuleInit{
 
 
   onModuleInit(){
-    const getTokens = this.authorize().then(this.listEvents).catch(console.error);
-    Logger.debug (getTokens,'Token');
+    // const getTokens = this.authorize().then(this.listEvents).catch(console.error);
+    // Logger.debug (getTokens,'Token');
   }
 
 
