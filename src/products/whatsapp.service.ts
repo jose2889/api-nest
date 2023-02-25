@@ -80,7 +80,7 @@ export class WhatsappService {
 
   async sendMessage(request: WhatsappCloudApiRequest, template:string, request_planner:any): Promise<AxiosResponse<WhatsappCloudAPIResponse>> {
 
-    Logger.verbose("📩📩📩 Se envio la plantilla de ",template," de reserva de la empresa '", request_planner.businessName ,"' al +", request_planner.phoneNumber, );
+    Logger.log("📩📩📩 Se envio la plantilla de ",template," de reserva de la empresa '", request_planner.businessName ,"' al +", request_planner.phoneNumber, );
     
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     Logger.log(request, "📩📩📩 Objeto enviado a Facebook 📩 ⋙ " );
@@ -141,7 +141,7 @@ export class WhatsappService {
 
   async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, whatsapp_id: string, acount_business?:any) {
     Logger.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄", 'UPDATE RESERVATION');
-    Logger.verbose("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
+    Logger.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
     // console.log("⏩⏩ Datos del negocio recibido: ", acount_business);
     

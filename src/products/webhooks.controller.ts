@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, ForbiddenException, Res, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, ForbiddenException, Res, HttpStatus, HttpCode, Logger } from '@nestjs/common';
 import { WhatsappService } from './whatsapp.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -12,7 +12,7 @@ export class Webhookontroller {
   @HttpCode(HttpStatus.OK)  // PAra que si se recibe la petición de Facebook devuelva un status OK
   async createWebhook(@Body() data:any) {
 
-    console.log("📜📜📜📜📜 Objeto recibido de Facebook de la API de WhatsApp 📜📜📜 ",JSON.stringify(data));
+    Logger.warn(JSON.stringify(data), "📜📜📜📜📜 Objeto recibido de Facebook de la API de WhatsApp 📜📜📜 ");
     let response_api={
       'response_msg': null,
       'status_response_api':null,
@@ -28,7 +28,7 @@ export class Webhookontroller {
         data.entry[0].changes[0].value.messages[0]
       ) {
 
-        console.log("📜📜📜 La petición POST de Facebook es de tipo message");
+        Logger.log("📜📜📜 La petición POST de Facebook es de tipo message");
         let phone_number_id = data.entry[0].changes[0].value.metadata.phone_number_id;
         let from = data.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
@@ -45,7 +45,7 @@ export class Webhookontroller {
         let coincidencia = await this.chatService.validateIDwatsappMessage(whatsapp_id);
 
         // console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Horita: ", Date.now());
-        console.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia en la base de datos: ", coincidencia);
+        Logger.log("⏩⏩⏩⏩⏩⏩⏩⏩⏩⏩ Coincidencia en la base de datos: ", coincidencia);
 
         let tiempoRetraso = Date.now() - timestamp*1000;
         if (!coincidencia && tiempoRetraso < 600000) {
