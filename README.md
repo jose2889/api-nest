@@ -17,4 +17,4 @@ docker-compose up -d
 6. Levantar: ```npm run start:dev```
 
 
-<p align="center">[![Alt text](https://img.youtube.com/vi/G5gPVBlWwVU/0.jpg)](https://youtu.be/G5gPVBlWwVU)</p>
+[![Alt text](https://img.youtube.com/vi/G5gPVBlWwVU/0.jpg)](https://youtu.be/G5gPVBlWwVU)
