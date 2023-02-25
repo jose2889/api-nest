@@ -12,7 +12,7 @@ export class Webhookontroller {
   @HttpCode(HttpStatus.OK)  // PAra que si se recibe la petición de Facebook devuelva un status OK
   async createWebhook(@Body() data:any) {
 
-    Logger.warn(JSON.stringify(data), "📜📜📜📜📜 Objeto recibido de Facebook de la API de WhatsApp 📜📜📜 ");
+    Logger.verbose(JSON.stringify(data), "📜📜📜📜📜 Objeto recibido de Facebook de la API de WhatsApp 📜📜📜 ");
     let response_api={
       'response_msg': null,
       'status_response_api':null,
