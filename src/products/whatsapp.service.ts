@@ -139,7 +139,7 @@ export class WhatsappService {
     return dayjs(date).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
   }  
 
-  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, whatsapp_id: string, acount_business?:any) {
+  async updateReservation(token: string, phone_number: string, text_message:string, timestamp_message: string, whatsapp_id: string, acount_business?:any, context_id_wa_msg?:string) {
     Logger.log("🔄🔄🔄🔄🔄🔄 ⋙ ⚜ ⋙ Update Reservation ⋘ ⚜ ⋘ 🔄🔄🔄🔄🔄🔄", 'UPDATE RESERVATION');
     Logger.log("⏩⏩ phone_number recibido: ", phone_number ," ⏩🔄⏩ token recibido: ", token);
     // console.log("⏩⏩ timestamp_message recibido: ", timestamp_message);
@@ -376,6 +376,8 @@ export class WhatsappService {
           this.request.text.body = "Su solicitud no ha sido procesada. Verifique la fecha de su sistema";
         }
 
+        let msgSednTemplate = await this.findSendTemplateONe(context_id_wa_msg);
+
         response_api.response_msg =this.request.text.body;
         response_api.status_response_api = errorResponse.statusText;
         response_api.body_request = body.date.toString();
@@ -399,6 +401,11 @@ export class WhatsappService {
           "timestamp_message": timestamp_message,
           "whatsapp_id": whatsapp_id,
           "timezone": timezone,
+          "slug": msgSednTemplate.slug || '',
+          "user": msgSednTemplate.customer_name || '',
+          "business": msgSednTemplate.name_business || '',
+          "context_msg": msgSednTemplate.watsapp_id || '',
+          "date_reservation": msgSednTemplate.date || '',
         }
         // console.log('Datos a guardar en la tabla: ', logFail);
         // ############# Guardado de los datos en la tabla para Error Response#############
@@ -511,6 +518,16 @@ export class WhatsappService {
                   <li><strong> Token recibido: </strong> ${data.token || notFounf } </li>
                   <li><strong>Timestamp del mensaje: </strong> ${data.timestamp_message || notFounf } </li>
                   <li><strong>Id del mensaje de WhatsApp: </strong> ${data.whatsapp_id || notFounf } </li>
+                </ul>
+
+                <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
+
+                <ul style="font-size: 15px;  margin: 10px 0">                
+                  <li><strong> Nmbre del negocio: </strong> ${data.business || notFounf } </li>
+                  <li><strong> Slug del negocio:  </strong> ${data.slug || notFounf } </li>
+                  <li><strong> Nombre del usuario:  </strong> ${data.user || notFounf } </li>
+                  <li><strong> Id WhatsApp del Contexto:</strong> ${data.context_msg || notFounf } </li>
+                  <li><strong> Fecha de la recervación: </strong> ${data.date_reservation || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Repuesta enviada al usuario.</strong></h3> </p>
@@ -1435,5 +1452,22 @@ export class WhatsappService {
     }
     return 'exito';
   }
+
+  async findSendTemplateONe(context_id_wa_msg:string){
+
+      let product: SendTemplate;
+        const queryBuilder = this.sendTemplateRepository.createQueryBuilder(); 
+        product = await queryBuilder
+          .where('context_id_wa_msg =:context_id_wa_msg ', {
+            context_id_wa_msg: context_id_wa_msg
+          }).getOne();
+      
+  
+  
+      if ( !product ) 
+        throw new NotFoundException(`SendTemplate with context ${ context_id_wa_msg } not found`);
+  
+      return product;
+    }
 
 }

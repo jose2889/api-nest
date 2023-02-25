@@ -61,7 +61,7 @@ export class Webhookontroller {
             createProductDto.text = data.entry[0].changes[0].value.messages[0].button.text;
             createProductDto.payload = data.entry[0].changes[0].value.messages[0].button.payload;
             // #################### Se llama a la funcion (AWAIT) para actualiza la reservas ################
-            response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, whatsapp_id, acount_business); 
+            response_api = await this.chatService.updateReservation(createProductDto.payload, from, createProductDto.text, timestamp, whatsapp_id, acount_business,createProductDto.context_id_wa_msg); 
             createProductDto.status_response_api = response_api.status_response_api;
             console.log(" ⏩⏩✅✅⏩✅✅⏩⏩ Respuesta de la funcion: ",createProductDto.status_response_api = response_api.status_response_api);
             createProductDto.response_msg = response_api.response_msg;
