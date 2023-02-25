@@ -406,9 +406,10 @@ export class WhatsappService {
           "business": msgSednTemplate.name_business || '',
           "context_msg": msgSednTemplate.watsapp_id || '',
           "date_reservation": msgSednTemplate.date || '',
+        }
           // "date_reservation": msgSednTemplate.timeZone || '',
           // "date_reservation": msgSednTemplate.county || '',
-        }
+
         // console.log('Datos a guardar en la tabla: ', logFail);
         // ############# Guardado de los datos en la tabla para Error Response#############
         this.CreateRegisterLogFail(logFail);
@@ -530,8 +531,8 @@ export class WhatsappService {
                   <li><strong> Nombre del usuario:  </strong> ${data.user || notFounf } </li>
                   <li><strong> Id WhatsApp del Contexto:</strong> ${data.context_msg || notFounf } </li>
                   <li><strong> Fecha de la recervación: </strong> ${data.date_reservation || notFounf } </li>
-                  <li><strong> País: </strong> ${data.country || notFounf } </li>
-                  <li><strong> Zona hoaria: </strong> ${data.timeZone || notFounf } </li>
+                  <!-- <li><strong> País: </strong> ${data.country || notFounf } </li>
+                  <li><strong> Zona hoaria: </strong> ${data.timeZone || notFounf } </li> -->
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Repuesta enviada al usuario.</strong></h3> </p>
@@ -576,19 +577,6 @@ export class WhatsappService {
     // ################## Sending Email #####################
     this.sendMailPlanner(emailRemitente);
     // ######################################################
-
-    // try {
-    //   await this.httpService.post(process.env.EMAIL_URL, emailRemitente).subscribe(res => {
-    //       // console.log(" 📧📧 Se envio el correo de error: ", emailRemitente);
-    //       console.log(" 📧📧 Response of Api email: ", res.data); 
-    //     },
-    //     (error) => {
-    //       console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
-    //     });
-    // } catch (error) {
-    //     console.log(" ⛔⛔ Ocurrio un error con la peticion a la Api email: ", error);
-    //     throw new BadRequestException();
-    // }
     
   }
 
