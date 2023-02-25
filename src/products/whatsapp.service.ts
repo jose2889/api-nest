@@ -510,9 +510,7 @@ export class WhatsappService {
                 <h2 style="color: #e67e22; margin: 0 0 7px">¡Datos del error!</h2>
                 <p style="margin: 2px; font-size: 15px">Ha ocurrido un error al enviar el token a la API de planner.</p><br>
 
-                <p style="margin: 2px; font-size: 15px"><h3>Los siguientes datos han sido guardados en la bade de datos:</h3></p>
-                <p style="margin: 2px; font-size: 15px"><strong>Status: </strong> ${data.status_code} </p>
-                <p style="margin: 2px; font-size: 15px"><strong>Status Message: </strong> ${data.status_text} </p><br>
+                <!-- <p style="margin: 2px; font-size: 15px"><h3>Los siguientes datos han sido guardados en la bade de datos:</h3></p> -->
                 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Mensaje enviado por el usuario.</strong></h3> </p>
                 
@@ -526,7 +524,7 @@ export class WhatsappService {
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Datos de la reserva.</strong></h3> </p>
 
                 <ul style="font-size: 15px;  margin: 10px 0">                
-                  <li><strong> Nmbre del negocio: </strong> ${data.business || notFounf } </li>
+                  <li><strong> Nombre del negocio: </strong> ${data.business || notFounf } </li>
                   <li><strong> Slug del negocio:  </strong> ${data.slug || notFounf } </li>
                   <li><strong> Nombre del usuario:  </strong> ${data.user || notFounf } </li>
                   <li><strong> Id WhatsApp del contexto de la plantilla:</strong> ${data.context_msg || notFounf } </li>
@@ -538,15 +536,15 @@ export class WhatsappService {
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Repuesta enviada al usuario.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
-                  <li><p style="margin: 2px; font-size: 15px"><strong>Phone Number: </strong> +${data.phone_number} </p></li>
-                  <li><strong> Texto enviado: </strong> ${data.respuesta || notFounf } </li>
+                  <li><p style="margin: 2px; font-size: 15px"><strong>Número del teléfono: </strong> +${data.phone_number} </p></li>
+                  <li><strong> Texto enviado cmo respuesta al usuario: </strong> ${data.respuesta || notFounf } </li>
                 </ul>
 
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Datos enviados a la API de Planner.</strong></h3> </p>
 
                 <ul style="font-size: 15px;  margin: 10px 0">
-                  <li><p style="margin: 2px; font-size: 15px"><strong>Method: </strong> ${data.config_method} </p> </li>
-                  <li><strong> Body enviado: (${data.timezone}): </strong> ${data.body_send || notFounf } </li>
+                  <li><p style="margin: 2px; font-size: 15px"><strong>Método: </strong> ${data.config_method} </p> </li>
+                  <li><strong> Cuerpo enviado: (${data.timezone}): </strong> ${data.body_send || notFounf } </li>
                   <li> <p style="margin: 2px; font-size: 15px"><strong>Token: </strong> ${data.token} </p> </li>
                   <li><strong> URL API Planner: </strong> ${data.urlplanner || notFounf } </li>
                 </ul>
@@ -554,9 +552,12 @@ export class WhatsappService {
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta de petición a Planner.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
+                  <li><strong> Estatus: </strong> ${data.status_code}  || notFounf } </li>
+                  <li><strong> Mensaje del estatus: </strong> ${data.status_text} || notFounf } </li>
                   <li><strong> retCode: </strong> ${ret.retCode || notFounf } </li>
                   <li><strong> retMessage: </strong> ${ret.retMessage || notFounf } </li>
                   <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject) || notFounf } </li>
+                  
                 </ul>
 
                 <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws &copy; ${anho}</p>
