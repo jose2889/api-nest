@@ -552,8 +552,8 @@ export class WhatsappService {
                 <p style="margin: 2px; font-size: 15px"> <h3 style="color: #e67e22; margin: 0 0 7px"><strong>Respuesta de petición a Planner.</strong></h3> </p>
                 
                 <ul style="font-size: 15px;  margin: 10px 0">
-                  <li><strong> Estatus: </strong> ${data.status_code}  || notFounf } </li>
-                  <li><strong> Mensaje del estatus: </strong> ${data.status_text} || notFounf } </li>
+                  <li><strong> Estatus de la petición: </strong> ${data.status_code || notFounf }   </li>
+                  <li><strong> Mensaje del estatus: </strong> ${data.status_text || notFounf } </li>
                   <li><strong> retCode: </strong> ${ret.retCode || notFounf } </li>
                   <li><strong> retMessage: </strong> ${ret.retMessage || notFounf } </li>
                   <li><strong> retObject: </strong> ${JSON.stringify(ret.retObject) || notFounf } </li>
