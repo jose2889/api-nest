@@ -1458,7 +1458,7 @@ export class WhatsappService {
       let product: SendTemplate;
         const queryBuilder = this.sendTemplateRepository.createQueryBuilder(); 
         product = await queryBuilder
-          .where('context_id_wa_msg =:context_id_wa_msg ', {
+          .where('watsapp_id =:context_id_wa_msg', {
             context_id_wa_msg: context_id_wa_msg
           }).getOne();
       
