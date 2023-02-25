@@ -560,6 +560,8 @@ export class WhatsappService {
                   
                 </ul>
 
+                <img style="padding: 0; display: block; object-fit:cover; object-position: 50% 50%" src="https://www.keoplanner.com/assets/img/planner/logo.svg" width="10%">
+              
                 <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws &copy; ${anho}</p>
               </div>
             </td>
