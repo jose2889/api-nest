@@ -560,10 +560,9 @@ export class WhatsappService {
                   
                 </ul>
 
+                <img style="padding: 0; display: block; object-fit:cover; object-position: 50% 50%" src="https://yt3.googleusercontent.com/DpQdwlweKRrCf4GtyemgJH3bCSSZGqX3y_tSJRfir5URdQeZHG0T-vW3fT1DA71G41nTfKJk8wI=s900-c-k-c0x00ffffff-no-rj" width="30px" height="30px">
               
-                <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws &copy; ${anho}
-                  <img style="padding: 0; display: block; object-fit:cover; object-position: 50% 50%" src="https://yt3.googleusercontent.com/DpQdwlweKRrCf4GtyemgJH3bCSSZGqX3y_tSJRfir5URdQeZHG0T-vW3fT1DA71G41nTfKJk8wI=s900-c-k-c0x00ffffff-no-rj" width="30px" height="30px">
-                </p>
+                <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">API-Email & API-Ws &copy; ${anho}</p>
               </div>
             </td>
           </tr>
