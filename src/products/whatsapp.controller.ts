@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query, ForbiddenException, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query, ForbiddenException, Res, HttpStatus, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { WhatsappService } from './whatsapp.service';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 import { dataApiRequest, dataNotificationApiRequest, WhatsappCloudApiRequest } from 'src/common/whatsapp-cloud-api-request.dto';
@@ -7,6 +7,8 @@ import { CreateConfirmationDto } from './dto/confirmation.dto';
 import { CreateNotificationDto } from './dto/notification.dto';
 import { CreateApiWSDto } from './dto/create-api-ws.dto';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 
 @ApiTags('Chats')
@@ -241,5 +243,41 @@ export class WhatsappController {
   // remove(@Param('id', ParseUUIDPipe ) id: string) {
   //   return this.chatService.remove( id );
   // }
+
+
+  // ###################################################################################################################################
+
+
+  // ################################################ Manejador de archivos ############################################################
+
+  // https://drive.google.com/drive/folders/1oPy9GQQpTZex34nMVkrjNIgTh85kulrA?usp=sharing
+
+  @UseInterceptors(
+    FileInterceptor(
+      'file',
+      {
+        storage : diskStorage({
+            destination : './uploads',
+            filename : (req, file, cb) => {
+              cb(null, file.originalname); // .split('.')[0] + '_' + Date.now() + '.jpg'
+            }
+        })
+      }
+    )
+  )
+  @Post('file')
+  uploadFile(@UploadedFile() file : Express.Multer.File) {
+    return {
+      msg : `Archivo ${file.filename} cargado correctamente`
+    };
+  }
   
+
+  @Get('file/:imagepath')
+  getImageByPath(@Param('imagepath') image, @Res() res) {
+    return res.sendFile(image, { root: './uploads' });
+  }
+
+  // ###################################################################################################################################
+
 }
