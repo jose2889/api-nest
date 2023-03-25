@@ -272,6 +272,10 @@ export class WhatsappController {
     };
   }
   
+  // @Get('file')
+  // getImage(@Res() res) {
+  //   return res.listFile({ root: './uploads' });
+  // }
 
   @Get('file/:imagepath')
   getImageByPath(@Param('imagepath') image, @Res() res) {
