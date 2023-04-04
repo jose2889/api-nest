@@ -82,6 +82,9 @@ export class WhatsappService {
 
     Logger.log("📩📩📩 Se envio la plantilla de ",template," de reserva de la empresa '", request_planner.businessName ,"' al +", request_planner.phoneNumber, );
     
+    if (template === 'notificacion') {
+      
+    }
     const {data} = await firstValueFrom(this.httpService.post(this.baseUrl, request));
     Logger.log(request, "📩📩📩 Objeto enviado a Facebook 📩 ⋙ " );
     Logger.log(data, "📩📩📩 Objeto recibido como respuesta 📩 ⋘ " );

@@ -79,7 +79,7 @@ const createEventController = async (data) => {
                 calendarId: "primary",
                 sendNotifications: true,
                 sendUpdates: 'all',
-                requestBody: event
+                resource: event
             }, (err, event) => {
                 if (err) {
                     console.log("Error al crear el evento");
