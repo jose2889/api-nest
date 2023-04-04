@@ -56,6 +56,7 @@ export class WhatsappController {
       // }).catch((err) => {
       //     response.status(HttpStatus.BAD_REQUEST).json(err);
       // })
+      response.status = 201;
   }
 
   @ApiResponse({ status: 201, description: 'Creado con éxito.'  })
