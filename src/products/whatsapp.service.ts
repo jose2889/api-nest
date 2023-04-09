@@ -354,6 +354,11 @@ export class WhatsappService {
         // Si el token es válido en planner, pero ya no se puede cancelar la reverva
         if ((errorResponse.status === 400) && ((errorResponse.data.retMessage === "9") || (errorResponse.data.retMessage === 9) )) { // errorResponse.statusText === "Bad Request" && 
           console.log("👎👎👎👎 Respuesta de planner Status 400: Cancel => ",token);
+          let time='';
+          if (errorResponse.data.retObject.time){
+            time = 'El timpo para poder cancelar' + errorResponse.data.retObject.time + (errorResponse.data.retObject.time>=1?' horas':'hora') + ' antes del comienzo de la reserva.\n' + time;
+          }
+
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
           this.request.text.body = 'Lo sentimos, ya no podemos cancelar esta reserva debido a que se encuentra fuera el tiempo límite permitido para realizar esa acción.';
         }
