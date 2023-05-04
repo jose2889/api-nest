@@ -23,12 +23,13 @@ import { BusinessModule } from './business/business.module';
       password: process.env.DB_PASSWORD,      
       autoLoadEntities: true,
       synchronize: true,
-      ssl: false,
-      extra: {
-        ssl: {
-          rejectUnauthorized: false
-        }
-      }
+      options: { encrypt: false }
+      // ssl: false,
+      // extra: {
+      //   ssl: {
+      //     rejectUnauthorized: false
+      //   }
+      // }
     }),
 
     MailerModule.forRootAsync({
