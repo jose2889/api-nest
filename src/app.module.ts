@@ -23,8 +23,6 @@ import { BusinessModule } from './business/business.module';
       password: process.env.DB_PASSWORD,      
       autoLoadEntities: true,
       synchronize: true,
-      // ssl:false,
-      
     }),
     // options: { encrypt: false }
       // ssl: false,
