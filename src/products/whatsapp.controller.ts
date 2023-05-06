@@ -56,11 +56,11 @@ export class WhatsappController {
       }).catch((err) => {
           response.status(HttpStatus.BAD_REQUEST).json(err);
       })
-      const datosJson ={
-        'status': 200,
-        'message': 'OK'
-      }
-      response.status = response.status(HttpStatus.OK).json(datosJson);
+      // const datosJson ={
+      //   'status': 200,
+      //   'message': 'OK'
+      // }
+      // response.status = response.status(HttpStatus.OK).json(datosJson);
   }
 
   @ApiResponse({ status: 201, description: 'Creado con éxito.'  })
