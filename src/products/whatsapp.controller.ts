@@ -51,11 +51,11 @@ export class WhatsappController {
       
 
       // *********** Codigo para procesar el envia de la plantilla de notificacines de reserva ***********
-      // this.chatService.sendMessage(templateWhatsappApiRequest, template, request).then( res => {
-      //     response.status(HttpStatus.CREATED).json(res);
-      // }).catch((err) => {
-      //     response.status(HttpStatus.BAD_REQUEST).json(err);
-      // })
+      this.chatService.sendMessage(templateWhatsappApiRequest, template, request).then( res => {
+          response.status(HttpStatus.CREATED).json(res);
+      }).catch((err) => {
+          response.status(HttpStatus.BAD_REQUEST).json(err);
+      })
       const datosJson ={
         'status': 200,
         'message': 'OK'
