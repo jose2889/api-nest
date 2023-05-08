@@ -356,11 +356,11 @@ export class WhatsappService {
           console.log("👎👎👎👎 Respuesta de planner Status 400: Cancel => ",token);
           let time='';
           if (errorResponse.data.retObject.time){
-            time = 'El timpo para poder cancelar es de ' + errorResponse.data.retObject.time + (errorResponse.data.retObject.time>=1?' horas':'hora') + ' antes del comienzo de la reserva.' ;
+            time = ', el timpo para poder cancelar es de ' + errorResponse.data.retObject.time + (errorResponse.data.retObject.time>=1?' horas':'hora') + ' antes del comienzo de la reserva.' ;
           }
 
           // this.request.text.body = 'Lo sentimos pero ya no puede cancelar la reserva, debido a que el tiempo de cancelación es de ' + errorResponse.data.retObject.time + ' horas antes.';
-          this.request.text.body = 'Lo sentimos, ya no podemos cancelar esta reserva debido a que se encuentra fuera el tiempo límite permitido para realizar esa acción.\n' + time;
+          this.request.text.body = 'Lo sentimos, no se puede realizar esta accion' + time;
         }
 
         // Si el tiempo para cancelar ha pasado 
