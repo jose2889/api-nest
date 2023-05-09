@@ -1255,7 +1255,7 @@ export class WhatsappService {
         }
       }
       element.buttonPressed=contextButtonPressd;
-      statisticsButtonPressed.templateConfirmar.push(element);
+      // statisticsButtonPressed.templateConfirmar.push(element);
     }//)
     return statisticsButtonPressed;
   }
