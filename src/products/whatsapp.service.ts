@@ -1265,7 +1265,7 @@ export class WhatsappService {
     // console.log('findManyTemplate');
     const queryBuilder = this.sendTemplateRepository.createQueryBuilder();
     const sendTemplateMany = await queryBuilder
-      .where('type =:template AND timestamp BETWEEN :startTime AND:endTime', {
+      .where('type =:template AND timestamp BETWEEN :startTime AND :endTime', {
         template: template,
         startTime:startTime,
         endTime:endTime
