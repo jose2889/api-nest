@@ -1203,7 +1203,7 @@ export class WhatsappService {
 
   // ############################ Gestión de los datos en la tabla de los envios de plantillas #############
 
-  async statisticsTemplateResponse(startTime?:number, endTime?:number){ 
+  async statisticsTemplateResponse(startTime?:DateTime, endTime?:DateTime){ 
     let statisticsButtonPressed ={
       countAsistir: 0,
       countAnular: 0,
@@ -1216,8 +1216,8 @@ export class WhatsappService {
     let findTemplateConfirmar = await this.findManyTemplate('confirmacion', startTime, endTime);
     // findTemplateConfirmar.forEach(async (element)=>{
     for(let element of findTemplateConfirmar){
-      let findButtonPressedTempalteAsistir:Chat = null;
-      let findButtonPressedTempalteAnular:Chat = null;
+      let findButtonPressedTempalteAsistir= null;
+      let findButtonPressedTempalteAnular= null;
       let contextButtonPressd=[];
       let auxAsistir=false;
       let auxAnula=false;
@@ -1230,7 +1230,7 @@ export class WhatsappService {
       if (findButtonPressedTempalteAsistir){
         // console.log('asistir');
         auxAsistir=true;
-        contextButtonPressd.push(findButtonPressedTempalteAsistir)
+        // contextButtonPressd.push(findButtonPressedTempalteAsistir)
       }
       
       findButtonPressedTempalteAnular = await this.findChatButtonByContext(element.watsapp_id, 'Anular cita');
@@ -1238,7 +1238,7 @@ export class WhatsappService {
        if (findButtonPressedTempalteAnular){
         // console.log('anular');
         auxAnula=true;
-        contextButtonPressd.push(findButtonPressedTempalteAnular)
+        // contextButtonPressd.push(findButtonPressedTempalteAnular)
       }
 
       if (auxAnula && auxAsistir){
@@ -1260,12 +1260,15 @@ export class WhatsappService {
     return statisticsButtonPressed;
   }
 
-  async findManyTemplate(template: string , startTime:number = 1577851200000, endTime?:number):Promise<any[]>{
-    if (!endTime) endTime = luxon.DateTime.now().toUnixInteger()*1000;
+  async findManyTemplate(template: string , startTime:DateTime, endTime?:DateTime):Promise<any[]>{
+    if (!endTime) {
+      endTime = luxon.DateTime.now();
+      startTime = endTime.plus({day: -7})
+    }
     // console.log('findManyTemplate');
     const queryBuilder = this.sendTemplateRepository.createQueryBuilder();
     const sendTemplateMany = await queryBuilder
-      .where('type =:template AND timestamp BETWEEN :startTime AND :endTime', {
+      .where('type =:template AND created_at BETWEEN :startTime AND :endTime', {
         template: template,
         startTime:startTime,
         endTime:endTime
@@ -1274,7 +1277,7 @@ export class WhatsappService {
       return sendTemplateMany;
   }
 
-  async findChatButtonByContext(context: string, buttonPressed:string ):Promise<Chat>{
+  async findChatButtonByContext(context: string, buttonPressed:string ):Promise<Number>{
     const queryBuilder = this.chatRepository.createQueryBuilder();
     // console.log('findChatButtonByContext');
     const TemplateContext = await queryBuilder
@@ -1282,8 +1285,8 @@ export class WhatsappService {
         context_id_wa_msg: context,
         text:buttonPressed,
         type:'button'
-      }).getOne();
-      return TemplateContext;
+      }).getCount();
+      return (TemplateContext)? TemplateContext: null;
   }
 
  

@@ -9,6 +9,7 @@ import { CreateApiWSDto } from './dto/create-api-ws.dto';
 import { UpdateApiWsDto } from './dto/update-api-ws.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { DateTime } from 'luxon';
 
 
 @ApiTags('Chats')
@@ -158,7 +159,7 @@ export class WhatsappController {
   }
 
   @Get('statistics-button-pressed/')
-  findStatisticsBotonPressed(@Query('start-time') startTime?: number, @Query('end-time') endTime?:number) {
+  findStatisticsBotonPressed(@Query('start-time') startTime?: DateTime, @Query('end-time') endTime?:DateTime) {
     console.log('⌚⌚ Se mostrara las estadisticas entre "', startTime ||'No definido' , '" y "', endTime ||'No definido' ,'".');
     return this.chatService.statisticsTemplateResponse(startTime,endTime);
   }
