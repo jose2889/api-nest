@@ -165,6 +165,21 @@ export class WhatsappService {
       if (phone_number.startsWith("1809") || phone_number.startsWith("1829") || phone_number.startsWith("1849")) {
         timezone = "America/Santo_Domingo";
         codePhoneContry = parseInt(phone_number.slice(0,4));
+      }else if (phone_number.startsWith("1246") ) {
+        timezone = "America/Barbados";
+        codePhoneContry = parseInt(phone_number.slice(0,4));
+      }else if (phone_number.startsWith("1264") || phone_number.startsWith("1268") || phone_number.startsWith("1473") || phone_number.startsWith("1787") || phone_number.startsWith("1649")) {
+        timezone = "Etc/GMT-4";
+        codePhoneContry = parseInt(phone_number.slice(0,4));
+      }else if (phone_number.startsWith("1671") || phone_number.startsWith("1670") ) {
+        timezone = "Etc/GMT+10";
+        codePhoneContry = parseInt(phone_number.slice(0,4));
+      }else if (phone_number.startsWith("1876") ) {
+        timezone = "Etc/GMT-11";
+        codePhoneContry = parseInt(phone_number.slice(0,4));
+      }else if (phone_number.startsWith("1684") ) {
+        timezone = "America/Jamaica";
+        codePhoneContry = parseInt(phone_number.slice(0,4));
       }else if (phone_number.startsWith("598")){
         timezone = "America/Montevideo";
         codePhoneContry = 598;
